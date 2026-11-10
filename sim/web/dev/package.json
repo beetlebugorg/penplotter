@@ -9,6 +9,6 @@
   },
   "dependencies": {
     "playwright-core": "1.56.1",
-    "ws": "8.18.3"
+    "ws": "8.21.0"
   }
 }

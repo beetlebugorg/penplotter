@@ -1,7 +1,7 @@
 # Printdeck build of the CR-10 V3 table plotter: the printed parts, the slicer profiles in
 # profiles/, and the plotter in its parts on the Parts tab. The profiles are the Printdeck
-# profiles of the TAZ Workhorse SE (0.5 mm nozzle, 2.85 mm filament). All parts print in orange
-# PLA (roll-2) on 0.30 Fast, with no supports. The settings of each part come from
+# profiles of the TAZ Workhorse SE (0.5 mm nozzle, 2.85 mm filament). All parts print in light
+# blue MatterHackers PLA (roll-6) on 0.30 Fast, with no supports. The settings of each part come from
 # hardware/cura/make_profiles.py. The temperatures and the shrinkage come from the calibration
 # of the roll. hardware/model.py writes the STL files in their print orientation. The generate
 # step writes them again on GitHub, and fails when they differ from the committed files. Run the
@@ -26,7 +26,7 @@ parts:
     files: [hardware/stl/fit_rail.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: {wall_line_count: 4, infill_sparse_density: 15, top_bottom_thickness: 0.9, layer_height_0: 0.3, xy_offset_layer_0: -0.15, skirt_line_count: 3, cool_min_layer_time: 6, cool_fan_full_layer: 5, speed_print: 50, speed_infill: 55, speed_wall_0: 40, speed_topbottom: 45, speed_travel: 150, retraction_speed: 15, z_seam_type: sharpest_corner}
   - name: Fit slider
     group: Fit tests
@@ -37,7 +37,7 @@ parts:
     files: [hardware/stl/fit_slider.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     # The settings of the parts with 3 walls and 15 % infill.
     settings: &lean {wall_line_count: 3, infill_sparse_density: 15, top_bottom_thickness: 0.9, layer_height_0: 0.3, xy_offset_layer_0: -0.15, skirt_line_count: 3, cool_min_layer_time: 6, cool_fan_full_layer: 5, speed_print: 50, speed_infill: 55, speed_wall_0: 40, speed_topbottom: 45, speed_travel: 150, retraction_speed: 15, z_seam_type: sharpest_corner}
   - name: Fit wheel
@@ -50,7 +50,7 @@ parts:
     files: [hardware/stl/fit_wheel.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *lean
 
   # The gantry: the two Y carriages and the X idler fork.
@@ -65,7 +65,7 @@ parts:
     files: [hardware/stl/y_carriage_left.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     # The settings of the loaded parts: 5 walls and 40 % infill.
     settings: &strong {wall_line_count: 5, infill_sparse_density: 40, top_bottom_thickness: 0.9, layer_height_0: 0.3, xy_offset_layer_0: -0.15, skirt_line_count: 3, cool_min_layer_time: 6, cool_fan_full_layer: 5, speed_print: 50, speed_infill: 55, speed_wall_0: 40, speed_topbottom: 45, speed_travel: 150, retraction_speed: 15, z_seam_type: sharpest_corner}
   - name: Y carriage, right
@@ -77,7 +77,7 @@ parts:
     files: [hardware/stl/y_carriage_right.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: X idler fork
     group: The gantry
@@ -87,7 +87,7 @@ parts:
     files: [hardware/stl/x_idler_fork.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
 
   # The carriage: the X plate, the pen carriage and the pen slider.
@@ -101,7 +101,7 @@ parts:
     files: [hardware/stl/x_carriage_plate.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Pen carriage
     group: The carriage
@@ -111,7 +111,7 @@ parts:
     files: [hardware/stl/pen_carriage.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Pen slider
     group: The carriage
@@ -122,7 +122,7 @@ parts:
     files: [hardware/stl/pen_slider.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *lean
 
   # The Y drive: the parts on the frame bars, with the fixed Y motors.
@@ -136,7 +136,7 @@ parts:
     files: [hardware/stl/y_front_left.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Y front base, right
     group: The Y drive
@@ -148,7 +148,7 @@ parts:
     files: [hardware/stl/y_front_right.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Y idler fork
     group: The Y drive
@@ -160,7 +160,7 @@ parts:
     count: 2
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Y idler bracket, left
     group: The Y drive
@@ -171,7 +171,7 @@ parts:
     files: [hardware/stl/y_idler_bracket_left.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Y idler bracket, right
     group: The Y drive
@@ -182,7 +182,7 @@ parts:
     files: [hardware/stl/y_idler_bracket_right.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Y motor bracket, left
     group: The Y drive
@@ -192,7 +192,7 @@ parts:
     files: [hardware/stl/y_motor_mount_left.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Y motor bracket, right
     group: The Y drive
@@ -202,7 +202,7 @@ parts:
     files: [hardware/stl/y_motor_mount_right.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *strong
   - name: Y chain anchor
     group: The Y drive
@@ -213,7 +213,7 @@ parts:
     files: [hardware/stl/y_chain_anchor.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *lean
 
   # The camera pole foot is optional.
@@ -226,7 +226,7 @@ parts:
     files: [hardware/stl/mast_foot.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
-    material: roll-2
+    material: roll-6
     settings: *lean
 
 docs:

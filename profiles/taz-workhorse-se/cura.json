@@ -53,6 +53,14 @@
    "color": "Orange",
    "color_code": "#ff7a1a",
    "roll": "2"
+  },
+  "roll-6": {
+   "file": "materials/printdeck_lightblue.xml.fdm_material",
+   "brand": "MatterHackers",
+   "material": "PLA",
+   "color": "Light Blue",
+   "color_code": "#7fb6e0",
+   "roll": "6"
   }
  }
 }

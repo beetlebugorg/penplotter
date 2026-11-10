@@ -41,8 +41,8 @@
     <setting key="adhesion tendency">0</setting>
     <setting key="surface energy">100</setting>
     <cura:setting key="material_print_temperature_layer_0">210</cura:setting>
-    <cura:setting key="xy_offset">0.144</cura:setting>
-    <cura:setting key="hole_xy_offset">0.292</cura:setting>
+    <cura:setting key="xy_offset">0</cura:setting>
+    <cura:setting key="hole_xy_offset">0</cura:setting>
     <cura:setting key="material_shrinkage_percentage_xy">100.31</cura:setting>
     <machine>
       <machine_identifier manufacturer="Ultimaker B.V." product="Ultimaker S8" />

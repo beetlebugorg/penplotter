@@ -240,6 +240,9 @@ docs:
 # items are in the order of the assembly, and the exploded view takes them off from the last.
 # Items next to each other with the same explode move together: the gantry lifts off as one
 # piece, the carriage comes off to the front, and the pen slider lifts off the carriage.
+# The screws of the gantry and the carriage are not in the view. On the GitHub runner,
+# model.py writes their meshes with other bytes than on a desktop computer, and the generate
+# check then fails.
 assemblies:
   - name: The table plotter
     description: >-
@@ -333,10 +336,6 @@ assemblies:
         file: hardware/stl/sim2/belt_ends_gantry.stl
         color: "#2b2b2b"
         explode: [0, 0, 1]
-      - name: Screws and nuts (gantry)
-        file: hardware/stl/sim2/fasteners_gantry.stl
-        color: "#b8bcc2"
-        explode: [0, 0, 1]
       # The carriage on the beam.
       - part: X plate
         file: hardware/stl/sim2/x_carriage_plate.stl
@@ -359,10 +358,6 @@ assemblies:
       - name: Belt ends (X belt)
         file: hardware/stl/sim2/belt_ends_carriage.stl
         color: "#2b2b2b"
-        explode: [0, -1, 0]
-      - name: Screws and nuts (carriage)
-        file: hardware/stl/sim2/fasteners_carriage.stl
-        color: "#b8bcc2"
         explode: [0, -1, 0]
       # The pen slider with the pen.
       - part: Pen slider

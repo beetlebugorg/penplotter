@@ -1,0 +1,14 @@
+{
+  "name": "plotsim-web-dev",
+  "private": true,
+  "type": "module",
+  "description": "Mock server and screenshot check for the simulator pages.",
+  "scripts": {
+    "mock": "node mock_server.mjs",
+    "shots": "node shots.mjs"
+  },
+  "dependencies": {
+    "playwright-core": "1.56.1",
+    "ws": "8.18.3"
+  }
+}

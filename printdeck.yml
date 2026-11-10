@@ -1,0 +1,378 @@
+# Printdeck build of the CR-10 V3 table plotter: the printed parts, the slicer profiles in
+# profiles/, and the plotter in its parts on the Parts tab. The profiles are the Printdeck
+# profiles of the TAZ Workhorse SE (0.5 mm nozzle, 2.85 mm filament). All parts print in orange
+# PLA (roll-2) on 0.30 Fast, with no supports. The settings of each part come from
+# hardware/cura/make_profiles.py. The temperatures and the shrinkage come from the calibration
+# of the roll. hardware/model.py writes the STL files in their print orientation. The generate
+# step writes them again on GitHub, and fails when they differ from the committed files. Run the
+# same command on your computer, and commit the files. Three runs of model.py (Python 3.12 and
+# 3.13) wrote the same bytes. Each run takes about 19 minutes on a desktop computer.
+project: penplotter
+cover: hardware/docs/hero-light.png
+
+generate:
+  install: pip install -r hardware/requirements.txt
+  run: cd hardware && python model.py
+  check: true
+
+parts:
+  # The fit tests. Print them first. hardware/shape.py has the clearances to change.
+  - name: Fit rail
+    group: Fit tests
+    description: >-
+      A 20 mm length of the dovetail rail of the pen carriage, on a backing block. Slide the fit
+      slider onto it. The slider must slide by its weight, with no side play. If the slider is tight or loose, change
+      DT_CLR in hardware/shape.py by 0.05 mm.
+    files: [hardware/stl/fit_rail.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: {wall_line_count: 4, infill_sparse_density: 15, top_bottom_thickness: 0.9, layer_height_0: 0.3, xy_offset_layer_0: -0.15, skirt_line_count: 3, cool_min_layer_time: 6, cool_fan_full_layer: 5, speed_print: 50, speed_infill: 55, speed_wall_0: 40, speed_topbottom: 45, speed_travel: 150, retraction_speed: 15, z_seam_type: sharpest_corner}
+  - name: Fit slider
+    group: Fit tests
+    description: >-
+      The top 13 mm of the pen slider: the dovetail slot, the pen bore, the clamp screw and the nut
+      slot. Push an M3 nut into the slot in its top. Put a pen in the bore, and turn an M3 x 20
+      screw in until it holds the pen.
+    files: [hardware/stl/fit_slider.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    # The settings of the parts with 3 walls and 15 % infill.
+    settings: &lean {wall_line_count: 3, infill_sparse_density: 15, top_bottom_thickness: 0.9, layer_height_0: 0.3, xy_offset_layer_0: -0.15, skirt_line_count: 3, cool_min_layer_time: 6, cool_fan_full_layer: 5, speed_print: 50, speed_infill: 55, speed_wall_0: 40, speed_topbottom: 45, speed_travel: 150, retraction_speed: 15, z_seam_type: sharpest_corner}
+  - name: Fit wheel
+    group: Fit tests
+    description: >-
+      A strip with the eccentric hole of an outer Y wheel and the hole of the inner wheel. Put a
+      stock V-wheel in each hole, and lay the strip across the end of a frame rail. Turn the
+      eccentric spacer. Both wheels must grip the side slots before the eccentric reaches its end.
+      If it cannot reach, change WHEEL_OFF in hardware/shape.py by 0.2 mm.
+    files: [hardware/stl/fit_wheel.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *lean
+
+  # The gantry: the two Y carriages and the X idler fork.
+  - name: Y carriage, left
+    group: The gantry
+    description: >-
+      A flat 6 mm plate on three stock V-wheels in the side slots of the left rail. It holds the
+      left end of the X beam and clamps the left Y belt. It also holds the X motor, the X endstop
+      board and the moving end of the drag chain. Press one long M5 insert into the front outer
+      wheel boss. Press two M3 inserts into the standoffs of the X endstop wall. Print it flat,
+      the plate on the bed.
+    files: [hardware/stl/y_carriage_left.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    # The settings of the loaded parts: 5 walls and 40 % infill.
+    settings: &strong {wall_line_count: 5, infill_sparse_density: 40, top_bottom_thickness: 0.9, layer_height_0: 0.3, xy_offset_layer_0: -0.15, skirt_line_count: 3, cool_min_layer_time: 6, cool_fan_full_layer: 5, speed_print: 50, speed_infill: 55, speed_wall_0: 40, speed_topbottom: 45, speed_travel: 150, retraction_speed: 15, z_seam_type: sharpest_corner}
+  - name: Y carriage, right
+    group: The gantry
+    description: >-
+      A flat 6 mm plate on three stock V-wheels in the side slots of the right rail. It holds the
+      right end of the X beam, clamps the right Y belt, and holds the X idler fork. Press one long
+      M5 insert into the front outer wheel boss. Print it flat, the plate on the bed.
+    files: [hardware/stl/y_carriage_right.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: X idler fork
+    group: The gantry
+    description: >-
+      A two-cheek fork for the toothed 20T idler of the X belt, past the right end of the beam. An
+      M3 screw from outside the right carriage pulls it outward and sets the belt tension.
+    files: [hardware/stl/x_idler_fork.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+
+  # The carriage: the X plate, the pen carriage and the pen slider.
+  - name: X plate
+    group: The carriage
+    description: >-
+      It replaces the stock X carriage plate, and runs on the beam on the three stock V-wheels.
+      The eccentric spacer is on the top right wheel. It clamps the X belt under the beam, and has
+      the X endstop trigger lug and the tie slot of the servo loom. Press one long M5 insert into
+      the bottom wheel boss. Print it upright.
+    files: [hardware/stl/x_carriage_plate.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Pen carriage
+    group: The carriage
+    description: >-
+      It sits on the front of the X plate. The four M3 x 12 tool head screws hold it from the back
+      of the plate. It holds the servo and the dovetail rail of the pen slider.
+    files: [hardware/stl/pen_carriage.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Pen slider
+    group: The carriage
+    description: >-
+      It holds the pen and slides on the dovetail rail of the pen carriage. The servo lifts it. The
+      weight of the slider and the pen is the pen force. An M3 x 20 screw and an M3 nut clamp the
+      pen.
+    files: [hardware/stl/pen_slider.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *lean
+
+  # The Y drive: the parts on the frame bars, with the fixed Y motors.
+  - name: Y front base, left
+    group: The Y drive
+    description: >-
+      It sits on the front bar and the end of the left rail. Two M5 screws in T-nuts hold it in the
+      top slot of the bar. Its two lips hold the Y idler bracket. The left Y endstop board sits on
+      it. Press two M3 inserts for the endstop
+      board.
+    files: [hardware/stl/y_front_left.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Y front base, right
+    group: The Y drive
+    description: >-
+      It sits on the front bar and the end of the right rail. Two M5 screws in T-nuts hold it in
+      the top slot of the bar. Its two lips hold the Y idler bracket. The right Y endstop board
+      sits on it. Press two M3 inserts for
+      the endstop board.
+    files: [hardware/stl/y_front_right.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Y idler fork
+    group: The Y drive
+    description: >-
+      A two-cheek fork for the toothed 20T idler of a Y belt. An M5 x 30 screw is the idler axle.
+      An M3 screw from the front pulls the fork forward and sets the belt tension. The left and
+      the right fork are the same part: print 2.
+    files: [hardware/stl/y_idler_fork.stl]
+    count: 2
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Y idler bracket, left
+    group: The Y drive
+    description: >-
+      It holds the left Y idler fork in front of the front bar, between two guides. Its end wall
+      holds the M3 x 20 tension screw. The lips of the front base hold it, with an M3 x 12 screw.
+      Print it on its front face.
+    files: [hardware/stl/y_idler_bracket_left.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Y idler bracket, right
+    group: The Y drive
+    description: >-
+      It holds the right Y idler fork in front of the front bar, between two guides. Its end wall
+      holds the M3 x 20 tension screw. The lips of the front base hold it, with an M3 x 12 screw.
+      Print it on its front face.
+    files: [hardware/stl/y_idler_bracket_right.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Y motor bracket, left
+    group: The Y drive
+    description: >-
+      It holds the left Y motor (42-40) behind the back bar. Two M5 screws in T-nuts hold it in
+      the back face slot of the bar. Four M3 x 10 screws hold the motor.
+    files: [hardware/stl/y_motor_mount_left.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Y motor bracket, right
+    group: The Y drive
+    description: >-
+      It holds the right Y motor (42-40) behind the back bar. Two M5 screws in T-nuts hold it in
+      the back face slot of the bar. Four M3 x 10 screws hold the motor.
+    files: [hardware/stl/y_motor_mount_right.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *strong
+  - name: Y chain anchor
+    group: The Y drive
+    description: >-
+      The fixed end of the drag chain sits in it, at the back left corner of the frame. Two M3
+      screws hold the end link of the chain. Measure the head harness and the drag chain before you print it
+      (hardware/MEASURE.md, items 46 and 47).
+    files: [hardware/stl/y_chain_anchor.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *lean
+
+  # The camera pole foot is optional.
+  - name: Camera pole foot
+    group: The camera
+    description: >-
+      Optional. It holds the camera pole (17.85 mm) behind the center of the back bar, and stands
+      on the table. An M6 screw goes up through its floor into the pole end. A split collar with
+      one M3 screw removes the play. Two M5 screws in T-nuts hold it on the back bar.
+    files: [hardware/stl/mast_foot.stl]
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-2
+    settings: *lean
+
+docs:
+  - name: Build guide
+    file: hardware/penplotter-build-guide.pdf
+
+# The plotter in its parts, for the 3D view of the Parts tab. hardware/model.py writes the
+# meshes of hardware/stl/sim2/ for the simulator: each part at home, in frame coordinates, in
+# millimetres, Z up. The origin is the front left outer corner of the frame on the table. The
+# frame extrusions are not in the view: hardware/stl/frame.json has them as boxes only. The
+# items are in the order of the assembly, and the exploded view takes them off from the last.
+# Items next to each other with the same explode move together: the gantry lifts off as one
+# piece, the carriage comes off to the front, and the pen slider lifts off the carriage.
+assemblies:
+  - name: The table plotter
+    description: >-
+      The Y drive stands on the frame bars. The gantry runs on the rails on its two Y carriages.
+      The X plate runs on the beam, with the pen carriage on its front. The servo lifts the pen
+      slider.
+    items:
+      # The Y drive and the parts on the table. They do not move.
+      - part: Y front base, left
+        file: hardware/stl/sim2/y_front_left.stl
+      - part: Y front base, right
+        file: hardware/stl/sim2/y_front_right.stl
+      - part: Y idler fork
+        name: Y idler fork (left)
+        file: hardware/stl/sim2/y_idler_fork_left.stl
+      - part: Y idler fork
+        name: Y idler fork (right)
+        file: hardware/stl/sim2/y_idler_fork_right.stl
+      - part: Y idler bracket, left
+        file: hardware/stl/sim2/y_idler_bracket_left.stl
+      - part: Y idler bracket, right
+        file: hardware/stl/sim2/y_idler_bracket_right.stl
+      - part: Y motor bracket, left
+        file: hardware/stl/sim2/y_motor_mount_left.stl
+      - part: Y motor bracket, right
+        file: hardware/stl/sim2/y_motor_mount_right.stl
+      - name: Y motor (left)
+        file: hardware/stl/sim2/y_stepper_left.stl
+        color: "#202020"
+      - name: Y motor (right)
+        file: hardware/stl/sim2/y_stepper_right.stl
+        color: "#202020"
+      - name: Y pulley and idler (left)
+        file: hardware/stl/sim2/y_pulleys_left.stl
+        color: "#9a9a9a"
+      - name: Y pulley and idler (right)
+        file: hardware/stl/sim2/y_pulleys_right.stl
+        color: "#9a9a9a"
+      - name: Y endstops
+        file: hardware/stl/sim2/y_endstops.stl
+        color: "#202020"
+      - part: Y chain anchor
+        file: hardware/stl/sim2/y_chain_anchor.stl
+      - part: Camera pole foot
+        file: hardware/stl/sim2/mast_foot.stl
+      - name: Base breakout board
+        file: hardware/stl/sim2/base_board.stl
+        color: "#2e7d32"
+      - name: Screws and T-nuts (frame)
+        file: hardware/stl/sim2/fasteners_static.stl
+        color: "#b8bcc2"
+      # The gantry.
+      - part: Y carriage, left
+        file: hardware/stl/sim2/y_carriage_left.stl
+        explode: [0, 0, 1]
+      - part: Y carriage, right
+        file: hardware/stl/sim2/y_carriage_right.stl
+        explode: [0, 0, 1]
+      - name: Heat-set inserts (Y carriages)
+        file: hardware/stl/sim2/inserts_gantry.stl
+        color: "#c9a23f"
+        explode: [0, 0, 1]
+      - name: X beam
+        file: hardware/stl/sim2/beam.stl
+        color: "#1e1f22"
+        explode: [0, 0, 1]
+      - name: X motor (42-34)
+        file: hardware/stl/sim2/x_motor.stl
+        color: "#202020"
+        explode: [0, 0, 1]
+      - name: X pulley
+        file: hardware/stl/sim2/x_pulley.stl
+        color: "#9a9a9a"
+        explode: [0, 0, 1]
+      - part: X idler fork
+        file: hardware/stl/sim2/x_idler_fork.stl
+        explode: [0, 0, 1]
+      - name: X idler
+        file: hardware/stl/sim2/x_idler.stl
+        color: "#9a9a9a"
+        explode: [0, 0, 1]
+      - name: Head breakout board
+        file: hardware/stl/sim2/head_board.stl
+        color: "#2e7d32"
+        explode: [0, 0, 1]
+      - name: Belt crimp clips (Y belts)
+        file: hardware/stl/sim2/belt_clips_gantry.stl
+        color: "#d9b44a"
+        explode: [0, 0, 1]
+      - name: Belt ends (Y belts)
+        file: hardware/stl/sim2/belt_ends_gantry.stl
+        color: "#2b2b2b"
+        explode: [0, 0, 1]
+      - name: Screws and nuts (gantry)
+        file: hardware/stl/sim2/fasteners_gantry.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      # The carriage on the beam.
+      - part: X plate
+        file: hardware/stl/sim2/x_carriage_plate.stl
+        explode: [0, -1, 0]
+      - part: Pen carriage
+        file: hardware/stl/sim2/pen_carriage.stl
+        explode: [0, -1, 0]
+      - name: Servo
+        file: hardware/stl/sim2/servo.stl
+        color: "#2f5da8"
+        explode: [0, -1, 0]
+      - name: Servo horn
+        file: hardware/stl/sim2/horn.stl
+        color: "#f2f2f2"
+        explode: [0, -1, 0]
+      - name: Belt crimp clips (X belt)
+        file: hardware/stl/sim2/belt_clips_carriage.stl
+        color: "#d9b44a"
+        explode: [0, -1, 0]
+      - name: Belt ends (X belt)
+        file: hardware/stl/sim2/belt_ends_carriage.stl
+        color: "#2b2b2b"
+        explode: [0, -1, 0]
+      - name: Screws and nuts (carriage)
+        file: hardware/stl/sim2/fasteners_carriage.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      # The pen slider with the pen.
+      - part: Pen slider
+        file: hardware/stl/sim2/pen_slider.stl
+        explode: [0, 0, 1]
+      - name: Pen
+        file: hardware/stl/sim2/pen.stl
+        color: "#202020"
+        explode: [0, 0, 1]
+      - name: Screw and nut (pen slider)
+        file: hardware/stl/sim2/fasteners_pen.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]

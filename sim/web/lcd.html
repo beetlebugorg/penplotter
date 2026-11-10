@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plotter LCD</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+<style>
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 14px 16px;
+    gap: 10px;
+    min-height: 100%;
+  }
+  /* The front of the CR-10 control box: dark powder-coated steel. */
+  .front {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    padding: 18px 18px 16px;
+    border-radius: 10px;
+    background:
+      radial-gradient(ellipse at 30% 0%, #ffffff14, transparent 60%),
+      repeating-linear-gradient(90deg, #ffffff05 0 1px, transparent 1px 3px),
+      #26282c;
+    box-shadow: inset 0 1px 0 #ffffff1f, inset 0 -2px 0 #0007, var(--shadow);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 18px;
+    align-items: center;
+  }
+  .screw {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #c9ccd1, #6b6f75 70%);
+    box-shadow: 0 1px 1px #000a;
+  }
+  .screw::after {
+    content: "";
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    top: 4px;
+    height: 1px;
+    background: #3a3c40;
+  }
+  /* The LCD module: a black frame around the glass. */
+  .bezel {
+    background: #0c0d0f;
+    border-radius: 6px;
+    padding: 12px 12px 14px;
+    box-shadow: inset 0 0 0 1px #000, 0 1px 0 #ffffff14;
+  }
+  .glass {
+    position: relative;
+    border-radius: 2px;
+    overflow: hidden;
+    box-shadow: 0 0 18px #2a5cff55, inset 0 0 0 1px #0a1a50;
+  }
+  #lcd {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+  }
+  .glass::after {
+    /* A soft reflection on the glass. */
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #ffffff22 0%, transparent 38%);
+    pointer-events: none;
+  }
+  .brand {
+    margin-top: 8px;
+    color: #8a8f97;
+    font: 600 10px/1 system-ui, sans-serif;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;
+  }
+  /* The rotary encoder knob. */
+  #knob {
+    width: 104px;
+    height: 104px;
+    touch-action: none;
+    cursor: grab;
+    outline: none;
+    border-radius: 50%;
+  }
+  #knob:focus-visible {
+    box-shadow: 0 0 0 3px var(--accent);
+  }
+  #knob.drag {
+    cursor: grabbing;
+  }
+  #knob .cap {
+    transition: transform 60ms linear;
+  }
+  #knob.pressed .face {
+    transform: scale(0.96);
+    transform-origin: 52px 52px;
+  }
+  .reset {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #9aa0a8;
+    font-size: 11px;
+  }
+  #reset {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    padding: 0;
+    background: radial-gradient(circle at 40% 35%, #e04a3e, #8f1e16);
+    border: 2px solid #111;
+    box-shadow: 0 1px 2px #000a;
+  }
+  #reset:active {
+    transform: translateY(1px);
+  }
+  .hint {
+    color: var(--muted);
+    font-size: 11px;
+    text-align: center;
+  }
+  /* Serial console. */
+  details {
+    width: 100%;
+    max-width: 500px;
+    background: var(--panel-solid);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+  summary {
+    cursor: pointer;
+    padding: 6px 10px;
+    color: var(--muted);
+    user-select: none;
+  }
+  #log {
+    height: 120px;
+    overflow-y: auto;
+    padding: 4px 10px;
+    border-top: 1px solid var(--line);
+    font-size: 11.5px;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  #log .rx {
+    color: var(--accent);
+  }
+  #log .tx {
+    color: var(--text);
+  }
+  form {
+    display: flex;
+    gap: 6px;
+    padding: 6px 8px;
+    border-top: 1px solid var(--line);
+  }
+  #cmd {
+    flex: 1;
+    min-width: 0;
+    font: inherit;
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--text);
+  }
+</style>
+</head>
+<body>
+<div class="front">
+  <span class="screw" style="left:7px;top:7px"></span>
+  <span class="screw" style="right:7px;top:7px"></span>
+  <span class="screw" style="left:7px;bottom:7px"></span>
+  <span class="screw" style="right:7px;bottom:7px"></span>
+  <div>
+    <div class="bezel">
+      <div class="glass"><canvas id="lcd" width="768" height="384"></canvas></div>
+    </div>
+    <div class="brand">Pen plotter · 12864</div>
+  </div>
+  <div class="controls">
+    <svg id="knob" viewBox="0 0 104 104" tabindex="0" role="slider" aria-label="Rotary knob. Arrow keys turn it. Enter or Space pushes it.">
+      <defs>
+        <radialGradient id="kg" cx="40%" cy="35%" r="70%">
+          <stop offset="0" stop-color="#5a5e66"/>
+          <stop offset="0.6" stop-color="#2a2d32"/>
+          <stop offset="1" stop-color="#16181b"/>
+        </radialGradient>
+        <radialGradient id="kt" cx="45%" cy="40%" r="60%">
+          <stop offset="0" stop-color="#4b4f57"/>
+          <stop offset="1" stop-color="#1d1f23"/>
+        </radialGradient>
+      </defs>
+      <circle cx="52" cy="54" r="49" fill="#0008"/>
+      <g class="face">
+        <g class="cap" id="cap">
+          <circle cx="52" cy="52" r="48" fill="url(#kg)"/>
+          <g id="knurl" stroke="#0e0f11" stroke-width="2"></g>
+          <circle cx="52" cy="52" r="36" fill="url(#kt)" stroke="#0b0c0e" stroke-width="1.5"/>
+          <circle cx="52" cy="24" r="3.2" fill="#d8dce2"/>
+        </g>
+      </g>
+    </svg>
+    <div class="reset"><button id="reset" title="Reset the board"></button>Reset</div>
+  </div>
+</div>
+<div class="hint">Drag or scroll to turn the knob. Click it to push. Keys: ← → turn, Enter or Space push.</div>
+<details id="console">
+  <summary>Serial console</summary>
+  <div id="log" class="mono"></div>
+  <form id="send"><input id="cmd" class="mono" autocomplete="off" placeholder="G-code line, for example G28"><button>Send</button></form>
+</details>
+
+<script type="module">
+import { connect, decodeLcd, drawLcd, beep, unlockAudio } from "./common.js";
+
+const W = 128, H = 64;
+let lw = W, lh = H;
+const canvas = document.getElementById("lcd");
+const ctx = canvas.getContext("2d");
+let pixels = new Uint8Array(W * H);
+drawLcd(ctx, pixels, W, H, 6, 1);
+
+const link = connect((m) => {
+  switch (m.t) {
+    case "hello":
+      if (m.machine && m.machine.lcd) [lw, lh] = m.machine.lcd;
+      break;
+    case "lcd":
+      pixels = decodeLcd(m.bits, lw, lh);
+      if (canvas.width !== lw * 6) {
+        canvas.width = lw * 6;
+        canvas.height = lh * 6;
+      }
+      drawLcd(ctx, pixels, lw, lh, 6, 1);
+      break;
+    case "beep":
+      beep(m.ms || 60);
+      break;
+    case "serial":
+      log(m.dir, m.text);
+      break;
+  }
+});
+
+// Knurl lines on the knob.
+const knurl = document.getElementById("knurl");
+for (let i = 0; i < 40; i++) {
+  const a = (i / 40) * Math.PI * 2;
+  const l = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  l.setAttribute("x1", 52 + Math.cos(a) * 41);
+  l.setAttribute("y1", 52 + Math.sin(a) * 41);
+  l.setAttribute("x2", 52 + Math.cos(a) * 48);
+  l.setAttribute("y2", 52 + Math.sin(a) * 48);
+  knurl.appendChild(l);
+}
+
+// One detent is 18 degrees (20 detents in one turn).
+const DETENT = 18;
+const knob = document.getElementById("knob");
+const cap = document.getElementById("cap");
+let angle = 0;
+function turn(d) {
+  angle += d * DETENT;
+  cap.style.transform = `rotate(${angle}deg)`;
+  cap.style.transformOrigin = "52px 52px";
+  link.send({ t: "enc", d });
+}
+
+let pressed = false;
+function press(down) {
+  if (pressed === down) return;
+  pressed = down;
+  knob.classList.toggle("pressed", down);
+  link.send({ t: "btn", down });
+}
+
+// Pointer: a drag turns the knob. A click without a drag pushes it.
+let drag = null;
+function pointerAngle(e) {
+  const r = knob.getBoundingClientRect();
+  return (Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180) / Math.PI;
+}
+knob.addEventListener("pointerdown", (e) => {
+  unlockAudio();
+  knob.setPointerCapture(e.pointerId);
+  drag = { x: e.clientX, y: e.clientY, a: pointerAngle(e), acc: 0, moved: false, held: false };
+  drag.timer = setTimeout(() => {
+    if (drag && !drag.moved) {
+      drag.held = true;
+      press(true);
+    }
+  }, 220);
+});
+knob.addEventListener("pointermove", (e) => {
+  if (!drag) return;
+  if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 5 && !drag.held) {
+    drag.moved = true;
+    knob.classList.add("drag");
+  }
+  if (!drag.moved) return;
+  const a = pointerAngle(e);
+  let da = a - drag.a;
+  if (da > 180) da -= 360;
+  if (da < -180) da += 360;
+  drag.a = a;
+  drag.acc += da;
+  while (drag.acc >= DETENT) {
+    drag.acc -= DETENT;
+    turn(1);
+  }
+  while (drag.acc <= -DETENT) {
+    drag.acc += DETENT;
+    turn(-1);
+  }
+});
+function endPointer() {
+  if (!drag) return;
+  clearTimeout(drag.timer);
+  if (drag.held) press(false);
+  else if (!drag.moved) {
+    press(true);
+    setTimeout(() => press(false), 70);
+  }
+  knob.classList.remove("drag");
+  drag = null;
+}
+knob.addEventListener("pointerup", endPointer);
+knob.addEventListener("pointercancel", endPointer);
+
+let wheelAcc = 0;
+knob.addEventListener(
+  "wheel",
+  (e) => {
+    e.preventDefault();
+    wheelAcc += e.deltaY;
+    while (wheelAcc >= 40) {
+      wheelAcc -= 40;
+      turn(1);
+    }
+    while (wheelAcc <= -40) {
+      wheelAcc += 40;
+      turn(-1);
+    }
+  },
+  { passive: false },
+);
+
+// Keys work on the whole page, except in the console input.
+document.addEventListener("keydown", (e) => {
+  if (e.target.id === "cmd") return;
+  unlockAudio();
+  if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+    turn(1);
+    e.preventDefault();
+  } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+    turn(-1);
+    e.preventDefault();
+  } else if ((e.key === "Enter" || e.key === " ") && !e.repeat) {
+    press(true);
+    e.preventDefault();
+  }
+});
+document.addEventListener("keyup", (e) => {
+  if (e.target.id === "cmd") return;
+  if (e.key === "Enter" || e.key === " ") press(false);
+});
+
+document.getElementById("reset").addEventListener("click", () => {
+  unlockAudio();
+  link.send({ t: "reset" });
+});
+
+// Serial console.
+const logEl = document.getElementById("log");
+function log(dir, text) {
+  const div = document.createElement("div");
+  div.className = dir;
+  // rx: the board receives the line. tx: the board sends the line.
+  div.textContent = (dir === "rx" ? "→ " : "← ") + text;
+  logEl.appendChild(div);
+  while (logEl.childNodes.length > 400) logEl.firstChild.remove();
+  logEl.scrollTop = logEl.scrollHeight;
+}
+document.getElementById("send").addEventListener("submit", (e) => {
+  e.preventDefault();
+  const input = document.getElementById("cmd");
+  const text = input.value.trim();
+  if (!text) return;
+  link.send({ t: "line", text });
+  input.value = "";
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+--- a/deck/cmd/printdeck/web.go
++++ b/deck/cmd/printdeck/web.go
+@@ -52,6 +52,7 @@
+ 		mux.Handle("/", rs.Handler())
+ 		registerSystemPage(mux, rs, pr, up, app.Metrics, cfg.KlippyLog, cfg.OctoPrintKey)
+ 		registerRollPages(mux, rs, pr, app)
++		registerPlotter(mux, rs, cfg, app)
+ 		// The 3D window of the desktop app shows the simulated printer of the deck, with an API key.
+ 		if k, ok := pr.(*printer.Klippy); ok && api != nil {
+ 			registerSim(mux, k, api.ValidKey)
+--- a/deck/go.mod
++++ b/deck/go.mod
+@@ -1,14 +1,18 @@
+ module printdeck
+ 
+-go 1.25.0
++go 1.26.0
+ 
+ require (
++	github.com/beetlebugorg/penplotter v0.0.0
+ 	github.com/ulikunitz/xz v0.5.17
+ 	go.bug.st/serial v1.8.0
+ 	golang.org/x/crypto v0.52.0
+ 	golang.org/x/image v0.41.0
+-	golang.org/x/sys v0.45.0
++	golang.org/x/sys v0.49.0
+ 	rsc.io/qr v0.2.0
+ )
+ 
+ require golang.org/x/text v0.37.0 // indirect
++
++// The pen plotter accessory (cmd/printdeck/plotterweb.go). Point the replace at your penplotter checkout.
++replace github.com/beetlebugorg/penplotter => ../../penplotter
+--- a/deck/go.sum
++++ b/deck/go.sum
+@@ -8,6 +8,8 @@
+ golang.org/x/image v0.41.0/go.mod h1:uIc348UZMSvS5Z65CVZ7iDPaNobNFEPeJ4kbqTOszmA=
+ golang.org/x/sys v0.45.0 h1:dO4czNzziLiiXplLQgBCEpCvXQ3dnkn0SdaZSYdQ+FY=
+ golang.org/x/sys v0.45.0/go.mod h1:4GL1E5IUh+htKOUEOaiffhrAeqysfVGipDYzABqnCmw=
++golang.org/x/sys v0.49.0 h1:XbzkgYJHdqh/8m2Uu0W/dQv8nktxx4BFHp1M0gROTXA=
++golang.org/x/sys v0.49.0/go.mod h1:hNLxWAXmnKAxqDtdwIYC4bM9oQPEecfsnNMuSxOs3og=
+ golang.org/x/text v0.37.0 h1:Cqjiwd9eSg8e0QAkyCaQTNHFIIzWtidPahFWR83rTrc=
+ golang.org/x/text v0.37.0/go.mod h1:a5sjxXGs9hsn/AJVwuElvCAo9v8QYLzvavO5z2PiM38=
+ rsc.io/qr v0.2.0 h1:6vBLea5/NRMVTz8V66gipeLycZMl/+UlFmk8DvqQ6WY=
+--- a/deck/cmd/printdeck/plotterweb.go
++++ b/deck/cmd/printdeck/plotterweb.go
+@@ -0,0 +1,73 @@
++package main
++
++// The pen plotter of the deck: an accessory machine next to the 3D printer. The deck mounts
++// plotstudio (the bed scan with the camera of the deck, the layout, the pens and the plot) at
++// /plotter/ behind the login of the remote screen. plotter.json in the state folder turns it on:
++//
++//	{"addr": "penplotter.local", "camera": "", "travelX": 245, "travelY": 395}
++//
++// "camera" selects the camera of the deck: "" for the main camera, a role, a number or an ID.
++
++import (
++	"context"
++	"encoding/json"
++	"errors"
++	"log"
++	"net/http"
++	"os"
++	"path/filepath"
++
++	"github.com/beetlebugorg/penplotter/integrations/printdeck/plotter"
++
++	"printdeck/internal/config"
++	"printdeck/internal/remote"
++	"printdeck/internal/ui"
++)
++
++// plotterSetting is plotter.json.
++type plotterSetting struct {
++	Addr    string  `json:"addr"`
++	Camera  string  `json:"camera"`
++	TravelX float64 `json:"travelX"`
++	TravelY float64 `json:"travelY"`
++}
++
++// registerPlotter mounts the plotter when plotter.json names one, and returns it, or nil.
++func registerPlotter(mux *http.ServeMux, rs *remote.Server, cfg config.Config, app *ui.App) *plotter.Plotter {
++	b, err := os.ReadFile(filepath.Join(cfg.StateDir, "plotter.json"))
++	if err != nil {
++		return nil
++	}
++	var s plotterSetting
++	if err := json.Unmarshal(b, &s); err != nil {
++		log.Printf("plotter: plotter.json: %v", err)
++		return nil
++	}
++	pc := plotter.Config{Addr: s.Addr, DataDir: filepath.Join(cfg.StateDir, "plotter"),
++		TravelX: s.TravelX, TravelY: s.TravelY, CameraName: "printdeck " + s.Camera}
++	if app != nil {
++		// The camera is found at each picture: the hub of the deck can start after the web pages.
++		pc.Snapshot = func(ctx context.Context) ([]byte, error) {
++			if app.Camera == nil {
++				return nil, errors.New("the deck has no camera")
++			}
++			src, ok := app.Camera.Source(s.Camera)
++			if !ok {
++				return nil, errors.New("the deck has no camera " + s.Camera)
++			}
++			f, err := src.Snapshot(ctx)
++			if err != nil {
++				return nil, err
++			}
++			return f.JPEG(), nil
++		}
++	}
++	p := plotter.New(pc)
++	h := http.StripPrefix("/plotter", p.Handler())
++	mux.HandleFunc("/plotter/", rs.Auth(h.ServeHTTP))
++	mux.HandleFunc("GET /plotter", func(w http.ResponseWriter, r *http.Request) {
++		http.Redirect(w, r, "/plotter/", http.StatusFound)
++	})
++	log.Printf("plotter: %s at /plotter/", s.Addr)
++	return p
++}

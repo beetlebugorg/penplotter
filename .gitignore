@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# Node packages (npm ci in hardware/lineart/)
+node_modules/
+
+# Build output: firmware images, the sim binary, slices, meshes and logs.
+# make.sh and the go builds make them again.
+build/
+
+# Local only: vendor downloads
+/hardware/reference/*
+!/hardware/reference/SOURCES.md
+
+# The assembly STEP is 27 MB. make.sh makes it again.
+/hardware/cad/table-plotter-assembly.step
+
+# A screen capture from a script that ran in the shell by mistake
+/hardware/sys
+
+# Audit output. audit/run.py makes it again.
+/hardware/audit/out/

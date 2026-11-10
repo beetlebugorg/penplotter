@@ -1,0 +1,49 @@
+{
+ "note": "First PLA slices, before the print time review: 40 % grid infill, 1.2 mm top and bottom, 2 mm walls, 25 mm/s outer walls, 3 mm pod walls.",
+ "parts": {
+  "pen_lift": {
+   "min": 142,
+   "g": 37.1
+  },
+  "pen_slider": {
+   "min": 81,
+   "g": 22.7
+  },
+  "pod_base": {
+   "min": 478,
+   "g": 117.4
+  },
+  "pod_lid": {
+   "min": 169,
+   "g": 42.5
+  },
+  "x_carriage": {
+   "min": 94,
+   "g": 24.0
+  },
+  "y_carriage_left": {
+   "min": 390,
+   "g": 111.5
+  },
+  "y_motor_bracket_left": {
+   "min": 131,
+   "g": 36.7
+  },
+  "y_idler_bracket_left": {
+   "min": 112,
+   "g": 30.3
+  },
+  "y_carriage_right": {
+   "min": 390,
+   "g": 111.5
+  },
+  "y_motor_bracket_right": {
+   "min": 131,
+   "g": 36.7
+  },
+  "y_idler_bracket_right": {
+   "min": 112,
+   "g": 30.3
+  }
+ }
+}

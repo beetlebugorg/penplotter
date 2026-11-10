@@ -1,0 +1,50 @@
+//go:build rp2040
+
+package pico
+
+import (
+	"machine"
+	"runtime/interrupt"
+
+	"github.com/beetlebugorg/penplotter/firmware/config"
+)
+
+// Quadrature table: index is (old state << 2) | new state. A state is (A << 1) | B.
+var quad = [16]int8{0, -1, 1, 0, 1, 0, 0, -1, -1, 0, 0, 1, 0, 1, -1, 0}
+
+var (
+	encState uint8
+	encCount int32
+)
+
+func setupEncoder() {
+	encState = encRead()
+	PinEncA.SetInterrupt(machine.PinToggle, encISR)
+	PinEncB.SetInterrupt(machine.PinToggle, encISR)
+}
+
+func encRead() uint8 {
+	var s uint8
+	if PinEncA.Get() {
+		s |= 2
+	}
+	if PinEncB.Get() {
+		s |= 1
+	}
+	return s
+}
+
+func encISR(machine.Pin) {
+	s := encRead()
+	encCount += int32(quad[encState<<2|s])
+	encState = s
+}
+
+// encoderDetents returns the full detents since the last call and keeps the rest.
+func encoderDetents() int {
+	m := interrupt.Disable()
+	d := encCount / config.EncoderPulsesPerDetent
+	encCount -= d * config.EncoderPulsesPerDetent
+	interrupt.Restore(m)
+	return int(d)
+}

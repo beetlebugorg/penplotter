@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plotter Build Progress</title>
+<style>
+  :root { --bg: #f6f6f3; --panel: #ffffff; --ink: #17191c; --ink2: #5a6068; --line: #e2e2dc; --accent: #0a7f63; --chip: #eef3f1; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) { --bg: #141518; --panel: #1d1f23; --ink: #eceff2; --ink2: #9aa1aa; --line: #2c2f35; --accent: #3ccaa2; --chip: #20302b; }
+  }
+  :root[data-theme="dark"] { --bg: #141518; --panel: #1d1f23; --ink: #eceff2; --ink2: #9aa1aa; --line: #2c2f35; --accent: #3ccaa2; --chip: #20302b; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/1.5 Inter, "Helvetica Neue", Arial, sans-serif; }
+  header { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 2; }
+  header h1 { font-size: 17px; margin: 0 8px 0 0; }
+  .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+  button { font: inherit; border: 1px solid var(--line); background: var(--panel); color: var(--ink); border-radius: 8px; padding: 5px 12px; cursor: pointer; }
+  button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .full { margin-left: auto; font-size: 13px; color: var(--accent); }
+  .live { margin-left: 12px; font-size: 13px; color: var(--ink2); }
+  .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-right: 6px; }
+  main { padding: 12px 16px; }
+  section { display: none; }
+  section.on { display: block; }
+  #view { width: 100%; height: calc(100vh - 150px); min-height: 360px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); display: block; }
+  .bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 8px; align-items: center; }
+  .bar .info { color: var(--ink2); font-size: 13px; margin-left: 8px; }
+  iframe { width: 100%; height: calc(100vh - 110px); border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+  .md { max-width: 980px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; padding: 8px 22px 18px; overflow-x: auto; }
+  .md table { border-collapse: collapse; font-size: 13.5px; }
+  .md td, .md th { border-bottom: 1px solid var(--line); padding: 4px 8px; text-align: left; }
+  .md code { background: var(--chip); padding: 1px 4px; border-radius: 4px; font-size: 0.92em; }
+  .md pre code { display: block; padding: 8px; overflow-x: auto; }
+  .md img { max-width: 100%; }
+  .empty { color: var(--ink2); padding: 20px; }
+  .changed { animation: flash 1.6s ease-out; }
+  @keyframes flash { from { box-shadow: 0 0 0 3px var(--accent); } to { box-shadow: 0 0 0 0 transparent; } }
+  @media (max-width: 600px) { header h1 { width: 100%; } .live { margin-left: 0; } }
+</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/",
+  "marked": "https://cdn.jsdelivr.net/npm/marked@12.0.2/lib/marked.esm.js"
+} }
+</script>
+</head>
+<body>
+<header>
+  <h1>Pen plotter · build progress</h1>
+  <div class="tabs">
+    <button data-tab="sim" class="on">Simulator</button>
+    <button data-tab="model">Printed parts</button>
+    <button data-tab="full">Full guide</button>
+    <button data-tab="pdf">Build guide PDF</button>
+    <button data-tab="reviews">Review logs</button>
+    <button data-tab="guide">Guide chapters</button>
+  </div>
+  <a class="full" href="/sim/machine.html" target="_blank" rel="noopener">Open the simulator full screen ↗</a>
+  <div class="live"><span class="dot"></span><span id="live">checking…</span></div>
+</header>
+<main>
+  <section id="sim" class="on"><iframe id="simframe" title="Simulator" src="/sim/machine.html"></iframe></section>
+  <section id="model">
+    <div class="bar">
+      <button data-scene="plotter" class="on">Plotter</button>
+      <button data-scene="head">Pen head</button>
+      <button data-scene="pod">Control pod</button>
+      <button id="explode">Explode</button>
+      <span class="info" id="minfo"></span>
+    </div>
+    <canvas id="view"></canvas>
+  </section>
+  <section id="full"><iframe id="fullframe" title="Full guide"></iframe></section>
+  <section id="pdf"><iframe id="pdfframe" title="Build guide"></iframe></section>
+  <section id="reviews">
+    <div class="bar">
+      <button data-log="hardware/REVIEW.md" class="on">Hardware</button>
+      <button data-log="firmware/REVIEW.md">Firmware</button>
+      <button data-log="studio/REVIEW.md">Software</button>
+      <button data-log="docs/REVIEW-integration.md">Cross-track</button>
+    </div>
+    <div class="md" id="logview"></div>
+  </section>
+  <section id="guide">
+    <div class="bar" id="chapters"></div>
+    <div class="md" id="chapview"></div>
+  </section>
+</main>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+import { STLLoader } from "three/addons/loaders/STLLoader.js";
+import { marked } from "marked";
+
+// ---------------------------------------------------------------- tabs
+for (const b of document.querySelectorAll("[data-tab]")) {
+  b.onclick = () => {
+    document.querySelectorAll("[data-tab]").forEach((x) => x.classList.toggle("on", x === b));
+    document.querySelectorAll("main > section").forEach((s) => s.classList.toggle("on", s.id === b.dataset.tab));
+    if (b.dataset.tab === "model") resize();
+    try { localStorage.setItem("progress.tab2", b.dataset.tab); } catch {}
+  };
+}
+try { const t = localStorage.getItem("progress.tab2"); if (t) document.querySelector(`[data-tab="${t}"]`)?.click(); } catch {}
+
+// ---------------------------------------------------------------- 3D model
+const COLOURS = { petg: 0xe8772e, plate: 0x8f969e, steel: 0xc8ccd0, pen: 0x2a2a2a, servo: 0x2f5da8, horn: 0xf2f2f2, pcb: 0x2e6b3a };
+const SCENES = {
+  plotter: (g) => g.startsWith("t_"),
+  head: (g) => ["plate", "pen_lift", "pen_slider", "servo", "horn_down", "pen", "screw", "bolts"].includes(g),
+  pod: (g) => ["pod_base", "pod_lid", "pod_lcd", "pod_knob", "pod_boards"].includes(g),
+};
+const EXPLODE = {
+  plotter: { t_ycar: [0, 0, 60], t_beam: [0, 0, 120], t_head: [0, -80, 160], t_motors: [0, 0, 90], t_brackets: [0, 0, 30] },
+  head: { pen_slider: [0, -40, 40], servo: [0, -40, 0], horn_down: [0, -70, 0], pen: [0, 0, -60], bolts: [0, 40, 0] },
+  pod: { pod_lid: [0, 0, 110], pod_knob: [0, 0, 150], pod_lcd: [0, 0, 70], pod_boards: [0, 0, 25] },
+};
+const canvas = document.getElementById("view");
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+const scene3 = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(35, 1, 1, 20000);
+camera.up.set(0, 0, 1);
+const controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
+scene3.add(new THREE.HemisphereLight(0xffffff, 0x404048, 1.6));
+const sun = new THREE.DirectionalLight(0xffffff, 1.8);
+sun.position.set(300, -400, 600);
+scene3.add(sun);
+const group = new THREE.Group();
+scene3.add(group);
+const loader = new STLLoader();
+let manifest = null, sceneName = "plotter", exploded = false, framed = {};
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (!w || !h) return;
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+}
+addEventListener("resize", resize);
+
+async function buildScene(keepView) {
+  if (!manifest) return;
+  const parts = manifest.parts.filter((p) => SCENES[sceneName](p.group));
+  const meshes = await Promise.all(parts.map((p) => new Promise((ok) =>
+    loader.load(`/files/hardware/build/mesh/${p.file}?v=${version}`, (geo) => ok({ p, geo }), undefined, () => ok(null)))));
+  group.clear();
+  for (const m of meshes) {
+    if (!m) continue;
+    m.geo.computeVertexNormals();
+    const mat = new THREE.MeshStandardMaterial({ color: COLOURS[m.p.material] ?? 0x999999, roughness: 0.7, metalness: m.p.material === "steel" ? 0.4 : 0.05 });
+    const mesh = new THREE.Mesh(m.geo, mat);
+    mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(m.geo, 30), new THREE.LineBasicMaterial({ color: 0x0a5c48, transparent: true, opacity: 0.35 })));
+    const off = exploded ? EXPLODE[sceneName][m.p.group] : null;
+    if (off) mesh.position.set(...off);
+    group.add(mesh);
+  }
+  document.getElementById("minfo").textContent = `${meshes.filter(Boolean).length} parts`;
+  if (!keepView || !framed[sceneName]) frame();
+}
+
+function frame() {
+  const box = new THREE.Box3().setFromObject(group);
+  if (box.isEmpty()) return;
+  const c = box.getCenter(new THREE.Vector3()), r = box.getSize(new THREE.Vector3()).length() / 2;
+  controls.target.copy(c);
+  camera.position.copy(c).add(new THREE.Vector3(0.75, -1.2, 0.85).normalize().multiplyScalar(r * 2.6));
+  controls.update();
+  framed[sceneName] = true;
+}
+
+for (const b of document.querySelectorAll("[data-scene]")) {
+  b.onclick = () => {
+    document.querySelectorAll("[data-scene]").forEach((x) => x.classList.toggle("on", x === b));
+    sceneName = b.dataset.scene;
+    buildScene(false);
+  };
+}
+document.getElementById("explode").onclick = (e) => {
+  exploded = !exploded;
+  e.target.classList.toggle("on", exploded);
+  buildScene(true);
+};
+
+(function loop() {
+  requestAnimationFrame(loop);
+  controls.update();
+  renderer.render(scene3, camera);
+})();
+resize();
+
+// ---------------------------------------------------------------- markdown views
+let logPath = "hardware/REVIEW.md", chapPath = null;
+async function showMd(path, el) {
+  const r = await fetch(`/files/${path}?v=${Date.now()}`);
+  el.innerHTML = r.ok ? marked.parse(await r.text()) : `<p class="empty">${path} does not exist yet.</p>`;
+}
+for (const b of document.querySelectorAll("[data-log]")) {
+  b.onclick = () => {
+    document.querySelectorAll("[data-log]").forEach((x) => x.classList.toggle("on", x === b));
+    logPath = b.dataset.log;
+    showMd(logPath, document.getElementById("logview"));
+  };
+}
+
+// ---------------------------------------------------------------- live updates
+let version = 0, last = {};
+async function poll() {
+  try {
+    const s = await (await fetch("/status")).json();
+    const f = s.files;
+    const changed = (p) => f[p] && f[p] !== last[p];
+    if (changed("hardware/build/manifest.json")) {
+      version = f["hardware/build/manifest.json"];
+      manifest = await (await fetch(`/files/hardware/build/manifest.json?v=${version}`)).json();
+      buildScene(true);
+      canvas.classList.remove("changed"); void canvas.offsetWidth; canvas.classList.add("changed");
+    }
+    if (changed("hardware/stl/frame.json") && last["hardware/stl/frame.json"]) {
+      // The simulator loads the model once. Reload it after a new hardware build.
+      document.getElementById("simframe").src = `/sim/machine.html?v=${f["hardware/stl/frame.json"]}`;
+    }
+    if (changed("hardware/penplotter-build-guide.pdf")) {
+      document.getElementById("pdfframe").src = `/files/hardware/penplotter-build-guide.pdf?v=${f["hardware/penplotter-build-guide.pdf"]}`;
+    }
+    if (changed("docs/penplotter-guide.pdf")) {
+      document.getElementById("fullframe").src = `/files/docs/penplotter-guide.pdf?v=${f["docs/penplotter-guide.pdf"]}`;
+    }
+    if (changed(logPath)) showMd(logPath, document.getElementById("logview"));
+    const chaps = Object.keys(f).filter((p) => p.startsWith("docs/guide/")).sort();
+    const bar = document.getElementById("chapters");
+    if (chaps.join() !== bar.dataset.list) {
+      bar.dataset.list = chaps.join();
+      bar.innerHTML = "";
+      for (const p of chaps) {
+        const b = document.createElement("button");
+        b.textContent = p.replace("docs/guide/", "").replace(".md", "");
+        b.onclick = () => { chapPath = p; bar.querySelectorAll("button").forEach((x) => x.classList.toggle("on", x === b)); showMd(p, document.getElementById("chapview")); };
+        bar.appendChild(b);
+      }
+      if (!chapPath && chaps.length) bar.firstChild.click();
+      if (!chaps.length) document.getElementById("chapview").innerHTML = '<p class="empty">No chapters yet. The tracks write them in docs/guide/.</p>';
+    }
+    if (chapPath && changed(chapPath)) showMd(chapPath, document.getElementById("chapview"));
+    last = f;
+    const newest = Math.max(...Object.values(f));
+    document.getElementById("live").textContent = `live · last change ${new Date(newest * 1000).toLocaleTimeString()}`;
+  } catch {
+    document.getElementById("live").textContent = "server not reachable";
+  }
+}
+poll();
+setInterval(poll, 20000);
+</script>
+</body>
+</html>

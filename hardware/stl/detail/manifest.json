@@ -1,0 +1,820 @@
+{
+ "note": "Detailed bought parts from hardware/context_detail.py (export_context_detail.py). Frame mm at machine home: gantry y c0, X plate x xp0. group: static, gantry, carriage, ctrl (the control box group).",
+ "c0": 73.94,
+ "xp0": 70.42,
+ "files": [
+  {
+   "file": "detail/gantry_black_plastic.stl",
+   "group": "gantry",
+   "material": "black_plastic",
+   "color": "#17181a",
+   "metalness": 0.0,
+   "roughness": 0.5,
+   "tris": 244
+  },
+  {
+   "file": "detail/gantry_gold.stl",
+   "group": "gantry",
+   "material": "gold",
+   "color": "#c9a23f",
+   "metalness": 1.0,
+   "roughness": 0.3,
+   "tris": 372
+  },
+  {
+   "file": "detail/gantry_label.stl",
+   "group": "gantry",
+   "material": "label",
+   "color": "#e9e9e4",
+   "metalness": 0.0,
+   "roughness": 0.7,
+   "tris": 12
+  },
+  {
+   "file": "detail/gantry_motor_cap.stl",
+   "group": "gantry",
+   "material": "motor_cap",
+   "color": "#1d1e21",
+   "metalness": 0.55,
+   "roughness": 0.42,
+   "tris": 1904
+  },
+  {
+   "file": "detail/gantry_motor_stack.stl",
+   "group": "gantry",
+   "material": "motor_stack",
+   "color": "#6f7378",
+   "metalness": 0.75,
+   "roughness": 0.38,
+   "tris": 108
+  },
+  {
+   "file": "detail/gantry_nylon.stl",
+   "group": "gantry",
+   "material": "nylon",
+   "color": "#efe9da",
+   "metalness": 0.0,
+   "roughness": 0.55,
+   "tris": 1332
+  },
+  {
+   "file": "detail/gantry_pcb.stl",
+   "group": "gantry",
+   "material": "pcb",
+   "color": "#1f6b3a",
+   "metalness": 0.0,
+   "roughness": 0.6,
+   "tris": 428
+  },
+  {
+   "file": "detail/gantry_pcb_dark.stl",
+   "group": "gantry",
+   "material": "pcb_dark",
+   "color": "#16181b",
+   "metalness": 0.0,
+   "roughness": 0.55,
+   "tris": 428
+  },
+  {
+   "file": "detail/gantry_plunger.stl",
+   "group": "gantry",
+   "material": "plunger",
+   "color": "#d0402a",
+   "metalness": 0.0,
+   "roughness": 0.45,
+   "tris": 12
+  },
+  {
+   "file": "detail/gantry_smd.stl",
+   "group": "gantry",
+   "material": "smd",
+   "color": "#2a2a2a",
+   "metalness": 0.2,
+   "roughness": 0.5,
+   "tris": 24
+  },
+  {
+   "file": "detail/gantry_smd_light.stl",
+   "group": "gantry",
+   "material": "smd_light",
+   "color": "#b8a888",
+   "metalness": 0.1,
+   "roughness": 0.6,
+   "tris": 24
+  },
+  {
+   "file": "detail/gantry_steel.stl",
+   "group": "gantry",
+   "material": "steel",
+   "color": "#d4d6da",
+   "metalness": 1.0,
+   "roughness": 0.25,
+   "tris": 2562
+  },
+  {
+   "file": "detail/gantry_switch.stl",
+   "group": "gantry",
+   "material": "switch",
+   "color": "#1a1a1a",
+   "metalness": 0.0,
+   "roughness": 0.5,
+   "tris": 28
+  },
+  {
+   "file": "detail/static_black_plastic.stl",
+   "group": "static",
+   "material": "black_plastic",
+   "color": "#17181a",
+   "metalness": 0.0,
+   "roughness": 0.5,
+   "tris": 164
+  },
+  {
+   "file": "detail/static_gold.stl",
+   "group": "static",
+   "material": "gold",
+   "color": "#c9a23f",
+   "metalness": 1.0,
+   "roughness": 0.3,
+   "tris": 432
+  },
+  {
+   "file": "detail/static_label.stl",
+   "group": "static",
+   "material": "label",
+   "color": "#e9e9e4",
+   "metalness": 0.0,
+   "roughness": 0.7,
+   "tris": 24
+  },
+  {
+   "file": "detail/static_motor_cap.stl",
+   "group": "static",
+   "material": "motor_cap",
+   "color": "#1d1e21",
+   "metalness": 0.55,
+   "roughness": 0.42,
+   "tris": 3808
+  },
+  {
+   "file": "detail/static_motor_stack.stl",
+   "group": "static",
+   "material": "motor_stack",
+   "color": "#6f7378",
+   "metalness": 0.75,
+   "roughness": 0.38,
+   "tris": 216
+  },
+  {
+   "file": "detail/static_nylon.stl",
+   "group": "static",
+   "material": "nylon",
+   "color": "#efe9da",
+   "metalness": 0.0,
+   "roughness": 0.55,
+   "tris": 1388
+  },
+  {
+   "file": "detail/static_pcb.stl",
+   "group": "static",
+   "material": "pcb",
+   "color": "#1f6b3a",
+   "metalness": 0.0,
+   "roughness": 0.6,
+   "tris": 428
+  },
+  {
+   "file": "detail/static_pcb_dark.stl",
+   "group": "static",
+   "material": "pcb_dark",
+   "color": "#16181b",
+   "metalness": 0.0,
+   "roughness": 0.55,
+   "tris": 856
+  },
+  {
+   "file": "detail/static_plunger.stl",
+   "group": "static",
+   "material": "plunger",
+   "color": "#d0402a",
+   "metalness": 0.0,
+   "roughness": 0.45,
+   "tris": 24
+  },
+  {
+   "file": "detail/static_smd.stl",
+   "group": "static",
+   "material": "smd",
+   "color": "#2a2a2a",
+   "metalness": 0.2,
+   "roughness": 0.5,
+   "tris": 24
+  },
+  {
+   "file": "detail/static_smd_light.stl",
+   "group": "static",
+   "material": "smd_light",
+   "color": "#b8a888",
+   "metalness": 0.1,
+   "roughness": 0.6,
+   "tris": 24
+  },
+  {
+   "file": "detail/static_steel.stl",
+   "group": "static",
+   "material": "steel",
+   "color": "#d4d6da",
+   "metalness": 1.0,
+   "roughness": 0.25,
+   "tris": 5124
+  },
+  {
+   "file": "detail/static_switch.stl",
+   "group": "static",
+   "material": "switch",
+   "color": "#1a1a1a",
+   "metalness": 0.0,
+   "roughness": 0.5,
+   "tris": 56
+  },
+  {
+   "file": "detail/carriage_black_plastic.stl",
+   "group": "carriage",
+   "material": "black_plastic",
+   "color": "#17181a",
+   "metalness": 0.0,
+   "roughness": 0.5,
+   "tris": 572
+  },
+  {
+   "file": "detail/carriage_servo.stl",
+   "group": "carriage",
+   "material": "servo",
+   "color": "#2f5da8",
+   "metalness": 0.0,
+   "roughness": 0.5,
+   "tris": 908
+  },
+  {
+   "file": "detail/carriage_wire_brown.stl",
+   "group": "carriage",
+   "material": "wire_brown",
+   "color": "#5a3418",
+   "metalness": 0.0,
+   "roughness": 0.6,
+   "tris": 200
+  },
+  {
+   "file": "detail/carriage_wire_orange.stl",
+   "group": "carriage",
+   "material": "wire_orange",
+   "color": "#e07b1a",
+   "metalness": 0.0,
+   "roughness": 0.6,
+   "tris": 200
+  },
+  {
+   "file": "detail/carriage_wire_red.stl",
+   "group": "carriage",
+   "material": "wire_red",
+   "color": "#b0221c",
+   "metalness": 0.0,
+   "roughness": 0.6,
+   "tris": 200
+  },
+  {
+   "file": "detail/ctrl_black_plastic.stl",
+   "group": "ctrl",
+   "material": "black_plastic",
+   "color": "#17181a",
+   "metalness": 0.0,
+   "roughness": 0.5,
+   "tris": 4144
+  },
+  {
+   "file": "detail/ctrl_box.stl",
+   "group": "ctrl",
+   "material": "box",
+   "color": "#2b2d31",
+   "metalness": 0.45,
+   "roughness": 0.5,
+   "tris": 3484
+  },
+  {
+   "file": "detail/ctrl_box_vent.stl",
+   "group": "ctrl",
+   "material": "box_vent",
+   "color": "#0d0d0e",
+   "metalness": 0.0,
+   "roughness": 0.8,
+   "tris": 260
+  },
+  {
+   "file": "detail/ctrl_rubber.stl",
+   "group": "ctrl",
+   "material": "rubber",
+   "color": "#202124",
+   "metalness": 0.0,
+   "roughness": 0.9,
+   "tris": 800
+  },
+  {
+   "file": "detail/ctrl_steel.stl",
+   "group": "ctrl",
+   "material": "steel",
+   "color": "#d4d6da",
+   "metalness": 1.0,
+   "roughness": 0.25,
+   "tris": 248
+  },
+  {
+   "file": "detail/ctrl_wire_red.stl",
+   "group": "ctrl",
+   "material": "wire_red",
+   "color": "#b0221c",
+   "metalness": 0.0,
+   "roughness": 0.6,
+   "tris": 24
+  },
+  {
+   "file": "detail/gantry_x_pulley.stl",
+   "group": "gantry",
+   "material": "pulley",
+   "color": "#9A9A9A",
+   "metalness": 0.9,
+   "roughness": 0.3,
+   "tris": 5360
+  }
+ ],
+ "replaces": [
+  "base_board",
+  "head_board",
+  "servo",
+  "x_motor",
+  "y_endstops",
+  "y_stepper_left",
+  "y_stepper_right"
+ ],
+ "anchors": {
+  "x_motor": {
+   "p": [
+    -19.5,
+    115.69,
+    125.28
+   ],
+   "d": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "moves": "gantry",
+   "dy0": 73.94
+  },
+  "y1_motor": {
+   "p": [
+    -14.25,
+    547.0,
+    91.412
+   ],
+   "d": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "moves": "static"
+  },
+  "y2_motor": {
+   "p": [
+    414.25,
+    547.0,
+    91.412
+   ],
+   "d": [
+    -0.0,
+    0.0,
+    1.0
+   ],
+   "moves": "static"
+  },
+  "x_endstop": {
+   "p": [
+    5.35,
+    49.34,
+    98.0
+   ],
+   "d": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "moves": "gantry",
+   "dy0": 73.94
+  },
+  "y1_endstop": {
+   "p": [
+    12.5,
+    11.3,
+    75.2
+   ],
+   "d": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "moves": "static"
+  },
+  "y2_endstop": {
+   "p": [
+    387.5,
+    11.3,
+    75.2
+   ],
+   "d": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "moves": "static"
+  },
+  "servo": {
+   "p": [
+    97.42,
+    48.94,
+    66.8
+   ],
+   "d": [
+    0,
+    0,
+    1
+   ],
+   "moves": "carriage",
+   "dx0": 70.42,
+   "dy0": 73.94
+  },
+  "head_harness": {
+   "p": [
+    119.5,
+    94.54,
+    125.18
+   ],
+   "d": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "moves": "gantry",
+   "dy0": 73.94
+  },
+  "head_BL_T": {
+   "p": [
+    134.5,
+    102.54,
+    87.43
+   ],
+   "d": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "moves": "gantry",
+   "dy0": 73.94
+  },
+  "head_X": {
+   "p": [
+    113.0,
+    102.54,
+    104.18
+   ],
+   "d": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "moves": "gantry",
+   "dy0": 73.94
+  },
+  "head_X-": {
+   "p": [
+    106.5,
+    102.54,
+    87.43
+   ],
+   "d": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "moves": "gantry",
+   "dy0": 73.94
+  },
+  "base_harness": {
+   "p": [
+    91.5,
+    530.6,
+    92.55
+   ],
+   "d": [
+    0.0,
+    0.0,
+    1.0
+   ],
+   "moves": "static"
+  },
+  "base_Z-": {
+   "p": [
+    108.5,
+    538.6,
+    46.3
+   ],
+   "d": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "moves": "static"
+  },
+  "base_Z1": {
+   "p": [
+    100.5,
+    538.6,
+    43.8
+   ],
+   "d": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "moves": "static"
+  },
+  "base_Y": {
+   "p": [
+    83.5,
+    538.6,
+    43.8
+   ],
+   "d": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "moves": "static"
+  },
+  "base_Y-": {
+   "p": [
+    74.75,
+    538.6,
+    45.05
+   ],
+   "d": [
+    0.0,
+    1.0,
+    0.0
+   ],
+   "moves": "static"
+  },
+  "ctrl_gland0": {
+   "p": [
+    -120.0,
+    292.0,
+    40.0
+   ],
+   "d": [
+    0,
+    1,
+    0
+   ],
+   "moves": "ctrl"
+  },
+  "ctrl_gland1": {
+   "p": [
+    -100.0,
+    292.0,
+    40.0
+   ],
+   "d": [
+    0,
+    1,
+    0
+   ],
+   "moves": "ctrl"
+  },
+  "ctrl_usb": {
+   "p": [
+    -361.0,
+    134.0,
+    21.5
+   ],
+   "d": [
+    -1,
+    0,
+    0
+   ],
+   "moves": "ctrl"
+  },
+  "ctrl_power": {
+   "p": [
+    -327.0,
+    282.0,
+    28.0
+   ],
+   "d": [
+    0,
+    1,
+    0
+   ],
+   "moves": "ctrl"
+  }
+ },
+ "leds": {
+  "x": {
+   "p": [
+    31.22,
+    49.09,
+    98.8
+   ],
+   "moves": "gantry",
+   "dy0": 73.94
+  },
+  "y1": {
+   "p": [
+    11.7,
+    37.17,
+    75.45
+   ],
+   "moves": "static"
+  },
+  "y2": {
+   "p": [
+    386.7,
+    37.17,
+    75.45
+   ],
+   "moves": "static"
+  }
+ },
+ "endstops": {
+  "x": {
+   "holes": [
+    [
+     14.11,
+     53.94,
+     90.525
+    ],
+    [
+     14.11,
+     53.94,
+     105.525
+    ]
+   ],
+   "actuate": [
+    31.92,
+    49.94,
+    90.0
+   ],
+   "press_at_home": 1.5,
+   "actuate_dir": [
+    -1.0,
+    0.0,
+    0.0
+   ],
+   "normal": [
+    0.0,
+    -1.0,
+    0.0
+   ]
+  },
+  "y1": {
+   "holes": [
+    [
+     19.975,
+     20.06,
+     70.6
+    ],
+    [
+     4.975,
+     20.06,
+     70.6
+    ]
+   ],
+   "actuate": [
+    20.5,
+    37.87,
+    74.6
+   ],
+   "press_at_home": 1.5,
+   "actuate_dir": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  },
+  "y2": {
+   "holes": [
+    [
+     394.975,
+     20.06,
+     70.6
+    ],
+    [
+     379.975,
+     20.06,
+     70.6
+    ]
+   ],
+   "actuate": [
+    395.5,
+    37.87,
+    74.6
+   ],
+   "press_at_home": 1.5,
+   "actuate_dir": [
+    0.0,
+    -1.0,
+    0.0
+   ],
+   "normal": [
+    0.0,
+    0.0,
+    1.0
+   ]
+  }
+ },
+ "endstop_board": {
+  "shape_ES": {
+   "pcb": [
+    20.07,
+    20.05,
+    1.6
+   ],
+   "holes_u": 3.26,
+   "holes_v": [
+    2.525,
+    17.525
+   ],
+   "hole_d": 3.2,
+   "plug": [
+    -0.0,
+    4.0,
+    16.0,
+    7.5
+   ],
+   "plug_zone": [
+    -20.0,
+    4.0,
+    16.0,
+    9.5
+   ],
+   "switch": [
+    14.27,
+    20.07,
+    4.7,
+    17.5,
+    8.1
+   ],
+   "lever": [
+    [
+     20.07,
+     17.5
+    ],
+    [
+     21.2,
+     0.3
+    ],
+    2.5,
+    5.5
+   ],
+   "click": [
+    21.07,
+    2.0,
+    4.0
+   ],
+   "pins": 2.5
+  },
+  "photo": {
+   "sw_holes": 6.5,
+   "plunger_v": 10.8,
+   "xh_out": 5.5,
+   "lever_t": 0.4
+  }
+ },
+ "lcd": {
+  "c": [
+   -270.0,
+   70.95,
+   44.0
+  ],
+  "size": [
+   72.0,
+   40.0
+  ]
+ },
+ "chain_link": {
+  "pitch": 18.0,
+  "note": "ESTIMATE: an openable 10 x 20 R28 chain has an 18 mm pitch (retail drawings)"
+ }
+}

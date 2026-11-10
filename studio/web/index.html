@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plotstudio</title>
+<link rel="stylesheet" href="style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M3 13 L12 4 L14 6 L5 15 Z' fill='%232f6fe4'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="bar">
+  <strong class="brand">Plotstudio</strong>
+  <span class="chip" id="chipPlotter">Plotter</span>
+  <span class="chip" id="chipCamera">Camera</span>
+  <span class="chip" id="chipCalib">Calibration</span>
+  <span class="grow"></span>
+  <div class="tabs" role="tablist">
+    <button class="on" data-tab="bed" role="tab">Bed</button>
+    <button data-tab="cam" role="tab">Camera</button>
+  </div>
+</header>
+<main>
+  <section class="stage">
+    <canvas id="bed" class="view"></canvas>
+    <canvas id="cam" class="view hidden"></canvas>
+    <div class="hint" id="hint"></div>
+    <div class="drop hidden" id="drop">Drop an SVG file to add it</div>
+  </section>
+  <aside class="side">
+    <div class="card">
+      <h2>Plotter</h2>
+      <div class="row">
+        <input id="plotAddr" list="plotList" placeholder="penplotter.local or /dev/ttyACM0" aria-label="Plotter address">
+        <datalist id="plotList"></datalist>
+      </div>
+      <div class="row">
+        <button id="btnConnect" class="primary">Connect</button>
+        <button id="btnFind">Find</button>
+        <button id="btnAlarm" class="hidden" title="Send M999, then home">Clear alarm</button>
+      </div>
+      <p class="small" id="plotText"></p>
+    </div>
+    <div class="card">
+      <h2>Scan</h2>
+      <div class="row">
+        <button id="btnScan" class="primary">Scan the bed</button>
+        <button id="btnLive">Live view</button>
+      </div>
+      <div class="row small" id="focusRow">
+        <span>Focus</span>
+        <button id="btnFocusAuto">Auto</button>
+        <button id="btnFocusLock">Lock</button>
+        <span id="focusVal" class="muted"></span>
+      </div>
+      <p class="muted small">A scan parks the gantry at the back, then at the front, and joins the two pictures.</p>
+    </div>
+    <div class="card">
+      <h2>Calibrate</h2>
+      <div class="row">
+        <select id="calGrid" aria-label="Calibration points">
+          <option value="0">5 points (fast)</option>
+          <option value="3" selected>3 × 3 points</option>
+          <option value="4">4 × 4 points (accurate)</option>
+        </select>
+      </div>
+      <div class="row">
+        <button id="btnMark">1. Draw marks</button>
+        <button id="btnClick">2. Click marks</button>
+      </div>
+      <div class="row hidden" id="calRow">
+        <button id="btnUndo">Undo</button>
+        <button id="btnSolve" class="primary">Solve</button>
+        <label class="small"><input type="checkbox" id="calLens" checked> lens</label>
+      </div>
+      <p class="small" id="calText"></p>
+    </div>
+    <div class="card">
+      <h2>Add</h2>
+      <div class="row">
+        <label class="file">SVG file<input type="file" id="fileSvg" accept=".svg,image/svg+xml" multiple></label>
+        <button id="btnSig">Signature</button>
+      </div>
+      <div class="lib" id="lib"></div>
+    </div>
+    <div class="card" id="itemCard">
+      <h2>Item <span class="muted" id="itemName"></span></h2>
+      <div class="grid4">
+        <label>X <input type="number" step="0.5" id="fX"></label>
+        <label>Y <input type="number" step="0.5" id="fY"></label>
+        <label>W <input type="number" step="0.5" id="fW"></label>
+        <label>H <input type="number" step="0.5" id="fH"></label>
+        <label>Angle <input type="number" step="1" id="fA"></label>
+        <label class="chk"><input type="checkbox" id="fSnap" checked> snap</label>
+      </div>
+      <div class="row">
+        <button id="btnDup">Copy</button>
+        <button id="btnDel">Delete</button>
+      </div>
+    </div>
+    <div class="card" id="penCard">
+      <h2>Pens</h2>
+      <div id="penMap" class="penmap"></div>
+      <label class="chk small"><input type="checkbox" id="optLayers" checked> layer names pick pens ("T3", "Pen 3")</label>
+      <label class="chk small"><input type="checkbox" id="optToolChange"> pen change at the start of a one-pen job</label>
+      <details>
+        <summary class="small">Pen table (T0 to T15)</summary>
+        <p class="muted small">Under each pen: the line width (mm).</p>
+        <div id="penTable" class="pentable"></div>
+        <div class="row">
+          <button id="btnPensSave" class="primary">Save the table</button>
+          <button id="btnPensReset">Defaults</button>
+        </div>
+      </details>
+    </div>
+    <div class="card">
+      <h2>Plot</h2>
+      <div class="grid4">
+        <label>Speed <input type="number" id="feed" value="3000" step="100"> mm/min</label>
+        <label class="chk"><input type="checkbox" id="optHome"> home first</label>
+        <label class="chk"><input type="checkbox" id="optPark" checked> park after</label>
+        <label class="chk"><input type="checkbox" id="optPath"> show path</label>
+      </div>
+      <div class="row">
+        <button id="btnPlot" class="primary">Plot</button>
+        <button id="btnPause">Pause</button>
+        <button id="btnCancel">Cancel</button>
+      </div>
+      <div class="progress"><div id="bar"></div></div>
+      <p class="small" id="jobText"></p>
+      <div id="queue" class="queue"></div>
+      <div class="row">
+        <button id="btnHome">Home</button>
+        <button id="btnPen">Pen test</button>
+      </div>
+    </div>
+    <details class="card">
+      <summary>Log</summary>
+      <pre id="log"></pre>
+    </details>
+  </aside>
+</main>
+<dialog id="sigDlg">
+  <form method="dialog">
+    <h2>Signature</h2>
+    <p class="muted small">Sign in the box. The box is 75 × 25 mm on the paper.</p>
+    <canvas id="sigPad" width="900" height="300"></canvas>
+    <div class="row">
+      <input id="sigName" placeholder="Name for the library" value="signature">
+      <button type="button" id="sigClear">Clear</button>
+      <button type="button" id="sigSave">Save</button>
+      <button type="button" id="sigAdd" class="primary">Add to bed</button>
+      <button value="close">Close</button>
+    </div>
+  </form>
+</dialog>
+<script type="module" src="app.js"></script>
+</body>
+</html>

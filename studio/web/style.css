@@ -1,0 +1,89 @@
+/* Plotstudio. The colours match the simulator pages. */
+:root {
+  --bg: #eceef1; --panel: #ffffff; --text: #1c1f24; --muted: #5d6570; --line: #d3d7dd;
+  --accent: #2f6fe4; --accent-text: #ffffff; --warn: #d23b2f; --ok: #1f9d55;
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.12); --stage: #dfe2e6; color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17191d; --panel: #23262c; --text: #e6e8eb; --muted: #9aa2ad; --line: #3a3f47;
+    --accent: #5b8ff0; --accent-text: #0d1117; --warn: #ff6b5e; --ok: #3ccf7f;
+    --shadow: 0 2px 12px rgba(0, 0, 0, 0.5); --stage: #121417; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #17191d; --panel: #23262c; --text: #e6e8eb; --muted: #9aa2ad; --line: #3a3f47;
+  --accent: #5b8ff0; --accent-text: #0d1117; --warn: #ff6b5e; --ok: #3ccf7f;
+  --shadow: 0 2px 12px rgba(0, 0, 0, 0.5); --stage: #121417; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text);
+  font: 13px/1.35 system-ui, -apple-system, "Segoe UI", sans-serif; }
+body { display: flex; flex-direction: column; }
+button, select, input, .file { font: inherit; color: var(--text); background: var(--panel);
+  border: 1px solid var(--line); border-radius: 6px; padding: 4px 9px; }
+button, .file { cursor: pointer; }
+button:hover, .file:hover { border-color: var(--accent); }
+button.on, button.primary { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+button:disabled { opacity: 0.5; cursor: default; }
+input[type="number"] { width: 100%; }
+.file input { display: none; }
+.bar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--panel);
+  border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.brand { font-size: 15px; margin-right: 6px; }
+.grow { flex: 1; }
+.chip { border: 1px solid var(--line); border-radius: 999px; padding: 2px 9px; color: var(--muted); white-space: nowrap; }
+.chip.ok { border-color: var(--ok); color: var(--ok); }
+.chip.bad { border-color: var(--warn); color: var(--warn); }
+.tabs { display: flex; gap: 4px; }
+main { flex: 1; display: flex; min-height: 0; }
+.stage { flex: 1; position: relative; background: var(--stage); min-width: 0; min-height: 0; }
+.view { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: none; display: block; }
+.hidden { display: none !important; }
+.hint { position: absolute; left: 12px; bottom: 12px; background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 10px; box-shadow: var(--shadow); max-width: calc(100% - 24px); }
+.hint:empty { display: none; }
+.drop { position: absolute; inset: 16px; border: 2px dashed var(--accent); border-radius: 12px;
+  display: flex; align-items: center; justify-content: center; font-size: 18px; background: #2f6fe422; }
+.side { width: 330px; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 10px;
+  border-left: 1px solid var(--line); }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.card h2 { font-size: 13px; margin: 0 0 8px; }
+summary { cursor: pointer; font-weight: 600; }
+.row { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; margin: 6px 0; }
+.grid4 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; margin: 6px 0; }
+.grid4 label { display: flex; flex-direction: column; gap: 2px; color: var(--muted); }
+.grid4 label.chk { flex-direction: row; align-items: center; gap: 6px; color: var(--text); }
+.small { font-size: 12px; }
+.muted { color: var(--muted); }
+.progress { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-top: 8px; }
+.progress div { height: 100%; width: 0; background: var(--accent); transition: width 0.3s; }
+.lib { display: flex; flex-wrap: wrap; gap: 4px; }
+.lib button { font-size: 12px; padding: 2px 8px; }
+pre#log { max-height: 220px; overflow: auto; font-size: 11px; margin: 6px 0 0; white-space: pre-wrap; }
+dialog { border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--text);
+  box-shadow: var(--shadow); max-width: calc(100vw - 32px); }
+dialog h2 { margin: 0 0 4px; font-size: 15px; }
+#sigPad { width: min(900px, calc(100vw - 80px)); aspect-ratio: 3 / 1; background: #fff; border: 1px solid var(--line);
+  border-radius: 8px; touch-action: none; display: block; margin: 8px 0; }
+@media (max-width: 760px) {
+  main { flex-direction: column; }
+  .stage { flex: none; height: 62vh; }
+  .side { width: auto; border-left: none; border-top: 1px solid var(--line); }
+}
+
+.penmap { display: grid; gap: 6px; margin: 4px 0 8px; }
+.penmap .pm { display: grid; grid-template-columns: 22px 1fr; gap: 8px; align-items: center; }
+.penmap select { width: 100%; }
+.sw { display: inline-block; width: 18px; height: 18px; border-radius: 4px; border: 1px solid var(--line); vertical-align: middle; }
+.pentable { display: grid; grid-template-columns: 34px 40px 1fr; gap: 4px 6px; align-items: center; margin: 8px 0; font-size: 12px; }
+.pentable input[type=color] { width: 36px; height: 24px; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: none; }
+.pentable input[type=text] { width: 100%; min-width: 0; }
+.prompt { background: color-mix(in srgb, var(--warn) 18%, transparent); border: 1px solid var(--warn); border-radius: 6px; padding: 6px 8px; }
+#plotAddr { width: 100%; min-width: 0; }
+#penCard .chk { display: block; margin: 4px 0; }
+.queue { display: grid; gap: 4px; }
+.queue .q { display: grid; grid-template-columns: 1fr auto auto; gap: 6px; align-items: center; font-size: 12px; }
+.hint.prompt { background: var(--panel); border: 1px solid var(--warn); border-left: 5px solid var(--warn); font-weight: 600; }
+.pentable .pextra { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; margin: 0 0 2px 40px; }
+.pentable .pextra input, .pentable .pextra select { width: 100%; min-width: 0; padding: 2px 4px; font-size: 11px; }

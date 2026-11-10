@@ -1,0 +1,833 @@
+{
+ "units": "mm",
+ "origin": "front left outer corner of the frame, on the table. X right, Y to the back, Z up.",
+ "bars": [
+  {
+   "name": "front bar",
+   "box": [
+    0.0,
+    0.0,
+    37.0,
+    400.0,
+    20.0,
+    57.0
+   ]
+  },
+  {
+   "name": "back bar",
+   "box": [
+    0.0,
+    500.0,
+    37.0,
+    400.0,
+    520.0,
+    57.0
+   ]
+  }
+ ],
+ "rails": [
+  {
+   "name": "left rail",
+   "box": [
+    0.0,
+    20.0,
+    37.0,
+    40.0,
+    500.0,
+    57.0
+   ]
+  },
+  {
+   "name": "right rail",
+   "box": [
+    360.0,
+    20.0,
+    37.0,
+    400.0,
+    500.0,
+    57.0
+   ]
+  }
+ ],
+ "feet": [
+  [
+   31.0,
+   37.5
+  ],
+  [
+   31.0,
+   482.5
+  ],
+  [
+   369.0,
+   37.5
+  ],
+  [
+   369.0,
+   482.5
+  ]
+ ],
+ "foot": {
+  "d": 28.0,
+  "h": 37.0
+ },
+ "beam": {
+  "box": [
+   -7.5,
+   63.94,
+   88.63,
+   407.5,
+   83.94,
+   108.63
+  ],
+  "profile": [
+   20.0,
+   20.0
+  ]
+ },
+ "guide": "V-wheels: 3 per Y carriage (2 in the outer side slot of the rail, 1 in the inner side slot), 3 on the printed X plate on the beam",
+ "x_motor": {
+  "pos": [
+   -19.5,
+   73.94,
+   98.63
+  ],
+  "shaft": "-y",
+  "body_y": [
+   86.99,
+   120.99
+  ],
+  "note": "pos: the pulley centre; the motor stands behind the left beam end, shaft to the front"
+ },
+ "x_idler": {
+  "pos": [
+   421.0,
+   73.94,
+   98.63
+  ],
+  "travel_x": [
+   4.0,
+   -2.5
+  ],
+  "fork": true,
+  "axis": "y"
+ },
+ "belt_lengths": {
+  "y_left": 1135.0,
+  "y_right": 1135.0,
+  "x": 898.3
+ },
+ "x_clamp": [
+  28.5,
+  125.42
+ ],
+ "x_clips": [
+  46.82,
+  107.11
+ ],
+ "belt_clip": {
+  "size": [
+   18.0,
+   8.0,
+   5.0
+  ],
+  "note": "GT2 6 mm crimp clip (OpenBuilds style), on each folded belt end; size: along the belt, across the belt width, thickness (ESTIMATE)"
+ },
+ "x_belt": {
+  "y": 73.94,
+  "z_runs": [
+   92.57,
+   104.69
+  ],
+  "clamped": "lower",
+  "axis": "y",
+  "slant_deg": 45.0,
+  "plane": "loop in the x-z plane, flat (width along y): the top run in the top slot channel and the bottom run in the bottom slot channel of the beam (the stock CR-10 path); the axles point along y"
+ },
+ "x_carriage": {
+  "plate_front_y": 60.34,
+  "box": [
+   28.5,
+   47.94,
+   60.5,
+   125.42,
+   82.54,
+   134.5
+  ],
+  "note": "the printed X plate; the pen carriage bolts to its front face"
+ },
+ "y_wheels": [
+  [
+   [
+    -10.1,
+    51.94,
+    47.0
+   ],
+   [
+    -10.1,
+    95.94,
+    47.0
+   ],
+   [
+    50.1,
+    91.94,
+    47.0
+   ]
+  ],
+  [
+   [
+    410.1,
+    51.94,
+    47.0
+   ],
+   [
+    410.1,
+    95.94,
+    47.0
+   ],
+   [
+    349.9,
+    91.94,
+    47.0
+   ]
+  ]
+ ],
+ "y_wheel_axis": "z",
+ "y_wheel_slots": "side slots of the rails: two wheels outside each rail, one inside (the back outer wheel on the eccentric)",
+ "x_wheels": [
+  [
+   51.92,
+   73.94,
+   118.73
+  ],
+  [
+   99.44,
+   73.94,
+   118.73
+  ],
+  [
+   77.34,
+   73.94,
+   78.53
+  ]
+ ],
+ "x_wheel_ecc": 1,
+ "wheel": {
+  "d": 24.4,
+  "t": 10.2,
+  "axis_y": "z",
+  "axis_x": "y"
+ },
+ "home_pen": [
+  69.49,
+  36.79
+ ],
+ "carriage_y0": 73.94,
+ "carriage_x0": 70.42,
+ "travel": [
+  245.9,
+  395.1
+ ],
+ "pen_lift_mm": 6.95,
+ "pen_lift": {
+  "note": "The horn turns about pivot (axis y). Horn angle above level = servo deg - servo_level_deg. horn.stl is at stl_deg. The tab underside is a 45 degree line z - x = const: z = underside_z at x = tab_x[0], at pen down. The pen tip is on the paper at lift 0 (pen down pose of the pen parts). lift_by_servo_deg: the slider lift in mm for servo 0..180 deg (tip under the tab). Above slip_servo the tip leaves the end of the tab and the slider falls. The tip is then over the tab: when the horn comes down again, it stops on the top of the tab at stall_servo (top_x, top_z) and pushes on the pen.",
+  "pivot": [
+   97.422,
+   24.738,
+   42.5
+  ],
+  "axis": "y",
+  "servo_level_deg": 90.0,
+  "stl_deg": -10.0,
+  "horn_len": 14.0,
+  "tip_r": 2.0,
+  "tab_x": [
+   80.979,
+   88.479
+  ],
+  "underside_z": 41.656,
+  "top_x": [
+   80.479,
+   88.479
+  ],
+  "top_z": 51.156,
+  "floor_lift": 0.0,
+  "shelf_lift": -3.0,
+  "pen_down_servo": 80.0,
+  "pen_up_servo": 130.0,
+  "contact_servo": 85.17,
+  "slip_servo": 150.27,
+  "stall_servo": 139.57,
+  "lift_mm": 6.953,
+  "gap_at_pen_down": 1.0,
+  "lift_by_servo_deg": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.219,
+   0.478,
+   0.732,
+   0.983,
+   1.23,
+   1.472,
+   1.71,
+   1.943,
+   2.172,
+   2.396,
+   2.616,
+   2.831,
+   3.042,
+   3.247,
+   3.448,
+   3.644,
+   3.834,
+   4.02,
+   4.201,
+   4.376,
+   4.546,
+   4.711,
+   4.871,
+   5.025,
+   5.174,
+   5.317,
+   5.455,
+   5.587,
+   5.714,
+   5.835,
+   5.95,
+   6.06,
+   6.163,
+   6.262,
+   6.354,
+   6.44,
+   6.521,
+   6.596,
+   6.665,
+   6.728,
+   6.785,
+   6.836,
+   6.881,
+   6.92,
+   6.953,
+   6.98,
+   7.001,
+   7.016,
+   7.026,
+   7.029,
+   7.026,
+   7.016,
+   7.001,
+   6.98,
+   6.953,
+   6.92,
+   6.881,
+   6.836,
+   6.785,
+   6.728,
+   6.665,
+   6.596,
+   6.512,
+   6.344,
+   5.942,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "y_belt": {
+  "x": [
+   31.5,
+   368.5
+  ],
+  "z_runs": [
+   58.7,
+   70.82
+  ],
+  "w": 6.0,
+  "t": 1.4,
+  "clamped": "upper",
+  "clamp_dy": [
+   -42.0,
+   40.0
+  ],
+  "pulley": {
+   "y": 547.0,
+   "z": 64.76,
+   "r": 5.36,
+   "teeth": 20,
+   "pitch_d": 12.732
+  },
+  "idler": {
+   "y": -17.0,
+   "z": 64.76,
+   "r": 5.36,
+   "travel_y": [
+    -4.0,
+    3.0
+   ]
+  },
+  "motor": {
+   "x": [
+    -19.55,
+    20.45
+   ],
+   "y": 547.0,
+   "z": 64.76,
+   "size": 42.3,
+   "shaft": "+x on the left, -x on the right (mirror)",
+   "moves": "static"
+  },
+  "note": "a loop round the motor pulley (back) and the idler (front); the carriage clamps the upper run"
+ },
+ "belt": {
+  "z": 57.7,
+  "w": 6.0
+ },
+ "chains": [
+  {
+   "name": "y",
+   "kind": "drag chain, openable",
+   "inner_hw": [
+    10.0,
+    20.0
+   ],
+   "outer_hw": [
+    15.0,
+    27.0
+   ],
+   "bend_r": 28.0,
+   "plane": {
+    "type": "y-z",
+    "x": -50.0
+   },
+   "axis": "y",
+   "bend_side": "-y (front)",
+   "fixed": {
+    "y": 492.0,
+    "z": 7.5,
+    "moves": "static",
+    "note": "the end of the lower run, on the table"
+   },
+   "moving": {
+    "dy": 26.0,
+    "z": 63.5,
+    "moves": "gantry",
+    "note": "offset from carriage_y0; the end of the upper run, on the left carriage tab"
+   },
+   "runs": 394.0,
+   "end_link": 12.0,
+   "bend_formula": "y_bend = (fixed_y + moving_y - runs) / 2"
+  },
+  {
+   "name": "x",
+   "kind": "split wire loom, free slack loop (catenary)",
+   "axis": "x",
+   "d": 12.7,
+   "length": 188.8,
+   "plane": {
+    "type": "x-z",
+    "dy": 39.95
+   },
+   "z": 141.85,
+   "fixed": {
+    "x": 119.5,
+    "moves": "gantry",
+    "note": "the tie round the head harness cable; dy from carriage_y0 (plane.dy)"
+   },
+   "moving": {
+    "dx": -33.0,
+    "moves": "carriage",
+    "tie": {
+     "dy": -20.25,
+     "z": 126.0
+    },
+    "note": "dx from the X plate origin (carriage_x0 at home); the loom goes from the tie slot up the front of the X plate (tie.dy, tie.z), back over the plate top at z to the loop plane"
+   },
+   "formula": "between the two ends (same z) the loop is a catenary of the given length: 2 a sinh(chord / 2a) = length, z = z_end - sag + a (cosh((x - x_mid) / a) - 1)"
+  }
+ ],
+ "endstops": [
+  {
+   "name": "y1",
+   "pos": [
+    20.5,
+    37.87,
+    74.6
+   ],
+   "dir": "-y"
+  },
+  {
+   "name": "y2",
+   "pos": [
+    395.5,
+    37.87,
+    74.6
+   ],
+   "dir": "-y"
+  },
+  {
+   "name": "x",
+   "pos": [
+    31.92,
+    49.94,
+    90.0
+   ],
+   "dir": "-x"
+  }
+ ],
+ "camera": {
+  "pos": [
+   200.0,
+   537.1,
+   616.0
+  ],
+  "mast": {
+   "box": [
+    191.07,
+    528.15,
+    11.0,
+    208.93,
+    546.0,
+    601.0
+   ]
+  },
+  "note": "USB webcam on the top end of a 590 mm pole (17.85 mm, measured), in a printed foot behind the back bar. The lens height above the pole top (15 mm) is an ESTIMATE."
+ },
+ "parts": [
+  {
+   "file": "sim2/y_carriage_left.stl",
+   "color": "#E8772E",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/y_carriage_right.stl",
+   "color": "#E8772E",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/beam.stl",
+   "color": "#1E1F22",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/x_motor.stl",
+   "color": "#202020",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/x_pulley.stl",
+   "color": "#9A9A9A",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/x_idler.stl",
+   "color": "#9A9A9A",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/x_idler_fork.stl",
+   "color": "#E8772E",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/mast_foot.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_front_left.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_front_right.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_motor_mount_left.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_motor_mount_right.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_idler_fork_left.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_idler_fork_right.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_idler_bracket_left.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_idler_bracket_right.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_endstops.stl",
+   "color": "#202020",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_chain_anchor.stl",
+   "color": "#E8772E",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_stepper_left.stl",
+   "color": "#202020",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_stepper_right.stl",
+   "color": "#202020",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_pulleys_left.stl",
+   "color": "#9A9A9A",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/y_pulleys_right.stl",
+   "color": "#9A9A9A",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/x_carriage_plate.stl",
+   "color": "#E8772E",
+   "moves": "carriage"
+  },
+  {
+   "file": "sim2/pen_carriage.stl",
+   "color": "#E8772E",
+   "moves": "carriage"
+  },
+  {
+   "file": "sim2/servo.stl",
+   "color": "#2F5DA8",
+   "moves": "carriage"
+  },
+  {
+   "file": "sim2/horn.stl",
+   "color": "#F2F2F2",
+   "moves": "horn"
+  },
+  {
+   "file": "sim2/pen_slider.stl",
+   "color": "#E8772E",
+   "moves": "pen"
+  },
+  {
+   "file": "sim2/pen.stl",
+   "color": "#202020",
+   "moves": "pen"
+  },
+  {
+   "file": "sim2/fasteners_static.stl",
+   "color": "#B8BCC2",
+   "moves": "static"
+  },
+  {
+   "file": "sim2/fasteners_gantry.stl",
+   "color": "#B8BCC2",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/fasteners_carriage.stl",
+   "color": "#B8BCC2",
+   "moves": "carriage"
+  },
+  {
+   "file": "sim2/fasteners_pen.stl",
+   "color": "#B8BCC2",
+   "moves": "pen"
+  },
+  {
+   "file": "sim2/inserts_gantry.stl",
+   "color": "#C9A23F",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/belt_clips_gantry.stl",
+   "color": "#D9B44A",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/belt_ends_gantry.stl",
+   "color": "#2B2B2B",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/belt_clips_carriage.stl",
+   "color": "#D9B44A",
+   "moves": "carriage"
+  },
+  {
+   "file": "sim2/belt_ends_carriage.stl",
+   "color": "#2B2B2B",
+   "moves": "carriage"
+  },
+  {
+   "file": "sim2/head_board.stl",
+   "color": "#2E7D32",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/base_board.stl",
+   "color": "#2E7D32",
+   "moves": "static"
+  }
+ ],
+ "fasteners": {
+  "note": "context geometry of the main build, one STL for each group that moves (sim2/fasteners_*.stl); no heat-set inserts",
+  "counts": {
+   "GT2 6 mm belt crimp clip": 6,
+   "M2 x 8 self-tapping (stock, in the servo bag)": 2,
+   "M3 heat-set insert, 5.7 mm": 6,
+   "M3 nut": 5,
+   "M3 x 10 socket head": 15,
+   "M3 x 12 socket head": 6,
+   "M3 x 16 socket head": 1,
+   "M3 x 20 socket head": 4,
+   "M3 x 8 socket head": 6,
+   "M5 drop-in T-nut": 13,
+   "M5 heat-set insert, 9.5 mm (long)": 3,
+   "M5 nyloc nut": 9,
+   "M5 spacer, 6 mm (stock)": 6,
+   "M5 washer, 7.5 mm across (small)": 6,
+   "M5 x 12 socket head": 13,
+   "M5 x 25 button head (ISO 7380)": 1,
+   "M5 x 30 button head (ISO 7380)": 1,
+   "M5 x 30 socket head": 5,
+   "M5 x 30 socket head (stock)": 8,
+   "M5 x 35 button head (ISO 7380)": 1,
+   "M5 x 35 socket head": 4,
+   "M6 x 16 socket head": 1,
+   "eccentric spacer (stock)": 3
+  }
+ },
+ "paper_z": 0,
+ "status": "Frame sizes are measured. The wheel sizes, the belt lines and the carriages are design values, not yet built."
+}

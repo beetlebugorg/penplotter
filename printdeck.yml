@@ -7,12 +7,14 @@
 # step writes them again on GitHub, and fails when they differ from the committed files. Run the
 # same command on your computer, and commit the files. Three runs of model.py (Python 3.12 and
 # 3.13) wrote the same bytes. Each run takes about 19 minutes on a desktop computer.
+# hardware/context_meshes.py then writes the context meshes of the assembly in less than a
+# second, with the Python standard library only.
 project: penplotter
 cover: hardware/docs/hero-light.png
 
 generate:
   install: pip install -r hardware/requirements.txt
-  run: cd hardware && python model.py
+  run: cd hardware && python model.py && python context_meshes.py
   check: true
 
 parts:
@@ -235,9 +237,11 @@ docs:
 
 # The plotter in its parts, for the 3D view of the Parts tab. hardware/model.py writes the
 # meshes of hardware/stl/sim2/ for the simulator: each part at home, in frame coordinates, in
-# millimetres, Z up. The origin is the front left outer corner of the frame on the table. The
-# frame extrusions are not in the view: hardware/stl/frame.json has them as boxes only. The
-# items are in the order of the assembly, and the exploded view takes them off from the last.
+# millimetres, Z up. The origin is the front left outer corner of the frame on the table.
+# hardware/context_meshes.py writes the meshes of hardware/stl/context/ in the same frame, from
+# hardware/stl/frame.json: the frame extrusions with the V-slot profile, the feet, the V-wheels,
+# the belts, the drag chain, the servo loom, the X endstop, the camera pole and the control box.
+# The simulator draws these parts from frame.json. The items are in the order of the assembly, and the exploded view takes them off from the last.
 # Items next to each other with the same explode move together: the gantry lifts off as one
 # piece, the carriage comes off to the front, and the pen slider lifts off the carriage.
 # The screws of the gantry and the carriage are not in the view. On the GitHub runner,
@@ -250,7 +254,13 @@ assemblies:
       The X plate runs on the beam, with the pen carriage on its front. The servo lifts the pen
       slider.
     items:
-      # The Y drive and the parts on the table. They do not move.
+      # The frame, the Y drive and the parts on the table. They do not move.
+      - name: Frame (2020 bars, 2040 rails)
+        file: hardware/stl/context/frame.stl
+        color: "#1e1f22"
+      - name: Rubber feet
+        file: hardware/stl/context/feet.stl
+        color: "#202124"
       - part: Y front base, left
         file: hardware/stl/sim2/y_front_left.stl
       - part: Y front base, right
@@ -281,20 +291,39 @@ assemblies:
       - name: Y pulley and idler (right)
         file: hardware/stl/sim2/y_pulleys_right.stl
         color: "#9a9a9a"
+      - name: Y belts
+        file: hardware/stl/context/y_belts.stl
+        color: "#2b2b2b"
       - name: Y endstops
         file: hardware/stl/sim2/y_endstops.stl
         color: "#202020"
       - part: Y chain anchor
         file: hardware/stl/sim2/y_chain_anchor.stl
+      - name: Drag chain (lower run)
+        file: hardware/stl/context/drag_chain_fixed.stl
+        color: "#1b1b1e"
       - part: Camera pole foot
         file: hardware/stl/sim2/mast_foot.stl
+      - name: Camera pole
+        file: hardware/stl/context/camera_pole.stl
+        color: "#a8acb2"
+      - name: Webcam
+        file: hardware/stl/context/webcam.stl
+        color: "#202020"
       - name: Base breakout board
         file: hardware/stl/sim2/base_board.stl
         color: "#2e7d32"
       - name: Screws and T-nuts (frame)
         file: hardware/stl/sim2/fasteners_static.stl
         color: "#b8bcc2"
+      - name: Control box
+        file: hardware/stl/context/control_box.stl
+        color: "#2b2d31"
       # The gantry.
+      - name: V-wheels (Y carriages)
+        file: hardware/stl/context/y_wheels.stl
+        color: "#1f1f22"
+        explode: [0, 0, 1]
       - part: Y carriage, left
         file: hardware/stl/sim2/y_carriage_left.stl
         explode: [0, 0, 1]
@@ -306,7 +335,7 @@ assemblies:
         color: "#c9a23f"
         explode: [0, 0, 1]
       - name: X beam
-        file: hardware/stl/sim2/beam.stl
+        file: hardware/stl/context/x_beam.stl
         color: "#1e1f22"
         explode: [0, 0, 1]
       - name: X motor (42-34)
@@ -324,9 +353,17 @@ assemblies:
         file: hardware/stl/sim2/x_idler.stl
         color: "#9a9a9a"
         explode: [0, 0, 1]
+      - name: X belt
+        file: hardware/stl/context/x_belt.stl
+        color: "#2b2b2b"
+        explode: [0, 0, 1]
       - name: Head breakout board
         file: hardware/stl/sim2/head_board.stl
         color: "#2e7d32"
+        explode: [0, 0, 1]
+      - name: X endstop
+        file: hardware/stl/context/x_endstop.stl
+        color: "#16181b"
         explode: [0, 0, 1]
       - name: Belt crimp clips (Y belts)
         file: hardware/stl/sim2/belt_clips_gantry.stl
@@ -336,7 +373,19 @@ assemblies:
         file: hardware/stl/sim2/belt_ends_gantry.stl
         color: "#2b2b2b"
         explode: [0, 0, 1]
+      - name: Drag chain (bend and upper run)
+        file: hardware/stl/context/drag_chain_moving.stl
+        color: "#1b1b1e"
+        explode: [0, 0, 1]
+      - name: Servo loom
+        file: hardware/stl/context/servo_loom.stl
+        color: "#111113"
+        explode: [0, 0, 1]
       # The carriage on the beam.
+      - name: V-wheels (X plate)
+        file: hardware/stl/context/x_wheels.stl
+        color: "#1f1f22"
+        explode: [0, -1, 0]
       - part: X plate
         file: hardware/stl/sim2/x_carriage_plate.stl
         explode: [0, -1, 0]

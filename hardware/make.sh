@@ -8,6 +8,8 @@ uv run --no-project --with build123d python model.py | tee build/model.log
 grep -q "RESULT: OK" build/model.log || { echo "fit check failed"; exit 1; }
 # The bought parts with detail (motors, boards, servo) for the sim and the views (context_detail.py).
 uv run --no-project --with build123d python export_context_detail.py
+# The frame, the wheels, the belts, the chain and the loom for the Printdeck assembly (stdlib only).
+python3 context_meshes.py
 # Mesh check: every STL must be one closed part. Overhang check: no flat ceiling above the
 # bed (a bridge), and no face flatter than 40 degrees above the bed.
 uv run --no-project --with numpy --with scipy --with trimesh --with networkx python - <<'PY'

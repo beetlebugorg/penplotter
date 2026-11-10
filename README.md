@@ -100,9 +100,9 @@ and the network API. This build does not use it. `firmware/README.md` describes 
   Bear (https://www.printables.com/model/205016), under CC BY. A second model by J_Cross
   (https://www.printables.com/model/139901, CC BY) agrees with it to about 1 mm.
   `hardware/reference/SOURCES.md` lists the reference models.
-- The text in the samples `accord.py`, `blueprint.py` and `da40.py` uses the Hershey fonts. Dr.
+- The text in the sample `blueprint.py` uses the Hershey fonts. Dr.
   A. V. Hershey digitized these fonts at the U.S. National Bureau of Standards. The font data is
-  in the public domain. The samples read it with the Hershey-Fonts Python package by Attila
+  in the public domain. The sample reads it with the Hershey-Fonts Python package by Attila
   Kolinger (https://github.com/apshu/HersheyFonts, MIT License).
 
 ## License
@@ -110,5 +110,5 @@ and the network API. This build does not use it. `firmware/README.md` describes 
 Code MIT, designs and documents CC BY 4.0. `profiles/` is a copy of the Printdeck profiles and
 keeps the AGPL-3.0 of Printdeck. See [LICENSE.md](LICENSE.md).
 
-Creality, CR-10, LulzBot, Honda, Accord, Diamond and DA40 are trademarks of their owners. This
+Creality, CR-10 and LulzBot are trademarks of their owners. This
 project is not affiliated with them.

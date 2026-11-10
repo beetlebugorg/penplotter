@@ -580,7 +580,7 @@ YCH_LINK_WALL = 2.0              # the side wall of a chain end link (x), under 
 # The design language of the printed parts (parts.finish).
 EDGE_R = 2.0     # one radius on each outside corner that stands up in the print
 EDGE_CH = 0.6    # one chamfer on each outside edge of a top face in the print
-ACCENT = "#E8772E"   # one colour for all printed parts
+ACCENT = "#7FB6E0"   # one colour for all printed parts
 SLOT_OPEN = 6.2      # the slot opening of the 2020 bars. ESTIMATE (V-slot data sheet)
 
 # ---------------------------------------------------------------------------

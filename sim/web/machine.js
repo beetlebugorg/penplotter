@@ -191,7 +191,7 @@ const M = {
   hidden: new THREE.MeshBasicMaterial({ visible: false }),
   mat: new THREE.MeshStandardMaterial({ map: matTex, roughness: 0.85 }),
   paper: new THREE.MeshStandardMaterial({ color: 0xfbfbf6, roughness: 0.92 }),
-  pla: new THREE.MeshStandardMaterial({ color: 0xe8772e, roughness: 0.6 }),
+  pla: new THREE.MeshStandardMaterial({ color: 0x7fb6e0, roughness: 0.6 }),
   plaDark: new THREE.MeshStandardMaterial({ color: 0x3a3d42, roughness: 0.65 }),
   servo: new THREE.MeshStandardMaterial({ color: 0x2d62c8, roughness: 0.5 }),
   servoHorn: new THREE.MeshStandardMaterial({ color: 0xf2f2f2, roughness: 0.5 }),
@@ -611,7 +611,7 @@ podGroup.rotation.y = ((POD.facing - 90) * Math.PI) / 180;
 scene.add(podGroup);
 const podMats = {
   base: new THREE.MeshStandardMaterial({ color: 0x3a3d42, roughness: 0.6 }),
-  lid: new THREE.MeshStandardMaterial({ color: 0xe8772e, roughness: 0.6 }),
+  lid: new THREE.MeshStandardMaterial({ color: 0x7fb6e0, roughness: 0.6 }),
   knob: new THREE.MeshStandardMaterial({ color: 0x1a1b1e, roughness: 0.45 }),
 };
 // lidPoint returns a pod point on the lid top, t mm toward the back along the slope from y = 0.
@@ -1410,7 +1410,7 @@ async function loadParts() {
     }
     if (token !== partsToken) return; // a newer build started
     geo.computeVertexNormals();
-    const mat = new THREE.MeshStandardMaterial({ color: p.color || "#e8772e", roughness: 0.6 });
+    const mat = new THREE.MeshStandardMaterial({ color: p.color || "#7fb6e0", roughness: 0.6 });
     if (p.moves !== "static") toolMats.push(mat);
     const mesh = new THREE.Mesh(geo, mat);
     mesh.rotation.x = -Math.PI / 2; // frame (Z up) to scene (Y up)

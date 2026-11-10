@@ -106,7 +106,7 @@ for (const b of document.querySelectorAll("[data-tab]")) {
 try { const t = localStorage.getItem("progress.tab2"); if (t) document.querySelector(`[data-tab="${t}"]`)?.click(); } catch {}
 
 // ---------------------------------------------------------------- 3D model
-const COLOURS = { petg: 0xe8772e, plate: 0x8f969e, steel: 0xc8ccd0, pen: 0x2a2a2a, servo: 0x2f5da8, horn: 0xf2f2f2, pcb: 0x2e6b3a };
+const COLOURS = { petg: 0x7fb6e0, plate: 0x8f969e, steel: 0xc8ccd0, pen: 0x2a2a2a, servo: 0x2f5da8, horn: 0xf2f2f2, pcb: 0x2e6b3a };
 const SCENES = {
   plotter: (g) => g.startsWith("t_"),
   head: (g) => ["plate", "pen_lift", "pen_slider", "servo", "horn_down", "pen", "screw", "bolts"].includes(g),

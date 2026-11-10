@@ -11,14 +11,14 @@ import { LineSegments2 } from "three/addons/lines/LineSegments2.js";
 import { LineSegmentsGeometry } from "three/addons/lines/LineSegmentsGeometry.js";
 
 // The values are the same as in the site viewer (src/scripts/explode-viewer.ts), with one change:
-// the printed parts have a tint of the accent colour of the plotter (#E8772E), as in the sim.
+// the printed parts have a tint of the accent colour of the plotter (#7FB6E0), as in the sim.
 const THEMES = {
   light: {
-    fill: { print: "#f7e4d5", buy: "#c3c7ca", dark: "#4a4f55", clear: "#d9eef2" },
+    fill: { print: "#b9d6ee", buy: "#c3c7ca", dark: "#4a4f55", clear: "#d9eef2" },
     ink: "#16181a", inkOpacity: 0.55, accent: "#0a7f63", mix: 0.22, bg: "#fbfbf9",
   },
   dark: {
-    fill: { print: "#5a4334", buy: "#5c6468", dark: "#22272a", clear: "#2c4a52" },
+    fill: { print: "#3f6886", buy: "#5c6468", dark: "#22272a", clear: "#2c4a52" },
     ink: "#eceeed", inkOpacity: 0.5, accent: "#3fd1a6", mix: 0.5, bg: "#0f1112",
   },
 };

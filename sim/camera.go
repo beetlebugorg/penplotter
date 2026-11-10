@@ -241,7 +241,7 @@ func (c *Camera) newScene() *scene {
 	ym := float64(snap.Y+snap.Y2) / 2
 	cy := c.geo.carriageY + ym
 	xp := c.geo.carriageX + float64(snap.X)
-	orange := [3]float64{232, 119, 46}
+	accent := [3]float64{127, 182, 224} // the printed parts (ACCENT in hardware/shape.py)
 	grey := [3]float64{176, 178, 182}
 	dark := [3]float64{38, 38, 40}
 	// The Y carriages on their V-wheels with the towers, the 2020 beam, the stock X carriage
@@ -255,14 +255,14 @@ func (c *Camera) newScene() *scene {
 			return 400 - x1, 400 - x0
 		}
 		a, b := mx(-24, 58)
-		s.boxes = append(s.boxes, box{vec3{a, cy - 37, 58}, vec3{b, cy + 30, 64}, orange})
+		s.boxes = append(s.boxes, box{vec3{a, cy - 37, 58}, vec3{b, cy + 30, 64}, accent})
 		a, b = mx(-14, 28)
-		s.boxes = append(s.boxes, box{vec3{a, cy - 21, 64}, vec3{b, cy + 21, 161}, orange})
+		s.boxes = append(s.boxes, box{vec3{a, cy - 21, 64}, vec3{b, cy + 21, 161}, accent})
 	}
 	s.boxes = append(s.boxes,
 		box{vec3{-7.5, cy - 10, 88.6}, vec3{407.5, cy + 10, 108.6}, dark},
 		box{vec3{xp - 41.5, cy - 13.6, 66.7}, vec3{xp + 55.2, cy + 8.9, 143.3}, grey},
-		box{vec3{xp - 40, cy - 37.6, 17.5}, vec3{xp + 37.5, cy - 13.6, 139}, orange},
+		box{vec3{xp - 40, cy - 37.6, 17.5}, vec3{xp + 37.5, cy - 13.6, 139}, accent},
 	)
 	px := s.homePen[0] + float64(snap.X)
 	py := s.homePen[1] + ym

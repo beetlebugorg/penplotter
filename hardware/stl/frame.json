@@ -606,12 +606,12 @@
  "parts": [
   {
    "file": "sim2/y_carriage_left.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "gantry"
   },
   {
    "file": "sim2/y_carriage_right.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "gantry"
   },
   {
@@ -636,52 +636,52 @@
   },
   {
    "file": "sim2/x_idler_fork.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "gantry"
   },
   {
    "file": "sim2/mast_foot.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_front_left.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_front_right.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_motor_mount_left.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_motor_mount_right.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_idler_fork_left.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_idler_fork_right.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_idler_bracket_left.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
    "file": "sim2/y_idler_bracket_right.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
@@ -691,7 +691,7 @@
   },
   {
    "file": "sim2/y_chain_anchor.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "static"
   },
   {
@@ -716,12 +716,12 @@
   },
   {
    "file": "sim2/x_carriage_plate.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "carriage"
   },
   {
    "file": "sim2/pen_carriage.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "carriage"
   },
   {
@@ -736,7 +736,7 @@
   },
   {
    "file": "sim2/pen_slider.stl",
-   "color": "#E8772E",
+   "color": "#7FB6E0",
    "moves": "pen"
   },
   {

@@ -54,24 +54,24 @@ CAB = SUMMARY.get("cables", {})
 # build: the stock controller build. The stock CR-10 V3 control box and its harness stay. The two
 # breakout boards of the harness stand bare on nylon standoffs, held by cable ties.
 PRINTS = [
-    ("fit_rail", "Orange", 1, "Back face on the bed. Tests the dovetail rail."),
-    ("fit_slider", "Orange", 1, "Upright. The slot, the pen bore, the clamp screw, and the nut."),
-    ("fit_wheel", "Orange", 1, "Flat. A strip of the Y carriage plate across the rail: the eccentric hole of an outer wheel and the hole of the inner wheel."),
-    ("y_carriage_left", "Orange", 1, "Flat, the plate on the bed. A 6 mm plate on 3 side wheels with the Y belt clamps, the beam saddle, the Y endstop striker, the chain tab, the X motor wall, and the X endstop wall."),
-    ("y_carriage_right", "Orange", 1, "Flat, the plate on the bed. A 6 mm plate on 3 side wheels with the Y belt clamps, the beam saddle, the Y endstop striker, and the seat of the X idler fork."),
-    ("x_carriage_plate", "Orange", 1, "Upright, the bottom edge on the bed. The printed X plate: 3 wheel bosses, the 2 X belt clamps under the beam, the X endstop trigger lug, the tie slot of the servo loom. The pen carriage bolts to its front."),
-    ("y_front_left", "Orange", 1, "Bottom on the bed. Front left: the Y1 endstop board, and the arm in front of the bar with the seat of the Y idler fork."),
-    ("y_front_right", "Orange", 1, "Bottom on the bed. Front right: the mirror image, with the Y2 endstop board."),
-    ("y_idler_fork", "Orange", 2, "Floor on the bed. Print 2. Holds a Y idler between two cheeks; the M3 tension screw pulls it forward."),
-    ("y_idler_bracket_left", "Orange", 1, "On its front face (the end wall). The seat and the end wall of the left Y idler fork, in front of the front bar."),
-    ("y_idler_bracket_right", "Orange", 1, "On its front face. The mirror image, for the right side."),
-    ("y_motor_mount_left", "Orange", 1, "On the motor face. Holds the Y1 motor behind the back bar, left. Two M5 into the back face slot of the bar."),
-    ("y_motor_mount_right", "Orange", 1, "On the motor face. The mirror image, for the Y2 motor, right."),
-    ("y_chain_anchor", "Orange", 1, "On its front face. Holds the fixed end of the Y drag chain under the left rail, at the back."),
-    ("x_idler_fork", "Orange", 1, "Floor on the bed. Holds the X idler between two cheeks past the right beam end. It slides in the seat of the right carriage; an M3 screw from outside sets the X belt tension."),
-    ("pen_carriage", "Orange", 1, "Back face on the bed. The pen lift. It bolts to the front of the printed X plate with 4 M3 screws."),
-    ("pen_slider", "Orange", 1, "Upright. Holds the pen in its V bore with an M3 clamp screw. It slides on the dovetail rail of the pen carriage."),
-    ("mast_foot", "Orange", 1, "Floor on the bed. Holds the camera pole behind the back bar."),
+    ("fit_rail", "Light blue", 1, "Back face on the bed. Tests the dovetail rail."),
+    ("fit_slider", "Light blue", 1, "Upright. The slot, the pen bore, the clamp screw, and the nut."),
+    ("fit_wheel", "Light blue", 1, "Flat. A strip of the Y carriage plate across the rail: the eccentric hole of an outer wheel and the hole of the inner wheel."),
+    ("y_carriage_left", "Light blue", 1, "Flat, the plate on the bed. A 6 mm plate on 3 side wheels with the Y belt clamps, the beam saddle, the Y endstop striker, the chain tab, the X motor wall, and the X endstop wall."),
+    ("y_carriage_right", "Light blue", 1, "Flat, the plate on the bed. A 6 mm plate on 3 side wheels with the Y belt clamps, the beam saddle, the Y endstop striker, and the seat of the X idler fork."),
+    ("x_carriage_plate", "Light blue", 1, "Upright, the bottom edge on the bed. The printed X plate: 3 wheel bosses, the 2 X belt clamps under the beam, the X endstop trigger lug, the tie slot of the servo loom. The pen carriage bolts to its front."),
+    ("y_front_left", "Light blue", 1, "Bottom on the bed. Front left: the Y1 endstop board, and the arm in front of the bar with the seat of the Y idler fork."),
+    ("y_front_right", "Light blue", 1, "Bottom on the bed. Front right: the mirror image, with the Y2 endstop board."),
+    ("y_idler_fork", "Light blue", 2, "Floor on the bed. Print 2. Holds a Y idler between two cheeks; the M3 tension screw pulls it forward."),
+    ("y_idler_bracket_left", "Light blue", 1, "On its front face (the end wall). The seat and the end wall of the left Y idler fork, in front of the front bar."),
+    ("y_idler_bracket_right", "Light blue", 1, "On its front face. The mirror image, for the right side."),
+    ("y_motor_mount_left", "Light blue", 1, "On the motor face. Holds the Y1 motor behind the back bar, left. Two M5 into the back face slot of the bar."),
+    ("y_motor_mount_right", "Light blue", 1, "On the motor face. The mirror image, for the Y2 motor, right."),
+    ("y_chain_anchor", "Light blue", 1, "On its front face. Holds the fixed end of the Y drag chain under the left rail, at the back."),
+    ("x_idler_fork", "Light blue", 1, "Floor on the bed. Holds the X idler between two cheeks past the right beam end. It slides in the seat of the right carriage; an M3 screw from outside sets the X belt tension."),
+    ("pen_carriage", "Light blue", 1, "Back face on the bed. The pen lift. It bolts to the front of the printed X plate with 4 M3 screws."),
+    ("pen_slider", "Light blue", 1, "Upright. Holds the pen in its V bore with an M3 clamp screw. It slides on the dovetail rail of the pen carriage."),
+    ("mast_foot", "Light blue", 1, "Floor on the bed. Holds the camera pole behind the back bar."),
 ]
 
 SETTINGS = [
@@ -335,7 +335,7 @@ CSS = """
   .foot { position: absolute; bottom: 8mm; left: 16mm; right: 16mm; font-size: 9.5pt; color: #555; display: flex; justify-content: space-between; }
 """
 
-SWATCH = {"Orange": "#E8772E"}   # one accent colour for all printed parts, as in the sim
+SWATCH = {"Light blue": "#7FB6E0"}   # one accent colour for all printed parts, as in the sim
 
 
 def img(name):

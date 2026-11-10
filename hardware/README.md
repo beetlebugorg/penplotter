@@ -77,7 +77,7 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
 - Each outside edge of a top face in the print has a 0.6 mm chamfer (`EDGE_CH`).
 - The finish removes material at outside edges only. Holes, pockets, slots and mating faces keep their shape.
 - The pen carriage gets the radius only, because its top edges carry the slider rail.
-- One accent colour (`ACCENT`, orange #E8772E) marks all printed parts in the sim, the images and the parts list.
+- One accent colour (`ACCENT`, light blue #7FB6E0) marks all printed parts in the sim, the images and the parts list.
   The extrusions are dark metal. Bought parts are grey or black.
 
 **Feet.** The model has four rubber feet under the long rails (ESTIMATE: 28 mm across, 37 mm

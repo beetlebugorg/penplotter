@@ -10,6 +10,8 @@ grep -q "RESULT: OK" build/model.log || { echo "fit check failed"; exit 1; }
 uv run --no-project --with build123d python export_context_detail.py
 # The frame, the wheels, the belts, the chain and the loom for the Printdeck assembly (stdlib only).
 python3 context_meshes.py
+# The hardware views of the Printdeck build: each part with its inserts, screws and nuts.
+uv run --no-project --with build123d python hardware_views.py
 # Mesh check: every STL must be one closed part. Overhang check: no flat ceiling above the
 # bed (a bridge), and no face flatter than 40 degrees above the bed.
 uv run --no-project --with numpy --with scipy --with trimesh --with networkx python - <<'PY'

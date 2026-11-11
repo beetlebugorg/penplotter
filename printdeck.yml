@@ -9,6 +9,13 @@
 # 3.13) wrote the same bytes. Each run takes about 19 minutes on a desktop computer.
 # hardware/context_meshes.py then writes the context meshes of the assembly in less than a
 # second, with the Python standard library only.
+#
+# The assemblies after the full plotter are the hardware views: each printed part with its
+# heat-set inserts (brass), screws, nuts, T-nuts, spacers and wheels. The explode slider moves
+# each item out along its axis. hardware/hardware_views.py writes their meshes to
+# hardware/stl/hardware/ and the views between the BEGIN and END marker lines below. The
+# generate step does not run it: the meshes are committed files. Run it after a change to the
+# parts or to hardware/fasteners.py.
 project: penplotter
 cover: hardware/docs/hero-light.png
 
@@ -420,3 +427,326 @@ assemblies:
         file: hardware/stl/sim2/fasteners_pen.stl
         color: "#b8bcc2"
         explode: [0, 0, 1]
+  # BEGIN hardware views
+  - name: "Y carriage, left: inserts and screws"
+    description: >-
+      The left Y carriage with its hardware. Brass: the long M5 insert in the front outer wheel
+      boss (press it in from the top) and the two M3 inserts of the X endstop board. Move the
+      explode slider to see each screw come out of its hole.
+    items:
+      - part: Y carriage, left
+        file: hardware/stl/sim2/y_carriage_left.stl
+      - name: "2 x M3 heat-set insert, 5.7 mm"
+        file: hardware/stl/hardware/left/insert_m3_heat_set_insert_5_7_mm-yn.stl
+        color: "#c9a23f"
+        explode: [0, -1, 0]
+      - name: "M5 heat-set insert, 9.5 mm (long)"
+        file: hardware/stl/hardware/left/insert_m5_heat_set_insert_9_5_mm_long-zp.stl
+        color: "#c9a23f"
+        explode: [0, 0, 1]
+      - name: "2 x M5 spacer, 6 mm (stock)"
+        file: hardware/stl/hardware/left/spacer_m5_spacer_6_mm_stock-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "eccentric spacer (stock)"
+        file: hardware/stl/hardware/left/eccentric_eccentric_spacer_stock-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -0.999]
+      - name: "3 x V-wheel (stock)"
+        file: hardware/stl/hardware/left/wheel_v_wheel_stock-zn.stl
+        color: "#1f1f22"
+        explode: [0, 0, -1]
+      - name: "M5 nyloc nut"
+        file: hardware/stl/hardware/left/nyloc_m5_nyloc_nut-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -0.999]
+      - name: "M5 nyloc nut"
+        file: hardware/stl/hardware/left/nyloc_m5_nyloc_nut-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "M5 drop-in T-nut"
+        file: hardware/stl/hardware/left/tnut_m5_drop_in_t_nut-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "2 x M3 x 10 socket head"
+        file: hardware/stl/hardware/left/screw_m3_x_10_socket_head-xn.stl
+        color: "#b8bcc2"
+        explode: [-1, 0, 0]
+      - name: "3 x M3 x 10 socket head"
+        file: hardware/stl/hardware/left/screw_m3_x_10_socket_head-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "2 x M3 x 8 socket head"
+        file: hardware/stl/hardware/left/screw_m3_x_8_socket_head-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "M5 x 12 socket head"
+        file: hardware/stl/hardware/left/screw_m5_x_12_socket_head-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "M5 x 30 socket head"
+        file: hardware/stl/hardware/left/screw_m5_x_30_socket_head-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "M5 x 35 socket head"
+        file: hardware/stl/hardware/left/screw_m5_x_35_socket_head-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "M5 x 35 socket head"
+        file: hardware/stl/hardware/left/screw_m5_x_35_socket_head-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+  - name: "Y carriage, right: inserts and screws"
+    description: >-
+      The right Y carriage and the X idler fork with their hardware. Brass: the long M5 insert in
+      the front outer wheel boss (press it in from the top).
+    items:
+      - part: Y carriage, right
+        file: hardware/stl/sim2/y_carriage_right.stl
+      - part: X idler fork
+        file: hardware/stl/sim2/x_idler_fork.stl
+      - name: "M5 heat-set insert, 9.5 mm (long)"
+        file: hardware/stl/hardware/right/insert_m5_heat_set_insert_9_5_mm_long-zp.stl
+        color: "#c9a23f"
+        explode: [0, 0, 1]
+      - name: "2 x M5 spacer, 6 mm (stock)"
+        file: hardware/stl/hardware/right/spacer_m5_spacer_6_mm_stock-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "eccentric spacer (stock)"
+        file: hardware/stl/hardware/right/eccentric_eccentric_spacer_stock-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -0.999]
+      - name: "2 x M5 washer, 7.5 mm across (small)"
+        file: hardware/stl/hardware/right/washer_m5_washer_7_5_mm_across_small-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "3 x V-wheel (stock)"
+        file: hardware/stl/hardware/right/wheel_v_wheel_stock-zn.stl
+        color: "#1f1f22"
+        explode: [0, 0, -1]
+      - name: "M3 nut"
+        file: hardware/stl/hardware/right/nut_m3_nut-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "M5 nyloc nut"
+        file: hardware/stl/hardware/right/nyloc_m5_nyloc_nut-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "M5 nyloc nut"
+        file: hardware/stl/hardware/right/nyloc_m5_nyloc_nut-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "M5 nyloc nut"
+        file: hardware/stl/hardware/right/nyloc_m5_nyloc_nut-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "M5 drop-in T-nut"
+        file: hardware/stl/hardware/right/tnut_m5_drop_in_t_nut-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "M3 x 20 socket head"
+        file: hardware/stl/hardware/right/screw_m3_x_20_socket_head-xp.stl
+        color: "#b8bcc2"
+        explode: [1, 0, 0]
+      - name: "M5 x 12 socket head"
+        file: hardware/stl/hardware/right/screw_m5_x_12_socket_head-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "M5 x 30 socket head"
+        file: hardware/stl/hardware/right/screw_m5_x_30_socket_head-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "M5 x 30 socket head"
+        file: hardware/stl/hardware/right/screw_m5_x_30_socket_head-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "M5 x 35 socket head"
+        file: hardware/stl/hardware/right/screw_m5_x_35_socket_head-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "M5 x 35 socket head"
+        file: hardware/stl/hardware/right/screw_m5_x_35_socket_head-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+  - name: "X plate and pen carriage: inserts and screws"
+    description: >-
+      The X plate, the pen carriage and the pen slider with their hardware. Brass: the long M5
+      insert in the bottom wheel boss of the X plate. The four M3 x 12 screws go from the back of
+      the X plate into the pen carriage.
+    items:
+      - part: X plate
+        file: hardware/stl/sim2/x_carriage_plate.stl
+      - part: Pen carriage
+        file: hardware/stl/sim2/pen_carriage.stl
+      - part: Pen slider
+        file: hardware/stl/sim2/pen_slider.stl
+      - name: "Servo"
+        file: hardware/stl/sim2/servo.stl
+        color: "#2f5da8"
+      - name: "M5 heat-set insert, 9.5 mm (long)"
+        file: hardware/stl/hardware/carriage/insert_m5_heat_set_insert_9_5_mm_long-yn.stl
+        color: "#c9a23f"
+        explode: [0, -1, 0]
+      - name: "2 x M5 spacer, 6 mm (stock)"
+        file: hardware/stl/hardware/carriage/spacer_m5_spacer_6_mm_stock-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "eccentric spacer (stock)"
+        file: hardware/stl/hardware/carriage/eccentric_eccentric_spacer_stock-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 0.999, 0]
+      - name: "3 x V-wheel (stock)"
+        file: hardware/stl/hardware/carriage/wheel_v_wheel_stock-yp.stl
+        color: "#1f1f22"
+        explode: [0, 1, 0]
+      - name: "M3 nut"
+        file: hardware/stl/hardware/carriage/nut_m3_nut-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "2 x M5 nyloc nut"
+        file: hardware/stl/hardware/carriage/nyloc_m5_nyloc_nut-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "2 x M2 x 8 self-tapping (stock, in the servo bag)"
+        file: hardware/stl/hardware/carriage/screw_m2_x_8_self_tapping_stock_in_the_servo_bag-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "4 x M3 x 12 socket head"
+        file: hardware/stl/hardware/carriage/screw_m3_x_12_socket_head-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "M3 x 20 socket head"
+        file: hardware/stl/hardware/carriage/screw_m3_x_20_socket_head-xp.stl
+        color: "#b8bcc2"
+        explode: [1, 0, 0]
+      - name: "M5 x 25 button head (ISO 7380)"
+        file: hardware/stl/hardware/carriage/screw_m5_x_25_button_head_iso_7380-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "M5 x 30 button head (ISO 7380)"
+        file: hardware/stl/hardware/carriage/screw_m5_x_30_button_head_iso_7380-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "M5 x 35 button head (ISO 7380)"
+        file: hardware/stl/hardware/carriage/screw_m5_x_35_button_head_iso_7380-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+  - name: "Y front base, left: inserts and screws"
+    description: >-
+      The left front base, the idler bracket and the idler fork with their hardware. Brass: the two
+      M3 inserts of the Y endstop board (press them in from the top). The right side is the mirror
+      image.
+    items:
+      - part: Y front base, left
+        file: hardware/stl/sim2/y_front_left.stl
+      - part: Y idler bracket, left
+        file: hardware/stl/sim2/y_idler_bracket_left.stl
+      - part: Y idler fork
+        file: hardware/stl/sim2/y_idler_fork_left.stl
+      - name: "2 x M3 heat-set insert, 5.7 mm"
+        file: hardware/stl/hardware/yfront/insert_m3_heat_set_insert_5_7_mm-zp.stl
+        color: "#c9a23f"
+        explode: [0, 0, 1]
+      - name: "2 x M5 washer, 7.5 mm across (small)"
+        file: hardware/stl/hardware/yfront/washer_m5_washer_7_5_mm_across_small-xn.stl
+        color: "#b8bcc2"
+        explode: [-1, 0, 0]
+      - name: "M3 nut"
+        file: hardware/stl/hardware/yfront/nut_m3_nut-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "M5 nyloc nut"
+        file: hardware/stl/hardware/yfront/nyloc_m5_nyloc_nut-xp.stl
+        color: "#b8bcc2"
+        explode: [1, 0, 0]
+      - name: "2 x M5 drop-in T-nut"
+        file: hardware/stl/hardware/yfront/tnut_m5_drop_in_t_nut-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+      - name: "M3 x 12 socket head"
+        file: hardware/stl/hardware/yfront/screw_m3_x_12_socket_head-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "M3 x 20 socket head"
+        file: hardware/stl/hardware/yfront/screw_m3_x_20_socket_head-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "2 x M3 x 8 socket head"
+        file: hardware/stl/hardware/yfront/screw_m3_x_8_socket_head-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "2 x M5 x 12 socket head"
+        file: hardware/stl/hardware/yfront/screw_m5_x_12_socket_head-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "M5 x 30 socket head"
+        file: hardware/stl/hardware/yfront/screw_m5_x_30_socket_head-xn.stl
+        color: "#b8bcc2"
+        explode: [-1, 0, 0]
+  - name: "Y motor bracket, left: screws"
+    description: >-
+      The left Y motor bracket with its screws and T-nuts. The right side is the mirror image.
+    items:
+      - part: Y motor bracket, left
+        file: hardware/stl/sim2/y_motor_mount_left.stl
+      - name: "Y motor"
+        file: hardware/stl/sim2/y_stepper_left.stl
+        color: "#202020"
+      - name: "2 x M5 drop-in T-nut"
+        file: hardware/stl/hardware/ymotor/tnut_m5_drop_in_t_nut-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "4 x M3 x 10 socket head"
+        file: hardware/stl/hardware/ymotor/screw_m3_x_10_socket_head-xp.stl
+        color: "#b8bcc2"
+        explode: [1, 0, 0]
+      - name: "2 x M5 x 12 socket head"
+        file: hardware/stl/hardware/ymotor/screw_m5_x_12_socket_head-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+  - name: "Y chain anchor: screws"
+    description: >-
+      The fixed end of the drag chain with its screws and T-nut.
+    items:
+      - part: Y chain anchor
+        file: hardware/stl/sim2/y_chain_anchor.stl
+      - name: "M5 drop-in T-nut"
+        file: hardware/stl/hardware/anchor/tnut_m5_drop_in_t_nut-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "2 x M3 x 10 socket head"
+        file: hardware/stl/hardware/anchor/screw_m3_x_10_socket_head-xn.stl
+        color: "#b8bcc2"
+        explode: [-1, 0, 0]
+      - name: "M5 x 12 socket head"
+        file: hardware/stl/hardware/anchor/screw_m5_x_12_socket_head-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+  - name: "Camera pole foot: screws"
+    description: >-
+      The camera pole foot with its screws, T-nuts and the collar nut.
+    items:
+      - part: Camera pole foot
+        file: hardware/stl/sim2/mast_foot.stl
+      - name: "M3 nut"
+        file: hardware/stl/hardware/foot/nut_m3_nut-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
+      - name: "2 x M5 drop-in T-nut"
+        file: hardware/stl/hardware/foot/tnut_m5_drop_in_t_nut-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
+      - name: "M3 x 16 socket head"
+        file: hardware/stl/hardware/foot/screw_m3_x_16_socket_head-xn.stl
+        color: "#b8bcc2"
+        explode: [-1, 0, 0]
+      - name: "2 x M5 x 12 socket head"
+        file: hardware/stl/hardware/foot/screw_m5_x_12_socket_head-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
+      - name: "M6 x 16 socket head"
+        file: hardware/stl/hardware/foot/screw_m6_x_16_socket_head-zn.stl
+        color: "#b8bcc2"
+        explode: [0, 0, -1]
+  # END hardware views

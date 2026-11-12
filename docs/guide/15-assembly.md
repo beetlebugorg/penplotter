@@ -46,20 +46,42 @@ its hole, change `ECC_HOLE`. Run `hardware/make.sh` and print the fit tests agai
 
 ## 2. Heat-set inserts
 
-![The left Y carriage](../../hardware/build/img/part_y_carriage_left-light.png)
+Put all the inserts in first, before the assembly starts. Do the M5 inserts first, then change
+the tip and do the M3 inserts. The pictures show each insert above its hole.
 
-You need the 2 Y carriages, the X plate, the 2 front bases, 3 long M5 inserts and 6 M3 inserts.
+### M5 inserts
+
+![The M5 insert in the left Y carriage](../../hardware/build/img/ins_m5_ycar-light.png)
+
+![The M5 insert in the X plate](../../hardware/build/img/ins_m5_xplate-light.png)
+
+You need the 2 Y carriages, the X plate and 3 long M5 inserts.
 
 1. Set the iron to 220 °C. Let the tip get hot.
-2. Lay each Y carriage on its plate. Find the round boss on the plate top, at the front outer wheel.
+2. Y carriages: lay each carriage on its plate. Find the round boss on the plate top, at the front outer wheel (first picture).
 3. Put an insert on the hole, the small end down. Push it straight down with the tip, with light force, until its top is flush with the boss.
-4. Take the tip out straight up. Let the part cool for one minute. Turn an M5 × 30 screw in and out once from below.
-5. Put an M5 insert in the bottom wheel boss of the X plate in the same way.
-6. Put an M3 insert in each standoff of the two front bases.
-7. Put an M3 insert in each of the two standoffs on the front of the X endstop wall of the left Y carriage.
+4. Take the tip out straight up. Let the part cool for one minute.
+5. X plate: lay the plate on its back, the wheel bosses up. Press an insert into the face of the bottom wheel boss (second picture).
+6. Turn a screw in and out once to check each thread: M5 × 30 from below in the carriages, M5 × 25 in the X plate.
 
-The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle. The M3 inserts
-hold the three endstop boards.
+The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle.
+
+### M3 inserts
+
+![The M3 inserts in the left Y carriage](../../hardware/build/img/ins_m3_ycar-light.png)
+
+![The M3 inserts in the left front base](../../hardware/build/img/ins_m3_yfront-light.png)
+
+You need the left Y carriage, the 2 front bases and 6 M3 inserts.
+
+1. Change to the M3 tip. Let it get hot.
+2. Left Y carriage: find the two standoffs on the front face of the X endstop wall (first picture). Press an insert into each, from the front.
+3. Front bases: press an insert into each of the two standoffs on the top of each base, from the top (second picture).
+4. Push each insert until its top is flush with the standoff. Let the parts cool.
+5. Turn an M3 × 8 screw in and out once to check each thread.
+
+The M3 inserts hold the three endstop boards. The right Y carriage has no M3 inserts. The right
+front base is the mirror image of the left base.
 
 ## 3. Wheels on the Y carriages
 

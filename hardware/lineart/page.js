@@ -14,11 +14,11 @@ import { LineSegmentsGeometry } from "three/addons/lines/LineSegmentsGeometry.js
 // the printed parts have a tint of the accent colour of the plotter (#7FB6E0), as in the sim.
 const THEMES = {
   light: {
-    fill: { print: "#b9d6ee", buy: "#c3c7ca", dark: "#4a4f55", clear: "#d9eef2" },
+    fill: { print: "#b9d6ee", buy: "#c3c7ca", dark: "#4a4f55", clear: "#d9eef2", brass: "#e0b440" },
     ink: "#16181a", inkOpacity: 0.55, accent: "#0a7f63", mix: 0.22, bg: "#fbfbf9",
   },
   dark: {
-    fill: { print: "#3f6886", buy: "#5c6468", dark: "#22272a", clear: "#2c4a52" },
+    fill: { print: "#3f6886", buy: "#5c6468", dark: "#22272a", clear: "#2c4a52", brass: "#c9962a" },
     ink: "#eceeed", inkOpacity: 0.5, accent: "#3fd1a6", mix: 0.5, bg: "#0f1112",
   },
 };
@@ -72,10 +72,10 @@ window.renderShot = async (shot, themeName) => {
   const geoms = await Promise.all(shot.parts.map((p) => geometry(p.url)));
   shot.parts.forEach((p, i) => {
     const color = new THREE.Color(T.fill[p.finish]);
-    if (p.focus) color.lerp(accent, T.mix);
+    if (p.focus && p.finish !== "brass") color.lerp(accent, T.mix);
     const clear = p.finish === "clear";
     const mesh = new THREE.Mesh(geoms[i].mesh, new THREE.MeshStandardMaterial({
-      color, roughness: 0.75, metalness: p.finish === "buy" ? 0.35 : 0,
+      color, roughness: 0.75, metalness: p.finish === "buy" || p.finish === "brass" ? 0.35 : 0,
       polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1,
       transparent: clear, opacity: clear ? 0.55 : 1,
     }));

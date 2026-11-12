@@ -125,8 +125,33 @@ function shotParts(spec) {
   }));
 }
 
+// The heat-set insert pictures: a printed part with its inserts (brass) lifted out of their holes
+// along the axis they go in on. The meshes come from hardware_views.py.
+const LIFT = 22;
+const INSERTS = {
+  ins_m5_ycar: { part: "y_carriage_left", view: "left", camera: [0.6, -1.2, 1.2],
+    inserts: [["insert_m5_heat_set_insert_9_5_mm_long-zp", [0, 0, 1], "M5 insert (long)"]] },
+  ins_m5_xplate: { part: "x_carriage_plate", view: "carriage", camera: [1.3, -0.9, 0.45],
+    inserts: [["insert_m5_heat_set_insert_9_5_mm_long-yn", [0, -1, 0], "M5 insert (long)"]] },
+  ins_m3_ycar: { part: "y_carriage_left", view: "left", camera: [0.25, -1.4, 0.6],
+    inserts: [["insert_m3_heat_set_insert_5_7_mm-yn", [0, -1, 0], "2 x M3 insert"]] },
+  ins_m3_yfront: { part: "y_front_left", view: "yfront", camera: [0.7, -1.2, 1.1],
+    inserts: [["insert_m3_heat_set_insert_5_7_mm-zp", [0, 0, 1], "2 x M3 insert"]] },
+};
+
+function insertJobs() {
+  return Object.entries(INSERTS).map(([name, s]) => [name, {
+    camera: s.camera,
+    parts: [{ url: `/stl/sim2/${s.part}.stl`, finish: "print", label: "", focus: false },
+      ...s.inserts.map(([f, d, label]) => ({
+        url: `/stl/hardware/${s.view}/${f}.stl`, finish: "brass", label, focus: true, offset: d.map((x) => x * LIFT),
+      }))],
+  }]);
+}
+
 function jobs() {
   const out = Object.entries(SHOTS).map(([name, spec]) => [name, { parts: shotParts(spec), camera: spec.camera }]);
+  out.push(...insertJobs());
   // Each printed part in its print orientation, from its STL file.
   for (const p of PRINTED) {
     out.push([`part_${p}`, { parts: [{ url: `/stl/${p}.stl`, finish: "print" }], camera: PRINT_VIEW }]);

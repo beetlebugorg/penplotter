@@ -123,14 +123,25 @@ STEPS = [
         "Lay the strip across the end of a frame rail, the wheels in the two side slots. Turn the eccentric spacer. Both wheels must grip the slots before the eccentric reaches its end.",
     ], "If the slider is tight or loose, change <code>DT_CLR</code>. If the eccentric cannot reach, change <code>WHEEL_OFF</code>. "
        "See the last page. Then run <code>make.sh</code> and print the fit tests again."),
-    ("part_y_carriage_left", "Install the inserts", ["2 Y carriages", "X plate", "2 front bases", "3 M5 heat-set inserts (long)", "6 M3 heat-set inserts", "soldering iron, M5 and M3 insert tips", "M5 × 30 and M3 × 8 screws"], [
+    # The heat-set inserts go in first, by size, before the assembly starts.
+    ([("ins_m5_ycar", "Y carriage, left and right: 1 each"), ("ins_m5_xplate", "X plate: 1")],
+     "M5 inserts (all parts)", ["2 Y carriages", "X plate", "3 M5 heat-set inserts (long)", "soldering iron, M5 insert tip", "M5 × 25 and M5 × 30 screws"], [
         "Set the iron to 220 °C. Let the tip get hot.",
-        "Lay each Y carriage on its plate. Find the round boss on the plate top, at the front outer wheel.",
+        "Y carriages: lay each carriage on its plate. Find the round boss on the plate top, at the front outer wheel (left picture).",
         "Put an insert on the hole, the small end down. Put the tip in the insert. Push the insert straight down with light force, until its top is flush with the boss.",
-        "Take the tip out straight up. Let the part cool for one minute. Turn an M5 × 30 screw in and out once from below to check the thread.",
-        "Put an M5 insert in the front of the bottom wheel boss of the X plate (the boss under the beam) in the same way.",
-        "Put an M3 insert in each standoff of the two front bases, and in the two standoffs on the front of the X endstop wall of the left Y carriage.",
-    ], "The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle. The M3 inserts hold the three endstop boards.", 90),
+        "Take the tip out straight up. Let the part cool for one minute.",
+        "X plate: lay the plate on its back, the wheel bosses up. Press an insert into the face of the bottom wheel boss (right picture).",
+        "Turn a screw in and out once to check each thread: M5 × 30 from below in the carriages, M5 × 25 in the X plate.",
+    ], "The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle.", 80),
+    ([("ins_m3_ycar", "Y carriage, left: 2"), ("ins_m3_yfront", "Front base, left and right: 2 each")],
+     "M3 inserts (all parts)", ["left Y carriage", "2 front bases", "6 M3 heat-set inserts", "soldering iron, M3 insert tip", "M3 × 8 screw"], [
+        "Change to the M3 tip. Let it get hot.",
+        "Left Y carriage: find the two standoffs on the front face of the X endstop wall (left picture). Press an insert into each, from the front.",
+        "Front bases: press an insert into each of the two standoffs on the top of each base, from the top (right picture).",
+        "Push each insert until its top is flush with the standoff. Let the parts cool.",
+        "Turn an M3 × 8 screw in and out once to check each thread.",
+    ], "The M3 inserts hold the three endstop boards. The right Y carriage has no M3 inserts. "
+       "The right front base is the mirror image of the left base.", 80),
     ("ywheel", "Wheels on the Y carriages", ["2 Y carriages", "6 V-wheels", "4 spacers", "2 eccentric spacers", "2 × M5 × 30", "4 × M5 × 35", "4 nyloc nuts"], [
         "Front outer wheel: put an M5 × 30 screw up through a wheel and a 6 mm spacer, into the insert in the front boss of the plate, outside the rail. There is no nut.",
         "Back outer wheel: put an M5 × 35 screw up through a wheel and an eccentric spacer, into the back hole. The hex is between the wheel and the plate. Put a nyloc nut on top.",
@@ -484,10 +495,17 @@ def step_page(i, step, n):
     chips = "".join(f'<div class="chip">{x}</div>' for x in need)
     lis = "".join(f"<li>{t}</li>" for t in items)
     nt = f'<div class="note"><b>Note.</b> {note}</div>' if note else ""
+    if isinstance(shot, list):
+        # Two or more pictures side by side, each with a caption.
+        cells = "".join(f'<figure style="flex:1;margin:0;text-align:center"><img src="{img(nm)}" style="max-width:100%;max-height:{h}mm">'
+                        f'<figcaption style="font-size:10pt;margin-top:1mm">{cap}</figcaption></figure>' for nm, cap in shot)
+        fig = f'<div class="fig" style="display:flex;gap:6mm;align-items:flex-end">{cells}</div>'
+    else:
+        fig = f'<div class="fig"><img src="{img(shot)}" style="max-height:{h}mm"></div>'
     return f"""<section class="page">
   <div class="head"><div class="num">{i}</div><div class="title">{title}</div></div>
   <div class="need">{chips}</div>
-  <div class="fig"><img src="{img(shot)}" style="max-height:{h}mm"></div>
+  {fig}
   <ol>{lis}</ol>{nt}
   {foot(n)}
 </section>"""

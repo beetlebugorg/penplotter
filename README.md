@@ -14,11 +14,11 @@ places SVG drawings and signatures on the paper, and plots them in up to 16 pen 
 - Travel 245 × 390 mm. A4 and Letter fit.
 - The stock control box, its drivers, its LCD with the knob, and its harness stay. The two
   Creality breakout boards stand bare on nylon standoffs, held by cable ties.
-- 16 printed parts in PLA (15 print jobs): 21 h 45 min, 383 g, $7.66. No supports. This includes
+- 22 printed parts in PLA (16 print jobs): 23 h 08 min, 406 g, $8.12. No supports. This includes
   the optional camera pole foot. The camera is a USB webcam on your own 590 mm pole.
-- Purchased parts: about $199 (belts, toothed idlers, belt crimp clips, screws, T-nuts, heat-set
-  inserts, a drag chain, a servo and a few cables). The total with the printed parts is about
-  $207. The 9 stock V-wheels, the motors and the pulleys are reused. A printed X
+- Purchased parts: about $190 (belts, toothed idlers, screws, T-nuts, heat-set inserts, a drag
+  chain, a servo and a few cables). The belt jaws are printed. The total with the printed parts is
+  about $198. The 9 stock V-wheels, the motors and the pulleys are reused. A printed X
   plate replaces the stock X carriage plate.
 - USB serial at 115200 baud. Top speed 120 mm/s.
 - You change the pens by hand.

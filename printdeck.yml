@@ -69,8 +69,8 @@ parts:
       A flat 6 mm plate on three stock V-wheels in the side slots of the left rail. It holds the
       left end of the X beam and clamps the left Y belt. It also holds the X motor, the X endstop
       board and the moving end of the drag chain. Press one long M5 insert into the front outer
-      wheel boss. Press two M3 inserts into the standoffs of the X endstop wall. Print it flat,
-      the plate on the bed.
+      wheel boss. Press two M3 inserts into the standoffs of the X endstop wall, and one M3
+      insert into the ledge of each belt pocket. Print it flat, the plate on the bed.
     files: [hardware/stl/y_carriage_left.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -82,7 +82,8 @@ parts:
     description: >-
       A flat 6 mm plate on three stock V-wheels in the side slots of the right rail. It holds the
       right end of the X beam, clamps the right Y belt, and holds the X idler fork. Press one long
-      M5 insert into the front outer wheel boss. Print it flat, the plate on the bed.
+      M5 insert into the front outer wheel boss, and one M3 insert into the ledge of each belt
+      pocket. Print it flat, the plate on the bed.
     files: [hardware/stl/y_carriage_right.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -92,7 +93,8 @@ parts:
     group: The gantry
     description: >-
       A two-cheek fork for the toothed 20T idler of the X belt, past the right end of the beam. An
-      M3 screw from outside the right carriage pulls it outward and sets the belt tension.
+      M3 screw from outside the right carriage pulls it outward and sets the belt tension. The
+      screw is on the belt centre line, into a nut in the floor of the fork.
     files: [hardware/stl/x_idler_fork.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -106,7 +108,8 @@ parts:
       It replaces the stock X carriage plate, and runs on the beam on the three stock V-wheels.
       The eccentric spacer is on the top right wheel. It clamps the X belt under the beam, and has
       the X endstop trigger lug and the tie slot of the servo loom. Press one long M5 insert into
-      the bottom wheel boss. Print it upright.
+      the bottom wheel boss, and one M3 insert into the ledge of each belt pocket. Print it
+      upright.
     files: [hardware/stl/x_carriage_plate.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -163,8 +166,9 @@ parts:
     group: The Y drive
     description: >-
       A two-cheek fork for the toothed 20T idler of a Y belt. An M5 x 30 screw is the idler axle.
-      An M3 screw from the front pulls the fork forward and sets the belt tension. The left and
-      the right fork are the same part: print 2.
+      An M3 screw from the front pulls the fork forward and sets the belt tension. The screw is on
+      the belt centre line, into a nut in the floor of the fork. The left and the right fork are
+      the same part: print 2.
     files: [hardware/stl/y_idler_fork.stl]
     count: 2
     printer: taz
@@ -175,8 +179,9 @@ parts:
     group: The Y drive
     description: >-
       It holds the left Y idler fork in front of the front bar, between two guides. Its end wall
-      holds the M3 x 20 tension screw. The lips of the front base hold it, with an M3 x 12 screw.
-      Print it on its front face.
+      holds the M3 x 20 tension screw. An M5 x 12 countersunk screw through its ear goes into a
+      T-nut in the front face slot of the bar, and an M3 x 12 screw holds it to the lip of the
+      front base. Print it on its front face.
     files: [hardware/stl/y_idler_bracket_left.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -186,8 +191,9 @@ parts:
     group: The Y drive
     description: >-
       It holds the right Y idler fork in front of the front bar, between two guides. Its end wall
-      holds the M3 x 20 tension screw. The lips of the front base hold it, with an M3 x 12 screw.
-      Print it on its front face.
+      holds the M3 x 20 tension screw. An M5 x 12 countersunk screw through its ear goes into a
+      T-nut in the front face slot of the bar, and an M3 x 12 screw holds it to the lip of the
+      front base. Print it on its front face.
     files: [hardware/stl/y_idler_bracket_right.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -225,12 +231,26 @@ parts:
     material: roll-6
     settings: *lean
 
+  # The belt jaws: one on each belt end.
+  - name: Belt jaw
+    group: The belt ends
+    description: >-
+      Each belt end goes through the slit of its pocket, runs 10 mm along the floor, and folds back
+      over itself. The jaw lies on the two layers, and an M3 x 10 screw pulls it down into the M3
+      insert in the ledge past the fold. The same jaw goes on all 6 belt ends: print 6.
+    files: [hardware/stl/belt_jaw.stl]
+    count: 6
+    printer: taz
+    profile: taz-workhorse-se/pla-0.30-fast
+    material: roll-6
+    settings: *strong
+
   # The camera pole foot is optional.
   - name: Camera pole foot
     group: The camera
     description: >-
-      Optional. It holds the camera pole (17.85 mm) behind the center of the back bar, and stands
-      on the table. An M6 screw goes up through its floor into the pole end. A split collar with
+      Optional. It holds the camera pole (17.85 mm) behind the center of the back bar. It hangs
+      on the bar, 3 mm over the table. An M6 screw goes up through its floor into the pole end. A split collar with
       one M3 screw removes the play. Two M5 screws in T-nuts hold it on the back bar.
     files: [hardware/stl/mast_foot.stl]
     printer: taz
@@ -323,6 +343,9 @@ assemblies:
       - name: Screws and T-nuts (frame)
         file: hardware/stl/sim2/fasteners_static.stl
         color: "#b8bcc2"
+      - name: Heat-set inserts (front bases)
+        file: hardware/stl/sim2/inserts_static.stl
+        color: "#c9a23f"
       - name: Control box
         file: hardware/stl/context/control_box.stl
         color: "#2b2d31"
@@ -337,7 +360,7 @@ assemblies:
       - part: Y carriage, right
         file: hardware/stl/sim2/y_carriage_right.stl
         explode: [0, 0, 1]
-      - name: Heat-set inserts (Y carriages)
+      - name: Heat-set inserts (gantry)
         file: hardware/stl/sim2/inserts_gantry.stl
         color: "#c9a23f"
         explode: [0, 0, 1]
@@ -372,9 +395,9 @@ assemblies:
         file: hardware/stl/context/x_endstop.stl
         color: "#16181b"
         explode: [0, 0, 1]
-      - name: Belt crimp clips (Y belts)
+      - part: Belt jaw
+        name: Belt jaws (Y belts)
         file: hardware/stl/sim2/belt_clips_gantry.stl
-        color: "#d9b44a"
         explode: [0, 0, 1]
       - name: Belt ends (Y belts)
         file: hardware/stl/sim2/belt_ends_gantry.stl
@@ -407,9 +430,13 @@ assemblies:
         file: hardware/stl/sim2/horn.stl
         color: "#f2f2f2"
         explode: [0, -1, 0]
-      - name: Belt crimp clips (X belt)
+      - name: Heat-set inserts (X plate)
+        file: hardware/stl/sim2/inserts_carriage.stl
+        color: "#c9a23f"
+        explode: [0, -1, 0]
+      - part: Belt jaw
+        name: Belt jaws (X belt)
         file: hardware/stl/sim2/belt_clips_carriage.stl
-        color: "#d9b44a"
         explode: [0, -1, 0]
       - name: Belt ends (X belt)
         file: hardware/stl/sim2/belt_ends_carriage.stl
@@ -431,8 +458,9 @@ assemblies:
   - name: "Y carriage, left: inserts and screws"
     description: >-
       The left Y carriage with its hardware. Brass: the long M5 insert in the front outer wheel
-      boss (press it in from the top) and the two M3 inserts of the X endstop board. Move the
-      explode slider to see each screw come out of its hole.
+      boss (press it in from the top), the two M3 inserts of the X endstop board, and one M3 insert
+      in the ledge of each belt pocket. Move the explode slider to see each screw come out of its
+      hole.
     items:
       - part: Y carriage, left
         file: hardware/stl/sim2/y_carriage_left.stl
@@ -440,10 +468,14 @@ assemblies:
         file: hardware/stl/hardware/left/insert_m3_heat_set_insert_5_7_mm-yn.stl
         color: "#c9a23f"
         explode: [0, -1, 0]
+      - name: "2 x M3 heat-set insert, 5.7 mm"
+        file: hardware/stl/hardware/left/insert_m3_heat_set_insert_5_7_mm-zp.stl
+        color: "#c9a23f"
+        explode: [0, 0, 1]
       - name: "M5 heat-set insert, 9.5 mm (long)"
         file: hardware/stl/hardware/left/insert_m5_heat_set_insert_9_5_mm_long-zp.stl
         color: "#c9a23f"
-        explode: [0, 0, 1]
+        explode: [0, 0, 0.999]
       - name: "2 x M5 spacer, 6 mm (stock)"
         file: hardware/stl/hardware/left/spacer_m5_spacer_6_mm_stock-zn.stl
         color: "#b8bcc2"
@@ -468,6 +500,10 @@ assemblies:
         file: hardware/stl/hardware/left/tnut_m5_drop_in_t_nut-yn.stl
         color: "#b8bcc2"
         explode: [0, -1, 0]
+      - name: "2 x belt jaw (printed)"
+        file: hardware/stl/hardware/left/clip_belt_jaw_printed-zp.stl
+        color: "#7fb6e0"
+        explode: [0, 0, 1]
       - name: "2 x M3 x 10 socket head"
         file: hardware/stl/hardware/left/screw_m3_x_10_socket_head-xn.stl
         color: "#b8bcc2"
@@ -476,6 +512,10 @@ assemblies:
         file: hardware/stl/hardware/left/screw_m3_x_10_socket_head-yn.stl
         color: "#b8bcc2"
         explode: [0, -1, 0]
+      - name: "2 x M3 x 10 socket head"
+        file: hardware/stl/hardware/left/screw_m3_x_10_socket_head-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
       - name: "2 x M3 x 8 socket head"
         file: hardware/stl/hardware/left/screw_m3_x_8_socket_head-yn.stl
         color: "#b8bcc2"
@@ -499,16 +539,21 @@ assemblies:
   - name: "Y carriage, right: inserts and screws"
     description: >-
       The right Y carriage and the X idler fork with their hardware. Brass: the long M5 insert in
-      the front outer wheel boss (press it in from the top).
+      the front outer wheel boss (press it in from the top), and one M3 insert in the ledge of each
+      belt pocket.
     items:
       - part: Y carriage, right
         file: hardware/stl/sim2/y_carriage_right.stl
       - part: X idler fork
         file: hardware/stl/sim2/x_idler_fork.stl
+      - name: "2 x M3 heat-set insert, 5.7 mm"
+        file: hardware/stl/hardware/right/insert_m3_heat_set_insert_5_7_mm-zp.stl
+        color: "#c9a23f"
+        explode: [0, 0, 1]
       - name: "M5 heat-set insert, 9.5 mm (long)"
         file: hardware/stl/hardware/right/insert_m5_heat_set_insert_9_5_mm_long-zp.stl
         color: "#c9a23f"
-        explode: [0, 0, 1]
+        explode: [0, 0, 0.999]
       - name: "2 x M5 spacer, 6 mm (stock)"
         file: hardware/stl/hardware/right/spacer_m5_spacer_6_mm_stock-zn.stl
         color: "#b8bcc2"
@@ -545,6 +590,14 @@ assemblies:
         file: hardware/stl/hardware/right/tnut_m5_drop_in_t_nut-yn.stl
         color: "#b8bcc2"
         explode: [0, -1, 0]
+      - name: "2 x belt jaw (printed)"
+        file: hardware/stl/hardware/right/clip_belt_jaw_printed-zp.stl
+        color: "#7fb6e0"
+        explode: [0, 0, 1]
+      - name: "2 x M3 x 10 socket head"
+        file: hardware/stl/hardware/right/screw_m3_x_10_socket_head-zp.stl
+        color: "#b8bcc2"
+        explode: [0, 0, 1]
       - name: "M3 x 20 socket head"
         file: hardware/stl/hardware/right/screw_m3_x_20_socket_head-xp.stl
         color: "#b8bcc2"
@@ -572,8 +625,8 @@ assemblies:
   - name: "X plate and pen carriage: inserts and screws"
     description: >-
       The X plate, the pen carriage and the pen slider with their hardware. Brass: the long M5
-      insert in the bottom wheel boss of the X plate. The four M3 x 12 screws go from the back of
-      the X plate into the pen carriage.
+      insert in the bottom wheel boss of the X plate, and one M3 insert in the ledge of each belt
+      pocket. The four M3 x 12 screws go from the back of the X plate into the pen carriage.
     items:
       - part: X plate
         file: hardware/stl/sim2/x_carriage_plate.stl
@@ -584,6 +637,14 @@ assemblies:
       - name: "Servo"
         file: hardware/stl/sim2/servo.stl
         color: "#2f5da8"
+      - name: "M3 heat-set insert, 5.7 mm"
+        file: hardware/stl/hardware/carriage/insert_m3_heat_set_insert_5_7_mm-n0707_p0000_n0707.stl
+        color: "#c9a23f"
+        explode: [-0.707, 0, -0.707]
+      - name: "M3 heat-set insert, 5.7 mm"
+        file: hardware/stl/hardware/carriage/insert_m3_heat_set_insert_5_7_mm-p0707_p0000_n0707.stl
+        color: "#c9a23f"
+        explode: [0.707, 0, -0.707]
       - name: "M5 heat-set insert, 9.5 mm (long)"
         file: hardware/stl/hardware/carriage/insert_m5_heat_set_insert_9_5_mm_long-yn.stl
         color: "#c9a23f"
@@ -608,10 +669,22 @@ assemblies:
         file: hardware/stl/hardware/carriage/nyloc_m5_nyloc_nut-yn.stl
         color: "#b8bcc2"
         explode: [0, -1, 0]
+      - name: "2 x belt jaw (printed)"
+        file: hardware/stl/hardware/carriage/clip_belt_jaw_printed-yp.stl
+        color: "#7fb6e0"
+        explode: [0, 1, 0]
       - name: "2 x M2 x 8 self-tapping (stock, in the servo bag)"
         file: hardware/stl/hardware/carriage/screw_m2_x_8_self_tapping_stock_in_the_servo_bag-yn.stl
         color: "#b8bcc2"
         explode: [0, -1, 0]
+      - name: "M3 x 10 socket head"
+        file: hardware/stl/hardware/carriage/screw_m3_x_10_socket_head-n0707_p0000_n0707.stl
+        color: "#b8bcc2"
+        explode: [-0.707, 0, -0.707]
+      - name: "M3 x 10 socket head"
+        file: hardware/stl/hardware/carriage/screw_m3_x_10_socket_head-p0707_p0000_n0707.stl
+        color: "#b8bcc2"
+        explode: [0.707, 0, -0.707]
       - name: "4 x M3 x 12 socket head"
         file: hardware/stl/hardware/carriage/screw_m3_x_12_socket_head-yp.stl
         color: "#b8bcc2"
@@ -635,8 +708,9 @@ assemblies:
   - name: "Y front base, left: inserts and screws"
     description: >-
       The left front base, the idler bracket and the idler fork with their hardware. Brass: the two
-      M3 inserts of the Y endstop board (press them in from the top). The right side is the mirror
-      image.
+      M3 inserts of the Y endstop board (press them in from the top). The M5 countersunk screw goes
+      through the ear of the bracket into a T-nut in the front face slot of the bar. The right side
+      is the mirror image.
     items:
       - part: Y front base, left
         file: hardware/stl/sim2/y_front_left.stl
@@ -664,6 +738,10 @@ assemblies:
         file: hardware/stl/hardware/yfront/tnut_m5_drop_in_t_nut-zn.stl
         color: "#b8bcc2"
         explode: [0, 0, -1]
+      - name: "M5 drop-in T-nut"
+        file: hardware/stl/hardware/yfront/tnut_m5_drop_in_t_nut-yp.stl
+        color: "#b8bcc2"
+        explode: [0, 1, 0]
       - name: "M3 x 12 socket head"
         file: hardware/stl/hardware/yfront/screw_m3_x_12_socket_head-zp.stl
         color: "#b8bcc2"
@@ -676,6 +754,10 @@ assemblies:
         file: hardware/stl/hardware/yfront/screw_m3_x_8_socket_head-zp.stl
         color: "#b8bcc2"
         explode: [0, 0, 1]
+      - name: "M5 x 12 countersunk (ISO 10642)"
+        file: hardware/stl/hardware/yfront/screw_m5_x_12_countersunk_iso_10642-yn.stl
+        color: "#b8bcc2"
+        explode: [0, -1, 0]
       - name: "2 x M5 x 12 socket head"
         file: hardware/stl/hardware/yfront/screw_m5_x_12_socket_head-zp.stl
         color: "#b8bcc2"

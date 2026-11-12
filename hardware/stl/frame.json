@@ -74,10 +74,10 @@
  "beam": {
   "box": [
    -7.5,
-   63.94,
+   64.41,
    88.63,
    407.5,
-   83.94,
+   84.41,
    108.63
   ],
   "profile": [
@@ -89,20 +89,20 @@
  "x_motor": {
   "pos": [
    -19.5,
-   73.94,
+   74.41,
    98.63
   ],
   "shaft": "-y",
   "body_y": [
-   86.99,
-   120.99
+   87.46,
+   121.46
   ],
   "note": "pos: the pulley centre; the motor stands behind the left beam end, shaft to the front"
  },
  "x_idler": {
   "pos": [
    421.0,
-   73.94,
+   74.41,
    98.63
   ],
   "travel_x": [
@@ -113,28 +113,28 @@
   "axis": "y"
  },
  "belt_lengths": {
-  "y_left": 1135.0,
-  "y_right": 1135.0,
-  "x": 898.3
+  "y_left": 1115.4,
+  "y_right": 1115.4,
+  "x": 878.7
  },
  "x_clamp": [
   28.5,
   125.42
  ],
  "x_clips": [
-  46.82,
-  107.11
+  47.88,
+  106.05
  ],
  "belt_clip": {
   "size": [
-   18.0,
-   8.0,
-   5.0
+   21.2,
+   8.2,
+   4.0
   ],
-  "note": "GT2 6 mm crimp clip (OpenBuilds style), on each folded belt end; size: along the belt, across the belt width, thickness (ESTIMATE)"
+  "note": "printed belt jaw on each folded belt end, with an M3 x 10 into an M3 insert; size: along the belt, across the belt width, thickness"
  },
  "x_belt": {
-  "y": 73.94,
+  "y": 74.41,
   "z_runs": [
    92.57,
    104.69
@@ -145,13 +145,13 @@
   "plane": "loop in the x-z plane, flat (width along y): the top run in the top slot channel and the bottom run in the bottom slot channel of the beam (the stock CR-10 path); the axles point along y"
  },
  "x_carriage": {
-  "plate_front_y": 60.34,
+  "plate_front_y": 60.81,
   "box": [
    28.5,
-   47.94,
+   48.41,
    60.5,
    125.42,
-   82.54,
+   83.01,
    134.5
   ],
   "note": "the printed X plate; the pen carriage bolts to its front face"
@@ -160,34 +160,34 @@
   [
    [
     -10.1,
-    51.94,
+    52.41,
     47.0
    ],
    [
     -10.1,
-    95.94,
+    96.41,
     47.0
    ],
    [
     50.1,
-    91.94,
+    92.41,
     47.0
    ]
   ],
   [
    [
     410.1,
-    51.94,
+    52.41,
     47.0
    ],
    [
     410.1,
-    95.94,
+    96.41,
     47.0
    ],
    [
     349.9,
-    91.94,
+    92.41,
     47.0
    ]
   ]
@@ -197,17 +197,17 @@
  "x_wheels": [
   [
    51.92,
-   73.94,
+   74.41,
    118.73
   ],
   [
    99.44,
-   73.94,
+   74.41,
    118.73
   ],
   [
    77.34,
-   73.94,
+   74.41,
    78.53
   ]
  ],
@@ -220,20 +220,20 @@
  },
  "home_pen": [
   69.49,
-  36.79
+  37.26
  ],
- "carriage_y0": 73.94,
+ "carriage_y0": 74.41,
  "carriage_x0": 70.42,
  "travel": [
   245.9,
-  395.1
+  394.6
  ],
  "pen_lift_mm": 6.95,
  "pen_lift": {
   "note": "The horn turns about pivot (axis y). Horn angle above level = servo deg - servo_level_deg. horn.stl is at stl_deg. The tab underside is a 45 degree line z - x = const: z = underside_z at x = tab_x[0], at pen down. The pen tip is on the paper at lift 0 (pen down pose of the pen parts). lift_by_servo_deg: the slider lift in mm for servo 0..180 deg (tip under the tab). Above slip_servo the tip leaves the end of the tab and the slider falls. The tip is then over the tab: when the horn comes down again, it stops on the top of the tab at stall_servo (top_x, top_z) and pushes on the pen.",
   "pivot": [
    97.422,
-   24.738,
+   23.286,
    42.5
   ],
   "axis": "y",
@@ -579,7 +579,7 @@
    "name": "x",
    "pos": [
     31.92,
-    49.94,
+    50.41,
     90.0
    ],
    "dir": "-x"
@@ -589,16 +589,16 @@
   "pos": [
    200.0,
    537.1,
-   616.0
+   623.3
   ],
   "mast": {
    "box": [
     191.07,
     528.15,
-    11.0,
+    18.32,
     208.93,
     546.0,
-    601.0
+    608.32
    ]
   },
   "note": "USB webcam on the top end of a 590 mm pole (17.85 mm, measured), in a printed foot behind the back bar. The lens height above the pole top (15 mm) is an ESTIMATE."
@@ -765,13 +765,23 @@
    "moves": "pen"
   },
   {
+   "file": "sim2/inserts_static.stl",
+   "color": "#C9A23F",
+   "moves": "static"
+  },
+  {
    "file": "sim2/inserts_gantry.stl",
    "color": "#C9A23F",
    "moves": "gantry"
   },
   {
+   "file": "sim2/inserts_carriage.stl",
+   "color": "#C9A23F",
+   "moves": "carriage"
+  },
+  {
    "file": "sim2/belt_clips_gantry.stl",
-   "color": "#D9B44A",
+   "color": "#7FB6E0",
    "moves": "gantry"
   },
   {
@@ -781,7 +791,7 @@
   },
   {
    "file": "sim2/belt_clips_carriage.stl",
-   "color": "#D9B44A",
+   "color": "#7FB6E0",
    "moves": "carriage"
   },
   {
@@ -803,20 +813,20 @@
  "fasteners": {
   "note": "context geometry of the main build, one STL for each group that moves (sim2/fasteners_*.stl); no heat-set inserts",
   "counts": {
-   "GT2 6 mm belt crimp clip": 6,
    "M2 x 8 self-tapping (stock, in the servo bag)": 2,
-   "M3 heat-set insert, 5.7 mm": 6,
+   "M3 heat-set insert, 5.7 mm": 12,
    "M3 nut": 5,
-   "M3 x 10 socket head": 15,
+   "M3 x 10 socket head": 21,
    "M3 x 12 socket head": 6,
    "M3 x 16 socket head": 1,
    "M3 x 20 socket head": 4,
    "M3 x 8 socket head": 6,
-   "M5 drop-in T-nut": 13,
+   "M5 drop-in T-nut": 15,
    "M5 heat-set insert, 9.5 mm (long)": 3,
    "M5 nyloc nut": 9,
    "M5 spacer, 6 mm (stock)": 6,
    "M5 washer, 7.5 mm across (small)": 6,
+   "M5 x 12 countersunk (ISO 10642)": 2,
    "M5 x 12 socket head": 13,
    "M5 x 25 button head (ISO 7380)": 1,
    "M5 x 30 button head (ISO 7380)": 1,
@@ -825,9 +835,10 @@
    "M5 x 35 button head (ISO 7380)": 1,
    "M5 x 35 socket head": 4,
    "M6 x 16 socket head": 1,
+   "belt jaw (printed)": 6,
    "eccentric spacer (stock)": 3
   }
  },
- "paper_z": 0,
+ "paper_z": 4.32,
  "status": "Frame sizes are measured. The wheel sizes, the belt lines and the carriages are design values, not yet built."
 }

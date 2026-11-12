@@ -218,7 +218,8 @@ def head(z_pen_tip):
 
 
 def dz():
-    return S.PLATE_DZ
+    """The plate frame z of the table, negated: the pen tip goes down to the paper at PAPER_Z."""
+    return S.PLATE_DZ - S.PAPER_Z
 
 
 def y_wheel_items(c, side="left"):
@@ -359,7 +360,7 @@ def check_frame(problems):
         if v > 0.01:
             problems.append(f"the {n} touches the beam: {v:.2f} mm3")
     # The pen reaches the table, and the rest of the head stays above it.
-    low = min((t_mid * s).bounding_box().min.Z for n, s in hd if n != "pen")
+    low = min((t_mid * s).bounding_box().min.Z for n, s in hd if n != "pen") - S.PAPER_Z
     if low < 5.0:
         problems.append(f"the head is only {low:.1f} mm above the table")
     reach = d + S.SLIDER_Z0
@@ -1104,10 +1105,11 @@ def frame_json(lim, sim_files, fcounts=None):
         # of the beam. The carriage clamps the bottom run: at each end of the plate ("x_clamp", frame x at
         # home) the belt leaves the slot at 45 degrees down into a clip pocket under the beam.
         "x_clamp": [round(xp0 + S.XP_X[0], 2), round(xp0 + S.XP_X[1], 2)],
-        "x_clips": [round(xp0 + S.XP_X[0] + (P.XCL_POCKET_U[0] + 0.3 + S.CLIP[0] / 2) * 0.7071, 2),
-                    round(xp0 + S.XP_X[1] - (P.XCL_POCKET_U[0] + 0.3 + S.CLIP[0] / 2) * 0.7071, 2)],
-        "belt_clip": {"size": list(S.CLIP), "note": "GT2 6 mm crimp clip (OpenBuilds style), on each folded belt end; "
-                                                    "size: along the belt, across the belt width, thickness (ESTIMATE)"},
+        "x_clips": [round(xp0 + S.XP_X[0] + (P.XCL_POCKET_U[0] + S.JAW_POCKET / 2) * 0.7071, 2),
+                    round(xp0 + S.XP_X[1] - (P.XCL_POCKET_U[0] + S.JAW_POCKET / 2) * 0.7071, 2)],
+        "belt_clip": {"size": [round(S.JAW_LEN, 1), S.JAW_W, S.JAW_T],
+                      "note": "printed belt jaw on each folded belt end, with an M3 x 10 into an M3 insert; "
+                              "size: along the belt, across the belt width, thickness"},
         "x_belt": {"y": round(c0 + S.XB_Y, 2), "z_runs": [round(v, 2) for v in S.XB_RUNS], "clamped": "lower", "axis": "y",
                    "slant_deg": S.XCL_SLANT,
                    "plane": "loop in the x-z plane, flat (width along y): the top run in the top slot channel and the bottom "
@@ -1178,7 +1180,7 @@ def frame_json(lim, sim_files, fcounts=None):
         "parts": sim_files,
         "fasteners": {"note": "context geometry of the main build, one STL for each group that moves (sim2/fasteners_*.stl); "
                               "no heat-set inserts", "counts": fcounts},
-        "paper_z": 0,
+        "paper_z": round(S.PAPER_Z, 2),
         "status": "Frame sizes are measured. The wheel sizes, the belt lines and the carriages are design values, not yet built.",
     }
 
@@ -1277,6 +1279,7 @@ def main():
         "fit_rail": (P.fit_rail(), back_down),
         "fit_slider": (P.fit_slider(), None),
         "fit_wheel": (P.fit_wheel(), None),
+        "belt_jaw": (P.belt_jaw(), None),
     }
     for name, (shape, pose_fn) in printed.items():
         export_step(shape, os.path.join(HERE, "cad", name + ".step"))
@@ -1374,13 +1377,14 @@ def main():
         if sel:
             items.append((f"fasteners_{grp}", Compound(children=sel), "#B8BCC2", grp))
     # The brass heat-set inserts (in the Y carriages).
-    ins = [f.solid for f in fitems if f.kind == "insert"]
-    if ins:
-        items.append(("inserts_gantry", Compound(children=ins), "#C9A23F", "gantry"))
-    # The belt ends: the crimp clips (brass colour, to stand out) and the folded belt ends.
+    for grp in ("static", "gantry", "carriage"):
+        ins = [f.solid for f in fitems if f.kind == "insert" and f.group == grp]
+        if ins:
+            items.append((f"inserts_{grp}", Compound(children=ins), "#C9A23F", grp))
+    # The belt ends: the printed belt jaws and the folded belt ends.
     for grp in ("gantry", "carriage"):
         items.append((f"belt_clips_{grp}", Compound(children=[f.solid for f in fitems if f.group == grp and f.kind == "clip"]),
-                      "#D9B44A", grp))
+                      S.ACCENT, grp))
         items.append((f"belt_ends_{grp}", Compound(children=[f.solid for f in fitems if f.group == grp and f.kind == "belt"]),
                       "#2B2B2B", grp))
     # The two breakout boards with their plugs and standoffs. The head board rides on the gantry, the

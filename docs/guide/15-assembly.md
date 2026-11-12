@@ -11,9 +11,9 @@ Before you start:
 - Measure the head harness and the drag chain before you print the chain anchor (`hardware/MEASURE.md`, items 46 and 47).
 - Keep the control box off until the wiring checks (`20-electronics-and-wiring`).
 
-You need hex keys (2.5, 3, 4 and 5 mm), the 8 mm wrench for the eccentric spacers, pliers for
-the belt crimp clips, calipers, a tape measure, a meter, and a soldering iron with M5 and M3
-heat-set insert tips. `05-parts-and-cost` lists the fasteners.
+You need hex keys (2.5, 3, 4 and 5 mm), the 8 mm wrench for the eccentric spacers, scissors for
+the belts, calipers, a tape measure, a meter, and a soldering iron with M5 and M3 heat-set insert
+tips. `05-parts-and-cost` lists the fasteners.
 
 No step cuts or drills the metal of the frame.
 
@@ -70,18 +70,23 @@ The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle.
 
 ![The M3 inserts in the left Y carriage](../../hardware/build/img/ins_m3_ycar-light.png)
 
+![The M3 inserts in the X plate](../../hardware/build/img/ins_m3_xplate-light.png)
+
 ![The M3 inserts in the left front base](../../hardware/build/img/ins_m3_yfront-light.png)
 
-You need the left Y carriage, the 2 front bases and 6 M3 inserts.
+You need the 2 Y carriages, the X plate, the 2 front bases and 12 M3 inserts.
 
 1. Change to the M3 tip. Let it get hot.
 2. Left Y carriage: find the two standoffs on the front face of the X endstop wall (first picture). Press an insert into each, from the front.
-3. Front bases: press an insert into each of the two standoffs on the top of each base, from the top (second picture).
-4. Push each insert until its top is flush with the standoff. Let the parts cool.
-5. Turn an M3 × 8 screw in and out once to check each thread.
+3. Y carriages: find the ledge in each of the two clamp pockets. Press an insert into each ledge, from the top.
+4. X plate: turn the plate until the hole under one clamp points straight up. Press an insert down through that hole into the ledge (second picture). Do the same at the other clamp.
+5. Front bases: press an insert into each of the two standoffs on the top of each base, from the top (third picture).
+6. Push each insert until its top is flush with the standoff or the ledge. Let the parts cool.
+7. Turn an M3 × 8 screw in and out once to check each endstop insert. Turn an M3 × 10 screw in and out once to check each jaw insert.
 
-The M3 inserts hold the three endstop boards. The right Y carriage has no M3 inserts. The right
-front base is the mirror image of the left base.
+The M3 inserts hold the three endstop boards and the six belt jaws. The left Y carriage has 4 M3
+inserts, the right Y carriage 2, the X plate 2 and each front base 2. The right front base is the
+mirror image of the left base.
 
 ## 3. Wheels on the Y carriages
 
@@ -127,15 +132,22 @@ Fit the motor screw that the bar hides before the bracket goes on the bar.
 
 You need the 2 front bases, the 2 idler brackets, the 2 Y idler forks, 2 GT2 20T toothed idlers,
 2 M5 × 30 screws with 4 small washers and 2 nyloc nuts, 2 M3 × 20 screws with 2 M3 nuts,
-2 M3 × 12 screws, 4 M5 × 12 screws with T-nuts, 2 endstop boards and 4 M3 × 8 screws.
+2 M3 × 12 screws, 4 M5 × 12 screws, 2 M5 × 12 countersunk screws, 6 T-nuts, 2 endstop boards and
+4 M3 × 8 screws.
 
-1. Push an M3 nut into the slot in the thick cheek of each Y idler fork, from below.
+1. Push an M3 nut into the slot in the floor of each Y idler fork, from below. The slot is under the middle of the idler.
 2. Hold an idler between the two cheeks, a washer on each side. Put the M5 × 30 screw through. Tighten the nyloc nut until the idler turns freely with no play.
 3. Turn two M5 drop-in T-nuts into the top slot of the front bar, near each end. Screw a front base on each end with two M5 × 12 screws. Its two lips reach over the front of the bar.
-4. Hold an idler bracket on the front face of the front bar, under the two lips. Put an M3 × 12 screw down through the inner lip into the bracket.
-5. Set each fork on the seat of the bracket, between the two guides. Put an M3 × 20 screw through the end wall from the front into the nut. Turn it two turns only.
-6. Lay a Y endstop board on the two standoffs of each front base: the parts up, the plug to the front, the switch to the back. Screw it down with two M3 × 8 screws.
-7. Plug in the endstop cable from the front. Leave 20 mm for the plug and the bend of the wires.
+4. Turn an M5 drop-in T-nut into the front face slot of the front bar, behind the ear of each idler bracket.
+5. Hold an idler bracket on the front face of the front bar, under the two lips. Put an M5 × 12 countersunk screw through the ear into the T-nut. Tighten it.
+6. Put an M3 × 12 screw down through the inner lip into the bracket.
+7. Set each fork on the seat of the bracket, between the two guides. Put an M3 × 20 screw through the end wall from the front into the nut. Turn it two turns only.
+8. Lay a Y endstop board on the two standoffs of each front base: the parts up, the plug to the front, the switch to the back. Screw it down with two M3 × 8 screws.
+9. Plug in the endstop cable from the front. Leave 20 mm for the plug and the bend of the wires.
+
+The ear has a hole from its front face for the screw head and the hex key. The belt tension
+pushes the bracket back onto the bar face. The tension screw is on the belt centre line, under the
+idler. It pulls in line with the belt, so the fork does not turn in its seat.
 
 Home is the front left corner. A striker fin on the front edge of each carriage plate meets the
 lever tip. At the front stop it is 1.5 mm past the click.
@@ -206,13 +218,14 @@ The X motor rides on the gantry, so the shorter 42-34 keeps the moving mass low.
 
 ![The X idler fork](../../hardware/build/img/xfork-light.png)
 
-1. Push an M3 nut into the slot in the thick (back) cheek of the fork, from below.
+1. Push an M3 nut into the slot in the floor of the fork, from below. The slot is under the middle of the idler.
 2. Hold the 20T toothed idler between the two cheeks, a small washer on each side.
 3. Put the M5 × 30 screw through the front cheek, the washer, the idler, the washer and the back cheek. Put the nyloc nut on the back. Hold the head and turn the nut until the idler turns freely with no play.
 4. Set the fork in the seat past the right beam end, the floor on the seat.
 5. Put the M3 × 20 screw through the end wall from the right side of the machine, into the nut in the fork. Turn it two turns only.
 
 The fork slides 4 mm out and 2.5 mm in. You reach the tension screw from outside the right carriage.
+The tension screw is on the belt centre line, under the idler.
 
 ## 12. Head board
 
@@ -233,40 +246,45 @@ You need the head board, 2 nylon M3 standoffs (4 mm) and 2 cable ties.
 The board sizes are estimates. Measure the board first (`hardware/MEASURE.md`, items 24 to 29).
 The `HEAT` socket of the head board is not used.
 
-## 13. Y belts and crimp clips
+## 13. Y belts and belt jaws
 
 ![The Y belts](../../hardware/build/img/ybelt-light.png)
 
-You need the 2 Y belts, 4 crimp clips, pliers and a tape measure.
+You need the 2 Y belts, 4 belt jaws, 4 M3 × 10 screws, scissors and a tape measure.
 
-1. Cut each Y belt about 1200 mm long.
-2. Fold one end back on itself for 20 mm, teeth to teeth. Put a crimp clip over the two layers, 1.5 mm from the fold. Squeeze the clip flat.
-3. Measure 1135 mm along the belt from the fold. Mark it. Fold the belt at the mark and crimp the second clip. Cut off the rest of the tail.
-4. Turn the Y tension screw out until the fork is at the back end of its travel.
-5. Lay the belt round the motor pulley at the back and the idler at the front, teeth inside. The lower run lies flat over the rail, under the two clamp blocks of the carriage.
-6. Drop the two clips into the pockets of the two clamp blocks from the top, the belt in the slits of the end walls.
-7. Turn the tension screw in until the belt is tight. Do the same on the other side.
+1. Cut each Y belt about 1195 mm long: 80 mm more than its length between the folds (1115 mm).
+2. Turn the Y tension screw out until the fork is at the back end of its travel.
+3. Lay the belt round the motor pulley at the back and the idler at the front, teeth inside. The lower run lies flat over the rail, under the two clamp blocks of the carriage.
+4. First end: drop the belt end into the pocket of one clamp block from the top, through the slit of the end wall. Lay it 10 mm along the pocket floor, past the end wall. The fold stops 3 mm short of the ledge. Fold it 180 degrees back over itself.
+5. Put a belt jaw into the pocket from the top, on the two layers. Put an M3 × 10 screw through the jaw into the insert in the ledge. Tighten it until the jaw is on the ledge.
+6. Second end: drop the belt into the other pocket, through the slit. Pull it tight by hand. Fold it 10 mm past the end wall. Cut off the tail.
+7. Clamp the second end with a jaw and an M3 × 10 screw, as in step 5.
+8. Turn the tension screw in until the belt is tight. Do the same on the other side.
+9. On the left carriage, the X endstop board is over the front jaw screw. Take the board off (2 screws) to reach the screw, then put it back.
 
-The length is between the middles of the two folds: 1135.0 mm in the model, with the fork at the
-middle of its travel. The fork moves 4 mm forward and 3 mm back. If the belt is too long, crimp a
-new clip closer to the other clip.
+The ledge top is 0.3 mm under the jaw. The screw presses the two layers 0.3 mm and stops when the
+jaw is on the ledge. The length between the folds is for the fork at the middle of its travel. The
+fork moves 4 mm forward and 3 mm back. If the belt is too long, open the back jaw and fold the belt
+again.
 
-## 14. X belt and crimp clips
+## 14. X belt and belt jaws
 
-![The X belt and the crimp clips](../../hardware/build/img/xclip-light.png)
+![The X belt and the belt jaws](../../hardware/build/img/xclip-light.png)
 
-You need the X belt, 2 crimp clips, pliers, and a ruler or tape.
+You need the X belt, 2 belt jaws, 2 M3 × 10 screws, scissors, and a ruler or tape.
 
-1. Cut the X belt about 950 mm long.
-2. Crimp the first clip as on the Y belts. Measure 898 mm from the fold, and crimp the second clip at the mark.
-3. Turn the M3 tension screw out until the X idler fork is at the inner end of its travel.
-4. Feed the belt flat, teeth down, through the top slot of the beam from the idler end to the motor end, under the top wheels. Lay it round the pulley and back through the bottom slot.
-5. At each end of the X plate, lead the belt out of the bottom slot into the 45 degree slit of the clamp. Push the clip into its pocket from the back.
-6. Turn the M3 tension screw in. It pulls the fork outward. Stop when the belt is tight.
+1. Cut the X belt about 960 mm long: 80 mm more than its length between the folds (879 mm).
+2. Turn the M3 tension screw out until the X idler fork is at the inner end of its travel.
+3. Feed the belt flat, teeth down, through the top slot of the beam from the idler end to the motor end, under the top wheels. Lay it round the pulley and back through the bottom slot.
+4. First end: at one end of the X plate, lead the belt out of the bottom slot into the 45 degree slit of the clamp. Lay it 10 mm along the pocket floor, past the end wall. The fold stops 3 mm short of the ledge. Fold it 180 degrees back over itself.
+5. Slide a belt jaw into the pocket from the back, under the two layers. Put an M3 × 10 screw up through the 7 mm hole under the jaw, through the jaw into the insert in the ledge. Tighten it until the jaw is on the ledge.
+6. Second end: lead the belt into the other clamp. Pull it tight by hand. Fold it 10 mm past the end wall. Cut off the tail. Clamp it as in step 5.
+7. Turn the M3 tension screw in. It pulls the fork outward. Stop when the belt is tight.
 
-This is the stock CR-10 belt path: both runs lie in the slot channels of the beam. The length is
-898.3 mm in the model, with the fork at the middle of its travel. Keep the belt centred where it
-passes the 6.2 mm slot opening at the clamps.
+This is the stock CR-10 belt path: both runs lie in the slot channels of the beam. The length
+between the folds is for the fork at the middle of its travel. If the belt is too long, open the
+second jaw and fold the belt again. Keep the belt centred where it passes the 6.2 mm slot opening at
+the clamps.
 
 ## 15. Control box and harness
 
@@ -334,7 +352,7 @@ M6 × 16 screw, an M3 × 16 screw with an M3 nut, and cable ties.
 1. Turn two M5 drop-in T-nuts into the slot in the back face of the back bar, at the centre.
 2. Drop the M3 nut into the slot in the top of the right collar ear. Put the M3 × 16 screw through the two ears. Leave it loose.
 3. Put the pole in the socket. Hold the foot on its side. Put the M6 × 16 screw up through the floor into the pole end. Tighten it.
-4. Stand the foot and the pole on the table behind the back bar. Screw the foot to the bar with two M5 × 12 screws.
+4. Hold the foot and the pole behind the back bar. Screw the foot to the bar with two M5 × 12 screws. The foot hangs 3 mm over the table.
 5. Tighten the M3 collar screw.
 6. Tie the USB cable to the foot through the two slots, and to the pole.
 

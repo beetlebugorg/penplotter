@@ -95,7 +95,7 @@ CLAMP_SCREW_L = 20.0             # M3 x 20 clamp screw
 # ---- The servo (SG90; the MG90S has the same body) ----
 SERVO_L = 22.8                   # body length, along Z. ESTIMATE (data sheet values)
 SERVO_W = 12.4                   # body width, along X. ESTIMATE
-SERVO_BELOW = 16.0               # body depth below the mounting tabs. ESTIMATE
+SERVO_BELOW = 17.92              # body depth below the mounting tabs: from the underside of the tabs to the base. Measured 2026-11-11
 SERVO_TAB_L = 32.2               # length over the two tabs. ESTIMATE
 SERVO_TAB_T = 2.5                # thickness of the tabs. ESTIMATE
 SERVO_TAB_HOLES = 27.8           # distance between the two tab holes. ESTIMATE
@@ -169,7 +169,8 @@ LIFT = (tip_c(PEN_UP_DEG) - tip_c(PEN_DOWN_DEG)) - TAB_GAP * math.sqrt(2)
 #
 # Frame coordinates: the origin is the front left outer corner of the frame, on the table.
 # X to the right, Y to the back, Z up. Machine X = 0, Y = 0 is the home corner (front left).
-# Measured: outside 400 x 520, inside 320 x 480, table to rail top 57.
+# Measured: outside 400 x 520, inside 320 x 480. The frame z values put the rail top at 57; the real
+# table is 4.32 mm higher (PAPER_Z, at the end of this file): the rail top is 52.7 mm over the table.
 # The long sides are 2040, laid flat. The front and back cross bars are 2020.
 FRAME_X, FRAME_Y = 400.0, 520.0  # outside
 BAR_D, BAR_H = 20.0, 20.0        # front and back bars: 2020
@@ -859,3 +860,48 @@ XMOTOR_MASS = 213.4              # g, a 42-34 NEMA17 (the X motor), measured
 PAPER_Z = 0.0                    # the paper top (z): the table is the bed
 ES_PILLAR_HALF_X = 4.0           # the X board standoff pillar, each side of the hole line (x): 2 mm round the insert hole
 YC_ECC_CLEAR = 19.0              # the room over the eccentric boss of the right plate: the nyloc nut and an 8 mm wrench
+
+# ================================================================ screw belt clamps (2026-11-11)
+# Each belt end goes through the slit of its pocket, runs JAW_L along the pocket floor, and folds 180
+# degrees back over itself. A printed jaw lies on the two layers. Past the fold the jaw lies on a ledge,
+# and one M3 x 10 screw pulls the jaw down into an M3 heat-set insert in the ledge. The ledge is 0.3 mm
+# under the jaw, so the screw presses the jaw 0.3 mm into the two layers. The same jaw goes in all 6
+# pockets: 2 on each Y carriage, 2 on the X plate. The belt ends need no crimp clips.
+JAW_L = 10.0                     # the folded part of a belt end (along the belt)
+JAW_FOLD = 3.0                   # room for the fold, past the folded part
+JAW_POCKET = CLIP_POCKET[0] + CLIP_LOOP   # the pocket (along the belt): 21.6 mm, as for the clips
+JAW_LEN = JAW_POCKET - 0.4       # the jaw (along the belt): 0.2 mm gap at each end
+JAW_W = CLIP_POCKET[1] - 0.4     # the jaw (across the belt): 0.2 mm gap at each side
+JAW_T = 4.0                      # the jaw thickness
+JAW_UNDER = 1.5 * BELT_T         # the jaw underside, from the belt centre: on the two layers
+JAW_LEDGE = JAW_UNDER - 0.3      # the ledge top, from the belt centre
+JAW_SCREW_U = JAW_L + JAW_FOLD + (JAW_POCKET - JAW_L - JAW_FOLD) / 2   # the screw, from the pocket start
+JAW_SCREW_L = 10.0               # M3 x 10: 5.7 mm of thread in the insert
+JAW_INSERT_DEPTH = 6.5           # the insert hole under the ledge top (Y: 1.2 mm over the roof of the lower run channel)
+JAW_HEAD_HOLE = 7.0              # X clamps: the hole for the screw head and the hex key, from under the jaw
+# The tension screws on the belt centre line, under the idler: the pull of the screw is in line with the
+# pull of the belt, so the fork does not turn in its seat. The nut slot (open to the bottom) has its point
+# 0.3 mm under the floor top.
+YFORK_SCREW = (YB_X, YB_AX - 15.8)   # the Y tension screw (x, z)
+FORK_SCREW = (XB_Y, BZ - 15.8)       # the X tension screw (y from the beam centre, z)
+# The idler bracket: an ear beside the inner guide, with an M5 x 12 countersunk screw into a T-nut in the
+# front face slot of the front bar. The ear stands on the bed with the bracket (it prints on its front
+# face), so the head seat is a 45 degree cone with no flat ceiling. A hole from the front face lets the
+# head and the hex key in.
+CSK = {"M5": (10.0, 2.8)}        # ISO 10642 countersunk head: diameter, height
+CSK_KEY = {"M5": (3.0, 1.8)}     # its hex socket: key size, depth
+YBRK_EAR_W = 16.0                # the ear (x), beside the inner guide
+YBRK_EAR_CLAMP = 6.5             # from the head top to the bar face (y): 5.5 mm of the screw in the T-nut
+YBRK_EAR_SCREW_L = 12.0          # M5 x 12 countersunk
+# The table: the rubber feet measure 32.68 mm (2026-11-11), and the rail top is 52.7 mm over the table
+# (the old value of 57 mm was wrong). The frame keeps its z values (the frame parts use them), and the
+# table and the paper move up: the table top is at z = FOOT_H - FOOT_MEASURED.
+FOOT_MEASURED = 32.68            # the rubber feet, measured with calipers (2026-11-11)
+PAPER_Z = FOOT_H - FOOT_MEASURED # the paper top on the table (z): 4.32
+# The camera pole foot hangs on the back bar, 3 mm over the table.
+MFOOT_Z0 = PAPER_Z + 3.0         # the bottom of the pole foot (z)
+MFOOT_FLOOR = MFOOT_Z0 + 11.0    # the floor top under the pole: the M6 head in a counterbore, 4 mm of floor
+POLE_Z0 = MFOOT_FLOOR
+POLE_TOP = POLE_Z0 + POLE_L
+CAM_Z = POLE_TOP + CAM_ABOVE
+YC_HOME = 74.88                  # the gantry y at the front stop (fit check, 2026-11-11): the deeper servo moves the slider 1.92 mm forward

@@ -36,7 +36,7 @@ YML = os.path.join(HERE, "..", "printdeck.yml")
 HEADER = b"penplotter hardware view, hardware/hardware_views.py".ljust(80, b" ")
 BEGIN, END = "  # BEGIN hardware views", "  # END hardware views"
 
-BRASS, STEEL, WHEEL = "#c9a23f", "#b8bcc2", "#1f1f22"
+BRASS, STEEL, WHEEL, ACCENT = "#c9a23f", "#b8bcc2", "#1f1f22", "#7fb6e0"
 
 # The views: the name, the printed parts (the Printdeck part, the sim2 mesh, the fastener part key),
 # the bought parts to show, the wheels, and the description.
@@ -45,26 +45,28 @@ VIEWS = [
      [("Y carriage, left", "y_carriage_left", "y_carriage_left")],
      [], "y_left",
      "The left Y carriage with its hardware. Brass: the long M5 insert in the front outer wheel boss "
-     "(press it in from the top) and the two M3 inserts of the X endstop board. Move the explode slider "
-     "to see each screw come out of its hole."),
+     "(press it in from the top), the two M3 inserts of the X endstop board, and one M3 insert in the "
+     "ledge of each belt pocket. Move the explode slider to see each screw come out of its hole."),
     ("right", "Y carriage, right: inserts and screws",
      [("Y carriage, right", "y_carriage_right", "y_carriage_right"), ("X idler fork", "x_idler_fork", "x_idler_fork")],
      [], "y_right",
      "The right Y carriage and the X idler fork with their hardware. Brass: the long M5 insert in the "
-     "front outer wheel boss (press it in from the top)."),
+     "front outer wheel boss (press it in from the top), and one M3 insert in the ledge of each belt "
+     "pocket."),
     ("carriage", "X plate and pen carriage: inserts and screws",
      [("X plate", "x_carriage_plate", "x_carriage_plate"), ("Pen carriage", "pen_carriage", "pen_carriage"),
       ("Pen slider", "pen_slider", "pen_slider")],
      [("Servo", "servo", "#2f5da8")], "x",
      "The X plate, the pen carriage and the pen slider with their hardware. Brass: the long M5 insert "
-     "in the bottom wheel boss of the X plate. The four M3 x 12 screws go from the back of the X plate "
-     "into the pen carriage."),
+     "in the bottom wheel boss of the X plate, and one M3 insert in the ledge of each belt pocket. The "
+     "four M3 x 12 screws go from the back of the X plate into the pen carriage."),
     ("yfront", "Y front base, left: inserts and screws",
      [("Y front base, left", "y_front_left", "y_front_left"), ("Y idler bracket, left", "y_idler_bracket_left", "y_idler_bracket_left"),
       ("Y idler fork", "y_idler_fork_left", "y_idler_fork_left")],
      [], None,
      "The left front base, the idler bracket and the idler fork with their hardware. Brass: the two M3 "
-     "inserts of the Y endstop board (press them in from the top). The right side is the mirror image."),
+     "inserts of the Y endstop board (press them in from the top). The M5 countersunk screw goes through "
+     "the ear of the bracket into a T-nut in the front face slot of the bar. The right side is the mirror image."),
     ("ymotor", "Y motor bracket, left: screws",
      [("Y motor bracket, left", "y_motor_mount_left", "y_motor_mount_left")],
      [("Y motor", "y_stepper_left", "#202020")], None,
@@ -79,7 +81,7 @@ VIEWS = [
 
 # The order of the items in a view. Printdeck moves the last item off first: the screws first,
 # the inserts last.
-ORDER = ["insert", "spacer", "eccentric", "washer", "wheel", "nut", "nyloc", "tnut", "screw"]
+ORDER = ["insert", "spacer", "eccentric", "washer", "wheel", "nut", "nyloc", "tnut", "clip", "screw"]
 
 
 # ---------------------------------------------------------------- vectors
@@ -198,6 +200,9 @@ def direction(f, tris, screws):
         return snap(neg(f.meta["d"]))       # out of the hole, the way it goes in
     if f.kind == "nut":
         return (0.0, 0.0, 1.0)              # up out of its trap
+    if f.kind == "clip":
+        # A belt jaw: up out of a Y pocket, out of the back of an X pocket.
+        return (0.0, 0.0, 1.0) if f.group == "gantry" else (0.0, 1.0, 0.0)
     c = centre(f.solid)
     if f.kind == "screw":
         # A screw with no axis data (the pen clamp screw): along its long side.
@@ -267,7 +272,7 @@ def main():
         groups = {}
         tris = [t for _, mesh, _ in printed for t in load_tris(os.path.join(HERE, "stl", "sim2", mesh + ".stl"))]
         for pname, mesh, fpart in printed:
-            sel = [f for f in items if f.part == fpart and f.kind not in ("clip", "belt")]
+            sel = [f for f in items if f.part == fpart and f.kind != "belt"]
             if wkind and fpart.startswith(("y_carriage", "x_carriage")):
                 sel += wheels(wkind, c0, xp0)
             for f in sel:
@@ -286,7 +291,7 @@ def main():
             if last == d:
                 d = tuple(round(x * 0.999, 4) + 0.0 for x in d) if kind != "screw" else d
             last = d
-            col = BRASS if kind == "insert" else WHEEL if kind == "wheel" else STEEL
+            col = BRASS if kind == "insert" else WHEEL if kind == "wheel" else ACCENT if kind == "clip" else STEEL
             yml += [f"      - name: {json.dumps(name)}", f"        file: hardware/stl/hardware/{key}/{fn}",
                     f'        color: "{col}"', f"        explode: [{', '.join(f'{x:g}' for x in d)}]"]
     patch_yml(yml)

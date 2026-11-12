@@ -30,7 +30,7 @@ const YL = ["yl_rail", "yl_car", "yl_wtop", "yl_wbot"];
 
 const PRINTED = ["pen_carriage", "pen_slider", "mast_foot",
   "y_carriage_left", "y_carriage_right", "y_front_left", "y_front_right", "x_carriage_plate",
-  "y_motor_mount_left", "y_motor_mount_right", "y_idler_fork", "y_idler_bracket_left", "y_idler_bracket_right", "y_chain_anchor", "x_idler_fork", "fit_rail", "fit_slider", "fit_wheel"];
+  "y_motor_mount_left", "y_motor_mount_right", "y_idler_fork", "y_idler_bracket_left", "y_idler_bracket_right", "y_chain_anchor", "x_idler_fork", "fit_rail", "fit_slider", "fit_wheel", "belt_jaw"];
 const FRONT = [0.7, -1.6, 0.55];      // from the front right, a little above
 const FRONT_FLAT = [0.12, -1, 0.08];  // nearly straight from the front
 const REAR = [0.9, 1.5, 0.6];         // from the rear right
@@ -133,8 +133,12 @@ const INSERTS = {
     inserts: [["insert_m5_heat_set_insert_9_5_mm_long-zp", [0, 0, 1], "M5 insert (long)"]] },
   ins_m5_xplate: { part: "x_carriage_plate", view: "carriage", camera: [1.3, -0.9, 0.45],
     inserts: [["insert_m5_heat_set_insert_9_5_mm_long-yn", [0, -1, 0], "M5 insert (long)"]] },
-  ins_m3_ycar: { part: "y_carriage_left", view: "left", camera: [0.25, -1.4, 0.6],
-    inserts: [["insert_m3_heat_set_insert_5_7_mm-yn", [0, -1, 0], "2 x M3 insert"]] },
+  ins_m3_ycar: { part: "y_carriage_left", view: "left", camera: [0.45, -1.3, 1.0],
+    inserts: [["insert_m3_heat_set_insert_5_7_mm-yn", [0, -1, 0], "M3 insert"],
+              ["insert_m3_heat_set_insert_5_7_mm-zp", [0, 0, 1], "M3 insert"]] },
+  ins_m3_xplate: { part: "x_carriage_plate", view: "carriage", camera: [0.3, 1.4, -0.6],
+    inserts: [["insert_m3_heat_set_insert_5_7_mm-n0707_p0000_n0707", [-0.7071, 0, -0.7071], "M3 insert"],
+              ["insert_m3_heat_set_insert_5_7_mm-p0707_p0000_n0707", [0.7071, 0, -0.7071], "M3 insert"]] },
   ins_m3_yfront: { part: "y_front_left", view: "yfront", camera: [0.7, -1.2, 1.1],
     inserts: [["insert_m3_heat_set_insert_5_7_mm-zp", [0, 0, 1], "2 x M3 insert"]] },
 };

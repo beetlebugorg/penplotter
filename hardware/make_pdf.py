@@ -72,6 +72,7 @@ PRINTS = [
     ("pen_carriage", "Light blue", 1, "Back face on the bed. The pen lift. It bolts to the front of the printed X plate with 4 M3 screws."),
     ("pen_slider", "Light blue", 1, "Upright. Holds the pen in its V bore with an M3 clamp screw. It slides on the dovetail rail of the pen carriage."),
     ("mast_foot", "Light blue", 1, "Floor on the bed. Holds the camera pole behind the back bar."),
+    ("belt_jaw", "Light blue", 6, "Flat on the bed. Print 6: one for each belt end (2 on each Y carriage, 2 on the X plate). An M3 screw presses it on the folded belt end."),
 ]
 
 SETTINGS = [
@@ -91,15 +92,16 @@ TOOLS = [
     (2, "M5 × 30 socket head screws: the front outer Y wheel axles (the head under the wheel, through the long insert)"),
     (4, "M5 × 35 socket head screws and M5 nyloc nuts: the back outer Y wheel axles on the eccentric spacers (2), and the inner Y wheel axles, the head on the 12 mm boss (2)"),
     (3, "X wheel axles: M5 × 30 (top left) and M5 × 35 (top right, eccentric) with M5 nyloc nuts in front, M5 × 25 (bottom) into the insert; 2 stock 6 mm spacers"),
-    (15, "M5 drop-in T-nuts for 2020 slots: 4 for the Y front bases, 4 for the Y motor brackets, 2 for the beam, 1 for the Y chain anchor, 2 for the camera pole foot, and 2 spare"),
+    (17, "M5 drop-in T-nuts for 2020 slots: 4 for the Y front bases, 2 for the ears of the Y idler brackets, 4 for the Y motor brackets, 2 for the beam, 1 for the Y chain anchor, 2 for the camera pole foot, and 2 spare"),
+    (2, "M5 × 12 countersunk screws (ISO 10642): the ears of the Y idler brackets, into T-nuts in the front face slot of the front bar"),
     (13, "M5 × 12 screws: the front bases (4), the Y motor brackets (4), the beam (2, through the back wall of each saddle into the back slot), the Y chain anchor (1), the camera pole foot (2) (T-nuts above)"),
     (3, "Idler forks: an M5 × 30 axle through both cheeks with 2 small washers and a nyloc nut, and an M3 × 20 tension screw with an M3 nut (one X fork, two Y forks)"),
     (3, "GT2 20T toothed idlers, 5 mm bore: one X idler, two Y idlers"),
-    (8, "GT2 6 mm belt crimp clips (OpenBuilds style, stamped steel): 2 on each Y belt and 2 on the X belt, and 2 spare"),
+    (6, "Belt jaws (printed), each with an M3 × 10 screw and an M3 heat-set insert: 2 on each Y carriage and 2 on the X plate"),
     (4, "M3 × 12 screws from the back of the X plate into the pen carriage (T1, T2, H1, H2); they cut their own thread"),
     (11, "Motor screws, M3 × 10: 3 for the X motor (from the front of its wall), 8 for the Y motors (4 each, from inside the bracket)"),
     (4, "M3 × 10 screws: the two end links of the Y chain; they cut their own thread"),
-    (3, "Creality endstop boards (the stock X, Y and Z boards: 20 × 20 mm, KW12 switch, XH plug), 6 M3 × 8 screws and 6 M3 heat-set inserts"),
+    (3, "Creality endstop boards (the stock X, Y and Z boards: 20 × 20 mm, KW12 switch, XH plug), 6 M3 × 8 screws and 6 M3 heat-set inserts (the belt jaws have 6 more)"),
     (4, "Nylon M3 standoffs, 4 mm: two under each breakout board"),
     (1, "3-wire servo pigtail with an XH 5-pin plug: the pen servo on BL_T of the head board"),
     (1, f"1/2 inch split wire loom (on hand), about {CAB.get('x_loom_len', 0) / 10 + 5:.0f} cm: the servo lead from the head board to the X plate, a free loop behind the beam"),
@@ -133,15 +135,17 @@ STEPS = [
         "X plate: lay the plate on its back, the wheel bosses up. Press an insert into the face of the bottom wheel boss (right picture).",
         "Turn a screw in and out once to check each thread: M5 × 30 from below in the carriages, M5 × 25 in the X plate.",
     ], "The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle.", 80),
-    ([("ins_m3_ycar", "Y carriage, left: 2"), ("ins_m3_yfront", "Front base, left and right: 2 each")],
-     "M3 inserts (all parts)", ["left Y carriage", "2 front bases", "6 M3 heat-set inserts", "soldering iron, M3 insert tip", "M3 × 8 screw"], [
+    ([("ins_m3_ycar", "Y carriages: 4 in the left, 2 in the right"), ("ins_m3_xplate", "X plate: 2, from below"),
+      ("ins_m3_yfront", "Front bases: 2 each")],
+     "M3 inserts (all parts)", ["2 Y carriages", "X plate", "2 front bases", "12 M3 heat-set inserts", "soldering iron, M3 insert tip", "M3 × 8 and M3 × 10 screws"], [
         "Change to the M3 tip. Let it get hot.",
-        "Left Y carriage: find the two standoffs on the front face of the X endstop wall (left picture). Press an insert into each, from the front.",
-        "Front bases: press an insert into each of the two standoffs on the top of each base, from the top (right picture).",
-        "Push each insert until its top is flush with the standoff. Let the parts cool.",
-        "Turn an M3 × 8 screw in and out once to check each thread.",
-    ], "The M3 inserts hold the three endstop boards. The right Y carriage has no M3 inserts. "
-       "The right front base is the mirror image of the left base.", 80),
+        "Y carriages: press an insert into the ledge of each belt pocket, from the top. The ledge is the raised floor at the inner end of the pocket.",
+        "Left Y carriage: press an insert into each of the two standoffs on the front face of the X endstop wall, from the front.",
+        "X plate: turn the plate so that the hole under a belt pocket points straight up. Press the insert down through this hole into the ledge. Do the other pocket the same way.",
+        "Front bases: press an insert into each of the two standoffs on the top of each base, from the top.",
+        "Push each insert until its top is flush. Let the parts cool. Turn a screw in and out once to check each thread: M3 × 10 in the ledges, M3 × 8 in the standoffs.",
+    ], "The 6 inserts in the ledges hold the belt jaws. The 6 inserts in the standoffs hold the three endstop boards. "
+       "The right front base is the mirror image of the left base.", 62),
     ("ywheel", "Wheels on the Y carriages", ["2 Y carriages", "6 V-wheels", "4 spacers", "2 eccentric spacers", "2 × M5 × 30", "4 × M5 × 35", "4 nyloc nuts"], [
         "Front outer wheel: put an M5 × 30 screw up through a wheel and a 6 mm spacer, into the insert in the front boss of the plate, outside the rail. There is no nut.",
         "Back outer wheel: put an M5 × 35 screw up through a wheel and an eccentric spacer, into the back hole. The hex is between the wheel and the plate. Put a nyloc nut on top.",
@@ -163,11 +167,13 @@ STEPS = [
         "Hold each bracket on the back face of the back bar, the recess over the head of the bar end screw. Screw it on with two M5 × 12 screws.",
         "Plug in each motor cable. It goes along the table behind the frame to the base board (step \"Breakout boards\"). It does not move.",
     ], "The Y motors stand still. The gantry does not carry them, and the Y motor cables are out of the drag chain.", 100),
-    ("yfront", "Front bases, Y idlers and endstops", ["2 front bases", "2 idler brackets", "2 × M3 × 12", "2 Y idler forks", "2 20T idlers", "2 × M5 × 30 + 4 washers + 2 nyloc", "2 × M3 × 20 + 2 nuts", "4 × M5 × 12 + T-nuts", "2 switches", "4 × M3 × 8"], [
-        "Push an M3 nut into the slot in the thick cheek of each Y idler fork, from below.",
+    ("yfront", "Front bases, Y idlers and endstops", ["2 front bases", "2 idler brackets", "2 × M3 × 12", "2 × M5 × 12 countersunk + T-nuts", "2 Y idler forks", "2 20T idlers", "2 × M5 × 30 + 4 washers + 2 nyloc", "2 × M3 × 20 + 2 nuts", "4 × M5 × 12 + T-nuts", "2 switches", "4 × M3 × 8"], [
+        "Push an M3 nut into the slot in the floor of each Y idler fork, from below. The slot is under the middle of the idler.",
         "Hold an idler between the two cheeks, a washer on each side. Put the M5 × 30 screw through. Tighten the nyloc nut until the idler turns freely with no play.",
         "Turn two M5 drop-in T-nuts into the top slot of the front bar, near each end. Screw a front base on each end with two M5 × 12 screws. Its two lips reach over the front of the bar.",
-        "Hold an idler bracket on the front face of the front bar, under the two lips. Put an M3 × 12 screw down through the inner lip into the bracket.",
+        "Turn an M5 drop-in T-nut into the front face slot of the front bar, behind the ear of each idler bracket.",
+        "Hold an idler bracket on the front face of the front bar, under the two lips. Put an M5 × 12 countersunk screw through the hole in the front of the ear into the T-nut. Tighten it.",
+        "Put an M3 × 12 screw down through the inner lip into the bracket.",
         "Set each fork on the seat of the bracket, between the two guides. Put an M3 × 20 screw through the end wall from the front into the nut. Turn it two turns only.",
         "Lay a Y endstop board on the two standoffs of each front base, the parts up, the plug to the front, the switch to the back. Screw it down with two M3 × 8 screws.",
         "Plug in the endstop cable from the front. Leave 20 mm for the plug and the bend of the wires.",
@@ -202,32 +208,34 @@ STEPS = [
     ], "The X motor is a 42-34: it rides on the gantry, so the shorter motor keeps the moving mass low. "
        "The motor stands behind the left beam end, as on the stock CR-10. The pulley turns free past the beam end."),
     ("xfork", "X idler fork", ["idler fork", "20T toothed idler", "M5 × 30", "2 small M5 washers (7.5 mm)", "M5 nyloc nut", "M3 × 20", "M3 nut"], [
-        "Push an M3 nut into the slot in the thick (back) cheek of the fork, from below.",
+        "Push an M3 nut into the slot in the floor of the fork, from below. The slot is under the middle of the idler.",
         "Hold the idler between the two cheeks of the fork, a washer on each side.",
         "Put the M5 × 30 screw through the front cheek, the washer, the idler, the washer and the back cheek. Put the nyloc nut on the back. Tighten it until the idler turns freely with no play.",
         "Set the fork in the seat past the right beam end, the floor on the seat.",
         "Put the M3 × 20 screw through the end wall from the outside (the right side of the machine), into the nut in the fork. Turn it two turns only. It sets the X belt tension later (step \"X belt\").",
     ], "The idler axle has a support at each end. The fork slides 4 mm out and 2.5 mm in. The tension screw head is on the outside of the right carriage: you reach it without taking anything off.", 95),
-    ("ybelt", "Y belts and crimp clips", ["2 Y belts", "4 crimp clips", "pliers", "tape"], [
-        "Cut each Y belt about 1200 mm long.",
-        "Fold one end back on itself for 20 mm, teeth to teeth. Put a crimp clip over the two layers, 1.5 mm from the fold. Squeeze the clip flat.",
-        f"Measure {BELT_L['y_left']:.0f} mm along the belt from the fold. Mark it. Fold the belt at the mark and crimp the second clip. Cut off the rest of the tail.",
+    ("ybelt", "Y belts and belt jaws", ["2 Y belts", "4 belt jaws", "4 × M3 × 10", "scissors"], [
         "Turn the Y tension screw out until the fork is at the back end of its travel.",
-        "Lay the belt round the motor pulley at the back and the idler at the front, teeth inside. The lower run lies over the rail, under the two clamp blocks of the carriage.",
-        "Drop the two clips into the pockets of the two clamp blocks from the top, the belt in the slits of the end walls.",
+        f"Cut each Y belt about {BELT_L['y_left'] + 80:.0f} mm long.",
+        "Front block: lay the belt end in the slit of the end wall, teeth down. Lay 10 mm of it on the pocket floor, past the end wall. Fold the end back over itself. The fold stops 3 mm short of the ledge.",
+        "Lay a jaw on the two layers, the screw hole over the ledge. Put an M3 × 10 screw through the jaw into the insert. Tighten it until the jaw is down on the ledge.",
+        "On the left carriage the X endstop board is over the front jaw screw. Take the board off (2 screws) to reach the screw, then put it back.",
+        "Lay the belt round the idler at the front and the motor pulley at the back, teeth inside. The lower run lies over the rail, under the two clamp blocks.",
+        "Back block: pull the belt tight by hand through the slit. Fold it back 10 mm past the end wall, cut the tail, and clamp it with a jaw in the same way.",
         "Turn the tension screw in until the belt is tight. Do the same on the other side.",
-    ], "The picture shows the left belt: the idler fork at the front, the clamp blocks on the carriage, the motor at the back. "
-       f"The length is between the middles of the two folds ({BELT_L['y_left']:.1f} mm in the model, with the fork at the middle of "
-       f"its travel). The fork moves {abs(S.YIDLER_TRAVEL[0]):.0f} mm forward and {S.YIDLER_TRAVEL[1]:.0f} mm back. If the belt is too long, crimp a new clip closer to the other clip.", 85),
-    ("xclip", "X belt and crimp clips", ["X belt", "2 crimp clips", "pliers", "ruler or tape"], [
-        "Cut the X belt about 950 mm long.",
-        f"Crimp the first clip as on the Y belts. Measure {BELT_L['x']:.0f} mm from the fold, and crimp the second clip at the mark.",
+    ], "The jaw stops on the ledge, so the screw presses the two layers 0.3 mm and no more. "
+       f"The length between the two folds is {BELT_L['y_left']:.1f} mm in the model, with the fork at the middle of its travel. "
+       f"The fork moves {abs(S.YIDLER_TRAVEL[0]):.0f} mm forward and {S.YIDLER_TRAVEL[1]:.0f} mm back. If the belt is too long, open the back jaw and fold the belt again.", 85),
+    ("xclip", "X belt and belt jaws", ["X belt", "2 belt jaws", "2 × M3 × 10", "scissors"], [
         "Turn the M3 tension screw out until the X idler fork is at the inner end of its travel.",
+        f"Cut the X belt about {BELT_L['x'] + 80:.0f} mm long.",
         "Feed the belt flat, teeth down, through the top slot of the beam from the idler end to the motor end, under the top wheels. Lay it round the pulley and back through the bottom slot.",
-        "At each end of the X plate, lead the belt out of the bottom slot into the 45 degree slit of the clamp, and push the clip into its pocket from the back.",
+        "Left clamp: from the back, lead the belt out of the bottom slot into the 45 degree slit and 10 mm along the pocket, past the end wall. Fold the end back under itself, 3 mm short of the ledge.",
+        "Slide a jaw into the pocket from the back, under the two layers. Put an M3 × 10 screw from below through the hole under the jaw, through the jaw, into the insert. Tighten it until the jaw is on the ledge.",
+        "Right clamp: pull the belt tight by hand, fold it, cut the tail, and clamp it in the same way.",
         "Turn the M3 tension screw in. It pulls the fork outward. Stop when the belt is tight.",
     ], f"This is the stock CR-10 belt path: both runs lie in the slot channels of the beam, so no belt stands in front of the beam. "
-       f"The length is {BELT_L['x']:.1f} mm in the model, with the fork at the middle of its travel. The belt passes the 6.2 mm slot opening at the clamps: keep it centred.", 105),
+       f"The length between the folds is {BELT_L['x']:.1f} mm in the model, with the fork at the middle of its travel. The belt passes the 6.2 mm slot opening at the clamps: keep it centred.", 105),
     ("t_variant", "Control box and harness", ["stock control box", "stock harness", "cable ties", "USB cable"], [
         "Stand the control box on the table, left of the frame. The LCD faces the front.",
         "Run the head cable from the head board along the back of the beam to the left carriage. It goes into the Y drag chain (step \"Moving cables\"), and leaves the chain at its fixed end, at the back left corner.",
@@ -261,7 +269,7 @@ STEPS = [
         "Turn two M5 drop-in T-nuts into the slot in the back face of the back bar, at the centre.",
         "Drop the M3 nut into the slot in the top of the right collar ear. Put the M3 × 16 screw through the two ears. Leave it loose.",
         "Put the pole in the socket. Hold the foot on its side. Put the M6 × 16 screw up through the floor into the pole end. Tighten it.",
-        "Stand the foot and the pole on the table behind the back bar. Screw the foot to the bar with two M5 × 12 screws.",
+        "Hold the foot and the pole behind the back bar. Screw the foot to the bar with two M5 × 12 screws. The foot hangs 3 mm over the table.",
         "Tighten the M3 collar screw. Tie the USB cable to the foot through the two slots, and to the pole.",
     ], "The pole is 590 mm long. The camera lens is about 15 mm above the top of the pole. plotstudio calibrates the view."),
     ("table", "First run", ["USB cable", "mains cable"], [
@@ -471,7 +479,7 @@ def fastener_page(n):
   <p style="font-size:9.5pt">The model has each screw, nut, washer, spacer and T-nut of the main build. The fit check moves
   them with the parts over the whole travel. No fastener touches a printed part, the frame, a belt or another fastener.
   The exceptions are the intended contacts: a T-nut in a slot, a screw in a motor thread or in a heat-set insert. The
-  build uses 9 heat-set inserts: 3 long M5 inserts for wheel axles and 6 M3 inserts for the endstop boards.
+  build uses 15 heat-set inserts: 3 long M5 inserts for wheel axles, 6 M3 inserts for the endstop boards and 6 M3 inserts for the belt jaws.
   The other M2 and M3 screws in plastic cut their own thread.</p>
   <table class="tight" style="font-size:7.8pt"><tr><th>Part</th><th class="n">Items</th><th>Fasteners</th></tr>{''.join(rows)}</table>
   <p style="font-size:8.2pt;margin-top:2mm"><b>To buy (in the model):</b> {tot}. Buy 2 more T-nuts as spares.
@@ -555,7 +563,7 @@ def end_page(n):
     <div><p style="font-size:10.5pt">Pen up: the horn turns to {FIT['pen_up_deg']:.0f}° and lifts the slider
     {FIT['lift']:.1f} mm. Pen down: the horn is {FIT['tab_gap']:.0f} mm under the tab, and the pen rests on the paper.</p>
     <p style="font-size:10.5pt">The pen carriage holds the pen lift. Four M3 screws hold it
-    on the front of the printed X plate. Crimp clips hold the X belt ends in two pockets of the X plate, under the beam.</p></div>
+    on the front of the printed X plate. Printed jaws clamp the X belt ends in two pockets of the X plate, under the beam.</p></div>
   </div>
   {foot(n)}
 </section>"""

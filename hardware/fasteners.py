@@ -19,7 +19,7 @@ import parts as P
 import shape as S
 
 MINZ = P.MINZ
-CLIP_ITEM = "GT2 6 mm belt crimp clip"
+JAW_ITEM = "belt jaw (printed)"
 
 
 @dataclass
@@ -60,7 +60,7 @@ def _along(solid, p, d, x=None):
 def screw_solid(size, length, head="socket"):
     """A screw on the Z axis: the head under Z = 0, the shank from 0 to length. Real shapes: ISO 4762
     socket head with its hex socket, ISO 7380 button head, pan head with a cross recess."""
-    h = {"socket": P.socket_head, "button": P.button_head, "pan": P.pan_head}[head](size)
+    h = {"socket": P.socket_head, "button": P.button_head, "pan": P.pan_head, "csk": P.csk_head}[head](size)
     return h + P.shank(size, length)
 
 
@@ -90,7 +90,7 @@ SMALL_WASHER_ITEM = "M5 washer, 7.5 mm across (small)"
 
 def name_of(head, size, length):
     return f"{size} x {length:.0f} " + {"socket": "socket head", "button": "button head (ISO 7380)",
-                                         "pan": "self-tapping"}[head]
+                                         "pan": "self-tapping", "csk": "countersunk (ISO 10642)"}[head]
 
 
 class Builder:
@@ -221,6 +221,9 @@ def static_items(b):
                      "static", "y_idler_bracket_left")
         b.joint("y_idler_bracket: M3 through a lip of the front base into the bracket", it, "selftap", S.YBRK_SCREW_L,
                 S.YLIP[0], 9.0, "M3")
+    # The ear of the bracket: an M5 x 12 countersunk screw into a T-nut in the front face slot of the bar.
+    b.tnut_screw("Y bracket ear screw", P.y_ear_screw(), (0, 1, 0), (1, 0, 0), "static", "y_idler_bracket_left",
+                 S.YBRK_EAR_CLAMP, length=S.YBRK_EAR_SCREW_L, head="csk")
     item = b.screw("Y tension screw", "M3", S.YTENSION_L, "socket", (sx, ye0, sz), (0, 1, 0), "static", "y_idler_bracket_left",
                    ("Y idler fork",))
     yn = S.YI_Y - S.FORK_R + S.FORK_NUT_X + 0.2
@@ -316,13 +319,16 @@ def gantry_items(b, c):
     b.joint("y_carriage: M5 inner wheel axle (head on the 12 mm boss), nyloc nut under the wheel",
             name_of("socket", "M5", S.IN_AXLE_L), "nut", S.IN_AXLE_L, S.IN_BOSS + S.SPACER_H + S.WHEEL_T, S.NYLOC[1])
     bc = S.BZ
-    # The upper run of the Y belt: its two folded ends and their crimp clips in the clamp blocks.
+    # The upper run of the Y belt: its two folded ends and their printed jaws in the clamp blocks. An M3
+    # x 10 through each jaw into an M3 insert in the ledge of the pocket.
     for i, (k, sh) in enumerate(P.y_belt_ends(c)):
         end = "front" if i < 2 else "back"
         if k == "clip":
-            b.add(f"Y belt clip {end}", CLIP_ITEM, "GT2", "clip", "gantry", "y_carriage_left", sh, ("Y belt",))
+            b.add(f"Y belt jaw {end}", JAW_ITEM, "M3", "clip", "gantry", "y_carriage_left", sh, ("Y belt", "jaw screw"))
+            x, y, z = P.y_jaw_axis(c, end == "front")
+            jaw_screw(b, f"Y belt jaw screw {end}", (x, y, z), (0, 0, -1), "gantry", "y_carriage_left")
         else:
-            b.add(f"Y belt end {end}", "belt end", "GT2", "belt", "gantry", "y_carriage_left", sh, ("Y belt",))
+            b.add(f"Y belt end {end}", "belt end", "GT2", "belt", "gantry", "y_carriage_left", sh, ("Y belt", "belt jaw"))
     b.mirror_since(mark)
     # The beam: one M5 through the back wall of each saddle into a T-nut in the back slot of the beam.
     for side, x in (("left", S.BEAM_TNUT_X), ("right", S.FRAME_X - S.BEAM_TNUT_X)):
@@ -393,6 +399,26 @@ def gantry_items(b, c):
 
 # ---------------------------------------------------------------- carriage and pen: in the plate frame, then moved
 
+def jaw_screw(b, name, top, d, group, part, t=None):
+    """The M3 x 10 screw of a belt jaw (the head on the jaw top at top, d into the clamp) and its M3
+    insert in the ledge under the jaw. t moves both from the plate frame to the frame."""
+    ins = S.INSERT_M3
+    gap = S.JAW_UNDER - S.JAW_LEDGE
+    ledge = tuple(top[k] + d[k] * (S.JAW_T + gap) for k in range(3))
+    item = b.screw(name, "M3", S.JAW_SCREW_L, "socket", top, d, group, part, ("belt jaw",))
+    sc = b.items[-1]
+    b.add(name.replace("screw", "insert"), INSERT_M3_ITEM, "M3", "insert", group, part,
+          _along(P.insert_real(ins["od"], ins["len"] - 0.05, S.SHANK["M3"] / 2 + 0.05), ledge, d), ("Y carriage", "X plate"))
+    b.items[-1].meta = {"size": "M3", "len": ins["len"], "od": ins["od"], "hole": ins["hole"],
+                        "depth": S.JAW_INSERT_DEPTH, "p": ledge, "d": d}
+    if t is not None:
+        for f in (sc, b.items[-1]):
+            f.solid = t * f.solid
+            f.meta.update(_tf_axis(t, f.meta["p"], f.meta["d"]))
+    b.joint("belt jaw: M3 through the jaw into a heat-set insert in the ledge", item, "insert", S.JAW_SCREW_L,
+            S.JAW_T + gap, ins["len"], "M3")
+
+
 def carriage_items(b, t):
     """The head screws, the servo screws and the X wheel axles, moved by t (plate frame to frame)."""
     for i, (n, x, z) in enumerate(S.HEAD_HOLES):
@@ -451,14 +477,18 @@ def carriage_items(b, t):
 
 
 def x_belt_items(b, t):
-    """The two X belt ends and their crimp clips in the clamp blocks of the X plate."""
+    """The two X belt ends and their printed jaws in the clamp blocks of the X plate, each with an M3 x 10
+    from under the jaw into an M3 insert in the ledge."""
     for i, (k, sh) in enumerate(P.x_belt_ends()):
         end = "left" if i < 2 else "right"
         if k == "clip":
-            b.add(f"X belt clip {end}", CLIP_ITEM, "GT2", "clip", "carriage", "x_carriage_plate", t * sh, ("X belt",))
+            b.add(f"X belt jaw {end}", JAW_ITEM, "M3", "clip", "carriage", "x_carriage_plate", t * sh, ("X belt", "jaw screw"))
+            top, d = P.x_jaw_axis(end)
+            jaw_screw(b, f"X belt jaw screw {end}", top, d, "carriage", "x_carriage_plate", t)
         else:
             # The belt end starts in the bottom slot of the beam (the beam model is a solid box).
-            b.add(f"X belt end {end}", "belt end", "GT2", "belt", "carriage", "x_carriage_plate", t * sh, ("X belt", "beam"))
+            b.add(f"X belt end {end}", "belt end", "GT2", "belt", "carriage", "x_carriage_plate", t * sh,
+                  ("X belt", "beam", "belt jaw"))
 
 
 def pen_items(b, t):

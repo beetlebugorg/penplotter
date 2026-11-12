@@ -3,7 +3,7 @@ world frame. Each part is modelled in world coordinates. model.py turns it to it
 
 import math
 
-from build123d import (Align, Axis, Box, Circle, Cone, Cylinder, Plane, Polygon, Pos, Rectangle, revolve,
+from build123d import (Align, Axis, Box, Circle, Cone, Cylinder, Location, Plane, Polygon, Pos, Rectangle, revolve,
                        Rot, Sketch, Vector, extrude, offset)
 
 import shape as S
@@ -148,7 +148,9 @@ def slider(z0=S.SLIDER_Z0):
     z_b = S.TAB_Z0 + (x1 - S.SLIDER_X1)
     top = z_b + S.TAB_TOP
     tab_sk = poly((x0, z_a), (x1, z_b), (x1, top), (x0, top))
-    tab = extrude(Plane.XZ.offset(-S.TAB_Y[0]) * tab_sk, S.TAB_Y[0] - S.TAB_Y[1], dir=MY)
+    # The tab stops at the front face of the slider: a corner past the face has no material under it in the print.
+    ty1 = max(S.TAB_Y[1], S.SLIDER_FRONT)
+    tab = extrude(Plane.XZ.offset(-S.TAB_Y[0]) * tab_sk, S.TAB_Y[0] - ty1, dir=MY)
     part = body + tab
     slot = extrude(Plane.XY.offset(-1) * rail_profile(grow=S.DT_CLR, y_back=S.SLIDER_BACK + 1), h + 2, dir=PZ)
     bore = extrude(Plane.XY.offset(-1) * bore_2d(), h + 2, dir=PZ)
@@ -705,30 +707,30 @@ def pole():
 
 def mast_foot():
     """The foot of the camera pole. A plate on the back face of the back bar (two M5 screws in
-    T-nuts in the bar slot), and a socket for the pole behind it. The floor of the socket stands on
-    the table: an M6 bolt goes up through it into the pole end, its head in a counterbore. A split
+    T-nuts in the bar slot), and a socket for the pole behind it. It hangs on the bar, 3 mm over the
+    table: an M6 bolt goes up through it into the pole end, its head in a counterbore. A split
     collar at the back of the socket and one M3 screw take up the play; the M3 nut drops into a
     slot from the top. Two cable tie slots hold the USB cable. It prints upright, the floor on the bed."""
     cx, cy = S.MAST_X, S.POLE_Y
     y0, y1 = S.FRAME_Y, S.FRAME_Y + S.MFOOT_PLATE
     zt, hx, ro = S.MFOOT_TOP, S.MFOOT_HALF_X, S.POLE_R_OUT
     # The plate: full width at the bar, 45 degrees in below the bar to the socket, on the bed.
-    zb = S.BAR_Z0
+    zb, z0 = S.BAR_Z0, S.MFOOT_Z0
     zk = zb - (hx - ro)
-    pts = ((cx - hx, zt), (cx + hx, zt), (cx + hx, zb), (cx + ro, zk), (cx + ro, 0.0), (cx - ro, 0.0), (cx - ro, zk), (cx - hx, zb))
+    pts = ((cx - hx, zt), (cx + hx, zt), (cx + hx, zb), (cx + ro, zk), (cx + ro, z0), (cx - ro, z0), (cx - ro, zk), (cx - hx, zb))
     part = extrude(Plane.XZ.offset(-y0) * poly(*pts), y1 - y0, dir=(0, 1, 0))
-    part += Pos(cx, cy, 0) * Cylinder(ro, zt, align=MINZ)
+    part += Pos(cx, cy, z0) * Cylinder(ro, zt - z0, align=MINZ)
     # The collar ears at the back, each side of the slit.
     ey0, ey1 = cy + ro - 2.0, cy + ro + S.COLLAR_EAR
-    part += box(cx - 6.8, cx + 6.8, ey0, ey1, 0.0, zt)
+    part += box(cx - 6.8, cx + 6.8, ey0, ey1, z0, zt)
     # The socket, the slit, the M6 hole and its counterbore (with a 45 degree cone: no flat ceiling).
     rb = S.POLE_D / 2 + S.POLE_CLR
     part -= Pos(cx, cy, S.MFOOT_FLOOR) * Cylinder(rb, zt, align=MINZ)
     part -= box(cx - 0.8, cx + 0.8, cy, ey1 + 1, S.MFOOT_FLOOR, zt + 1)
-    part -= Pos(cx, cy, -1) * Cylinder(S.M6_CLEAR / 2, S.MFOOT_FLOOR + 2, align=MINZ)
+    part -= Pos(cx, cy, z0 - 1) * Cylinder(S.M6_CLEAR / 2, S.MFOOT_FLOOR - z0 + 2, align=MINZ)
     rh, hh = S.M6_HEAD[0] / 2 + 0.5, S.M6_HEAD[1] + 0.5
-    part -= Pos(cx, cy, -1) * Cylinder(rh, hh + 1, align=MINZ)
-    part -= Pos(cx, cy, hh) * Cone(rh, S.M6_CLEAR / 2, rh - S.M6_CLEAR / 2, align=MINZ)
+    part -= Pos(cx, cy, z0 - 1) * Cylinder(rh, hh + 1, align=MINZ)
+    part -= Pos(cx, cy, z0 + hh) * Cone(rh, S.M6_CLEAR / 2, rh - S.M6_CLEAR / 2, align=MINZ)
     # The M3 collar screw across the slit, and the hex trap for its nut on the +X ear.
     ys, zs = (ey0 + ey1) / 2, (S.MFOOT_FLOOR + zt) / 2
     part -= teardrop_x(S.M3_CLEAR, cx - 8, cx + 8, ys, zs)
@@ -947,22 +949,52 @@ XCL_POCKET_U = (S.XCL_WALL_U + S.CLIP_WALL, S.XCL_WALL_U + S.CLIP_WALL + S.CLIP_
 XCL_VT = S.BELT_T / 2 + 1.5
 
 
+def x_jaw_point(side, u, p):
+    """A point of an X clamp: u along the belt from the exit point, p from the belt centre toward the
+    jaw (-n). Returns (x, y, z) in the plate frame, at the belt centre plane y."""
+    (x0, z0), e, n = _xcl_frame(side)
+    return (x0 + e[0] * u - n[0] * p, S.PLATE_FRONT + S.XB_Y, z0 + e[1] * u - n[1] * p)
+
+
+def x_jaw_axis(side):
+    """The jaw screw of an X clamp: the point on the jaw top and the direction into the clamp (+n)."""
+    (_, _), _, n = _xcl_frame(side)
+    top = x_jaw_point(side, XCL_POCKET_U[0] + S.JAW_SCREW_U, S.JAW_UNDER + S.JAW_T)
+    return top, (n[0], 0.0, n[1])
+
+
 def x_clamp_cuts(side):
-    """The belt path, the slit through the clip wall and the clip pocket of one clamp. All open to the
-    back (+y): the crimped belt end drops in from behind the beam."""
+    """The belt path, the slit through the end wall and the jaw pocket of one clamp, all open to the
+    back (+y): the belt drops in from behind the beam, and the jaw slides in from the back. The pocket
+    floor is on the beam side of the belt. Past the fold the floor is a ledge with the M3 insert. A hole
+    under the jaw lets the screw head and the hex key in."""
     yb = S.PLATE_FRONT + S.XB_Y
     w = S.BELT_W / 2 + 0.6
+    u0, u1 = XCL_POCKET_U
+    hp = S.CLIP_POCKET[1] / 2
+    pj = S.JAW_UNDER + S.JAW_T + 0.3
+    uf = u0 + S.JAW_L + S.JAW_FOLD
     cut = _slant_box(side, -3.0, S.XCL_WALL_U + 0.1, -S.BELT_T / 2 - 0.9, XCL_VT, yb - w, S.XCL_BACK + 1)
-    cut += _slant_box(side, S.XCL_WALL_U - 0.1, XCL_POCKET_U[0] + 0.1, -S.BELT_SLOT / 2, XCL_VT, yb - w, S.XCL_BACK + 1)
-    cut += _slant_box(side, XCL_POCKET_U[0], XCL_POCKET_U[1], XCL_VT - S.CLIP_POCKET[2], XCL_VT,
-                      yb - S.CLIP_POCKET[1] / 2, S.XCL_BACK + 1)
+    cut += _slant_box(side, S.XCL_WALL_U - 0.1, u0 + 0.1, -S.BELT_SLOT / 2, XCL_VT, yb - w, S.XCL_BACK + 1)
+    cut += _slant_box(side, u0, uf, -pj, S.BELT_T / 2, yb - hp, S.XCL_BACK + 1)
+    cut += _slant_box(side, uf - 0.01, u1, -pj, -S.JAW_LEDGE, yb - hp, S.XCL_BACK + 1)
+    top, d = x_jaw_axis(side)
+    ledge = x_jaw_point(side, u0 + S.JAW_SCREW_U, S.JAW_LEDGE)
+    cut += Location(Plane(origin=ledge, z_dir=d)) * Cylinder(S.INSERT_M3["hole"] / 2, S.JAW_INSERT_DEPTH, align=MINZ)
+    cut += Location(Plane(origin=top, z_dir=(-d[0], 0, -d[2]))) * Cylinder(S.JAW_HEAD_HOLE / 2, 30.0, align=MINZ)
     return cut
 
 
 def x_clamp_block(side):
-    """The block of one clamp under the beam: from the plate back to XCL_BACK, under the beam bottom."""
-    blk = _slant_box(side, S.XCL_WALL_U - 1.0, XCL_POCKET_U[1] + 2.4, XCL_VT - S.CLIP_POCKET[2] - 2.4, XCL_VT + 2.4,
-                     0.0, S.XCL_BACK)
+    """The block of one clamp under the beam: from the plate back to XCL_BACK, under the beam bottom.
+    Past the fold it reaches further toward the beam, round the M3 insert of the jaw."""
+    u0, u1 = XCL_POCKET_U
+    pj = S.JAW_UNDER + S.JAW_T + 0.3
+    blk = _slant_box(side, S.XCL_WALL_U - 1.0, u1 + 2.4, -pj - 2.4, XCL_VT + 2.4, 0.0, S.XCL_BACK)
+    blk += _slant_box(side, u0 + S.JAW_L + S.JAW_FOLD - 1.0, u1 + 2.4, 0.0, 8.0, 0.0, S.XCL_BACK)
+    # Under the screw end the block is solid down to the bed: the hole for the screw head opens in the
+    # bottom face, and no part of the wall under the pocket hangs in the air.
+    blk += _slant_box(side, u0 + S.JAW_L + S.JAW_FOLD - 1.0, u1 + 2.4, -40.0, -pj, 0.0, S.XCL_BACK)
     ztop = S.PLATE_BEAM_Z - S.BEAM / 2 - 0.5
     x0, x1 = S.XP_X
     return blk & box(x0, x1, -1, S.XCL_BACK + 1, S.XP_Z[0], ztop)
@@ -970,29 +1002,30 @@ def x_clamp_block(side):
 
 def x_belt_ends():
     """The two X belt ends on the carriage (context, plate frame): the slant from the slot into the
-    pocket, the fold, and the crimp clip. [(kind, solid)]"""
+    pocket, the 180 degree fold back over the run, and the printed jaw on the two layers.
+    [(kind, solid)]"""
     out = []
     yb = S.PLATE_FRONT + S.XB_Y
     y0, y1 = yb - S.BELT_W / 2, yb + S.BELT_W / 2
     t = S.BELT_T
+    u0, u1 = XCL_POCKET_U
     for side in ("left", "right"):
-        uc0 = XCL_POCKET_U[0] + 0.3
-        uc1 = uc0 + S.CLIP[0]
-        # The fold lies on the -n side (the pocket hangs below the belt line).
-        clip = _slant_box(side, uc0, uc1, -t / 2 - S.CLIP[2] / 2, -t / 2 + S.CLIP[2] / 2, yb - S.CLIP[1] / 2, yb + S.CLIP[1] / 2)
-        clip -= _slant_box(side, uc0 - 1, uc1 + 1, -1.5 * t - 0.05, t / 2 + 0.05, y0 - 0.05, y1 + 0.05)
-        out.append(("clip", clip))
-        uf = uc1 + 1.5
+        # The fold lies on the jaw side (-n) of the run.
+        uf = u0 + S.JAW_L
         belt = _slant_box(side, 0.0, uf, -t / 2, t / 2, y0, y1)
         belt += _slant_box(side, uf, uf + t, -1.5 * t, t / 2, y0, y1)
-        belt += _slant_box(side, uc0, uf, -1.5 * t, -t / 2, y0, y1)
+        belt += _slant_box(side, u0 + 0.3, uf, -1.5 * t, -t / 2, y0, y1)
         out.append(("belt", belt))
+        jaw = _slant_box(side, u0 + 0.2, u1 - 0.2, -(S.JAW_UNDER + S.JAW_T), -S.JAW_UNDER, yb - S.JAW_W / 2, yb + S.JAW_W / 2)
+        top, d = x_jaw_axis(side)
+        jaw -= Location(Plane(origin=top, z_dir=d)) * Cylinder(S.M3_CLEAR / 2, S.JAW_T + 1, align=MINZ)
+        out.append(("clip", jaw))
     return out
 
 
 def x_folds_u():
     """The fold of each X belt end, along the slant from the exit point (for the belt length)."""
-    return XCL_POCKET_U[0] + 0.3 + S.CLIP[0] + 1.5 + S.BELT_T / 2
+    return XCL_POCKET_U[0] + S.JAW_L + S.BELT_T / 2
 
 
 # ---------------------------------------------------------------- the printed X plate (plate frame)
@@ -1224,18 +1257,41 @@ def y_clamp_block(c, front):
     return box(x0, x1, y0, y1, z0, S.YCL_TOP)
 
 
+def y_jaw_frame(c, front):
+    """The pocket start (y, at the inner face of the end wall) and the direction along the belt into
+    the pocket (+1 or -1) of a Y clamp block (left carriage)."""
+    return (c + S.YCL_FRONT[1], 1) if front else (c + S.YCL_BACK[1], -1)
+
+
+def y_jaw_axis(c, front):
+    """The jaw screw of a Y clamp: the point on the jaw top (the screw goes down)."""
+    st, sg = y_jaw_frame(c, front)
+    return (S.YB_X, st + sg * S.JAW_SCREW_U, S.YB_HIGH + S.JAW_UNDER + S.JAW_T)
+
+
 def y_clamp_cuts(c, front):
+    """The jaw pocket of a Y clamp block, open to the top: the floor under the run, the ledge past the
+    fold with the M3 insert, and the slit in the end wall (open to the top: the belt drops in)."""
     xb = S.YB_X
     hp = S.CLIP_POCKET[1] / 2
     zh = S.YB_HIGH
+    st, sg = y_jaw_frame(c, front)
+
+    def yr(u0, u1):
+        a, b = st + sg * u0, st + sg * u1
+        return min(a, b), max(a, b)
+
+    uf = S.JAW_L + S.JAW_FOLD
+    cut = box(xb - hp, xb + hp, *yr(0.0, uf), zh - S.BELT_T / 2, 200)
+    cut += box(xb - hp, xb + hp, *yr(uf - 0.01, S.JAW_POCKET), zh + S.JAW_LEDGE, 200)
     if front:
         yw0, yw1 = c + S.YCL_FRONT[0], c + S.YCL_FRONT[1]
-        py0, py1 = yw1, yw1 + S.CLIP_POCKET[0] + S.CLIP_LOOP
     else:
         yw0, yw1 = c + S.YCL_BACK[1], c + S.YCL_BACK[0]
-        py0, py1 = yw0 - S.CLIP_POCKET[0] - S.CLIP_LOOP, yw0
-    cut = box(xb - hp, xb + hp, py0, py1, zh - S.CLIP_POCKET[2] / 2, 200)
     cut += box(xb - S.BELT_W / 2 - 0.5, xb + S.BELT_W / 2 + 0.5, min(yw0, yw1) - 1, max(yw0, yw1) + 1, zh - S.BELT_SLOT / 2, 200)
+    x, y, _ = y_jaw_axis(c, front)
+    zl = zh + S.JAW_LEDGE
+    cut += Pos(x, y, zl - S.JAW_INSERT_DEPTH) * Cylinder(S.INSERT_M3["hole"] / 2, S.JAW_INSERT_DEPTH + 1, align=MINZ)
     return cut
 
 
@@ -1318,7 +1374,8 @@ def y_carriage(c=0.0, end="motor"):
         xe0, xe1 = ix - S.FORK_EW[1], ix - S.FORK_EW[0]
         ya, yb_ = c + S.FORK_Y[0] - S.FORK_CLR - 4.0, c + S.FORK_Y[1] + S.FORK_CLR + 4.0
         ztop = S.FORK_FLOOR[1] + 3.0
-        prof = poly((x0, z1 - 0.5), (xe0, z1 - 0.5 + (x0 - xe0)), (xe0, S.BZ + 4.0), (xe1, S.BZ + 4.0), (xe1, ztop), (x0, ztop))
+        # The 45 degree underside starts at the plate bottom: 3 mm or more of material under the tension screw.
+        prof = poly((x0, z0), (xe0, z0 + (x0 - xe0)), (xe0, S.BZ + 4.0), (xe1, S.BZ + 4.0), (xe1, ztop), (x0, ztop))
         part += extrude(Plane.XZ.offset(-ya) * prof, yb_ - ya, dir=(0, 1, 0))
         # The block reaches in to the saddle: the end wall load goes into the plate and the saddle. Over the
         # eccentric boss it leaves room for the nut and the wrench.
@@ -1440,30 +1497,42 @@ def y_belt(c):
 
 
 def y_belt_ends(c=0.0):
-    """The two folded ends of the upper run of the left Y belt in the clamp blocks of the carriage and
-    their clips (context, gantry y = c): [(kind, solid)]."""
+    """The two folded ends of the upper run of the left Y belt in the clamp blocks of the carriage, and
+    their printed jaws (context, gantry y = c): [(kind, solid)]."""
     out = []
     t, w = S.BELT_T, S.BELT_W
     x0, x1 = S.YB_X - w / 2, S.YB_X + w / 2
     zs = S.YB_HIGH
-    for wall, sgn in ((c + S.YCL_FRONT[1], 1), (c + S.YCL_BACK[1], -1)):
-        yc0, yc1 = wall + sgn * 0.3, wall + sgn * (0.3 + S.CLIP[0])
-        yf = yc1 + sgn * 1.5
-        clip = (box(S.YB_X - S.CLIP[1] / 2, S.YB_X + S.CLIP[1] / 2, yc0, yc1, zs - t / 2 - 1.75, zs - t / 2 - 1.75 + S.CLIP[2])
-                - box(x0 - 0.05, x1 + 0.05, yc0 - sgn, yc1 + sgn, zs - t / 2 - 0.05, zs + 1.5 * t + 0.05))
-        out.append(("clip", clip))
-        belt = box(x0, x1, wall - sgn * (S.CLIP_WALL + 0.5), yf, zs - t / 2, zs + t / 2)
-        belt += box(x0, x1, yf, yf + sgn * t, zs - t / 2, zs + 1.5 * t)
-        belt += box(x0, x1, yf, yc0, zs + t / 2, zs + 1.5 * t)
+    for front in (True, False):
+        st, sg = y_jaw_frame(c, front)
+
+        def yb(u0, u1):
+            a, b = st + sg * u0, st + sg * u1
+            return min(a, b), max(a, b)
+
+        belt = box(x0, x1, *yb(-(S.CLIP_WALL + 0.5), S.JAW_L), zs - t / 2, zs + t / 2)
+        belt += box(x0, x1, *yb(S.JAW_L, S.JAW_L + t), zs - t / 2, zs + 1.5 * t)
+        belt += box(x0, x1, *yb(0.3, S.JAW_L), zs + t / 2, zs + 1.5 * t)
         out.append(("belt", belt))
+        jaw = box(S.YB_X - S.JAW_W / 2, S.YB_X + S.JAW_W / 2, *yb(0.2, S.JAW_POCKET - 0.2), zs + S.JAW_UNDER,
+                  zs + S.JAW_UNDER + S.JAW_T)
+        x, y, z = y_jaw_axis(c, front)
+        jaw -= Pos(x, y, z - S.JAW_T - 1) * Cylinder(S.M3_CLEAR / 2, S.JAW_T + 2, align=MINZ)
+        out.append(("clip", jaw))
     return out
 
 
 def y_belt_folds(c=0.0):
     """The middle of the fold of the front and the back end of the upper run (y), at gantry y = c."""
-    f = c + S.YCL_FRONT[1] + 0.3 + S.CLIP[0] + 1.5 + S.BELT_T / 2
-    b = c + S.YCL_BACK[1] - 0.3 - S.CLIP[0] - 1.5 - S.BELT_T / 2
-    return f, b
+    (f0, fs), (b0, bs) = y_jaw_frame(c, True), y_jaw_frame(c, False)
+    return f0 + fs * (S.JAW_L + S.BELT_T / 2), b0 + bs * (S.JAW_L + S.BELT_T / 2)
+
+
+def belt_jaw():
+    """The printed jaw of a belt end, in its print orientation: the flat underside on the bed. The
+    same jaw goes in all 6 clamp pockets."""
+    jaw = box(0.0, S.JAW_LEN, -S.JAW_W / 2, S.JAW_W / 2, 0.0, S.JAW_T)
+    return jaw - Pos(S.JAW_SCREW_U - 0.2, 0, -1) * Cylinder(S.M3_CLEAR / 2, S.JAW_T + 2, align=MINZ)
 
 
 def y_motor_mount():
@@ -1578,6 +1647,26 @@ def y_front_base(side="left"):
     return part if side == "left" else mirror_x(part)
 
 
+def y_ear_screw():
+    """The M5 screw of the ear of the left idler bracket: the point on the bar face (x, y, z)."""
+    gx1 = y_fork_frame()[3]
+    return (gx1 + S.YBRK_EAR_W / 2, 0.0, S.BAR_SLOT_Z[0])
+
+
+def y_ear_cut():
+    """The hole of the ear screw: the hole for the head and the key from the front face, the 45 degree
+    cone seat of the countersunk head, and the clearance hole to the bar face."""
+    x, _, z = y_ear_screw()
+    ye0 = y_fork_frame()[4]
+    d, k = S.CSK["M5"]
+    yt = -S.YBRK_EAR_CLAMP                  # the head top
+    r0, r1 = d / 2 + 0.2, S.M5_CLEAR / 2
+    seat = _rev([(0, 0), (r0, 0), (r0, k - (r0 - r1)), (r1, k), (r1, S.YBRK_EAR_CLAMP + 1), (0, S.YBRK_EAR_CLAMP + 1)])
+    cut = Location(Plane(origin=(x, yt, z), z_dir=(0, 1, 0))) * seat
+    cut += _ycyl(r0, ye0 - 1, yt + 0.01, x, z)
+    return cut
+
+
 def y_idler_bracket(side="left"):
     """The idler bracket of the left Y belt in front of the front bar (frame position): the seat of the
     fork between two guides, and the end wall with the M3 tension screw (the head at the front). It
@@ -1596,6 +1685,9 @@ def y_idler_bracket(side="left"):
     part -= box(fx0 - S.FORK_CLR, fx1 + S.FORK_CLR, ye1 - 0.01, 0.02, seat, 300)
     sx, sz = S.YFORK_SCREW
     part -= _ycyl(S.M3_CLEAR / 2, ye0 - 1, ye1 + 1, sx, sz)        # vertical in the print: round
+    # The ear beside the inner guide: an M5 countersunk screw into a T-nut in the front face slot of the bar.
+    part += box(gx1 - 0.01, gx1 + S.YBRK_EAR_W, ye0, 0.0, za, zg)
+    part -= y_ear_cut()
     for x, y in y_lip_screws():
         part -= hole_up(S.SELF_TAP, (x, y, zg - 9.0), (0, 0, 1), 9.5, (0, 1, 0))
     return part if side == "left" else mirror_x(part)
@@ -1877,6 +1969,16 @@ def pan_head(size):
     head = _rev([(0, -k), (0.4 * d, -k), (d / 2, -k + 0.4 * k), (d / 2, 0), (0, 0)])
     w = 0.12 * d
     return head - box(-0.3 * d, 0.3 * d, -w / 2, w / 2, -k - 0.1, -k + 0.5 * k) - box(-w / 2, w / 2, -0.3 * d, 0.3 * d, -k - 0.1, -k + 0.5 * k)
+
+
+def csk_head(size):
+    """ISO 10642 countersunk head with a hex socket: the top face at Z = 0, the 90 degree cone goes up
+    into the part (+Z), the same way as the shank."""
+    d, k = S.CSK[size]
+    r = S.SHANK[size] / 2
+    s_, t = S.CSK_KEY[size]
+    head = _rev([(0, 0), (d / 2, 0), (d / 2, k - (d / 2 - r)), (r, k), (0, k)])
+    return head - _hex_prism(s_, -0.1, t)
 
 
 def shank(size, length):

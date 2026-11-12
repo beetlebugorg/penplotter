@@ -20,7 +20,8 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   - Three stock V-wheels on vertical axles in the side slots of the rail (2040, laid flat): 2 outside the rail, 44 mm
     apart (the back one on the eccentric spacer, in an 18 mm boss), 1 inside, 18 mm behind the beam centre, under a 12 mm
     boss on a tongue. The front outer axle goes into an M5 heat-set insert in a 14 mm boss. No part of the carriage goes under the rail.
-  - Two clamp blocks for the upper run of the Y belt, with crimp clip pockets open to the top.
+  - Two clamp blocks for the upper run of the Y belt, with pockets open to the top. A printed belt jaw and an M3 screw
+    into a heat-set insert in the ledge of each pocket clamp the belt end.
   - A saddle under the beam end. The beam lies on it. One M5 × 12 goes through a short back wall into a T-nut in the
     back slot of the beam. A stop at the outer end holds the beam along X. The inner face of the saddle is the hard stop
     of the X plate. A tunnel with a 45 degree roof hollows the saddle.
@@ -35,7 +36,12 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   upper run is 12 mm higher: the carriage clamps it in two clamp blocks. The Y motors (42-40) stand behind the back bar
   on printed brackets (`y_motor_mount_*`, two M5 into T-nuts in the back face slot of the bar). A toothed 20T idler
   stands in a two-cheek fork (`y_idler_fork`) on the arm of the front base, in front of the front bar. An M3 screw from
-  the front pulls the fork forward: that sets the belt tension. The Y endstops sit on the front bases; the striker of
+  the front pulls the fork forward: that sets the belt tension. The screw is on the belt centre line, under the idler,
+  so the fork does not turn in its seat. Its nut goes into a slot in the floor of the fork, from below. The fork is
+  in a bracket (`y_idler_bracket_*`). An M3 × 12 screw goes down through the inner lip of the front base into the
+  bracket. An ear beside the inner guide holds an M5 × 12 countersunk screw (ISO 10642) into a T-nut in the front face
+  slot of the front bar. The ear prints on its front face, so the head seat is a 45 degree cone. The belt tension
+  pushes the bracket back onto the bar face. The Y endstops sit on the front bases; the striker of
   each carriage pushes its lever. Homing squares the gantry.
 - **Moving cables.** One openable drag chain (inner 10 × 20 mm, R28) lies beside the left rail, outside the frame. It
   holds only the head harness. Its lower run lies on the table, its fixed end sits in an anchor at the back left
@@ -48,9 +54,9 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   carriage. The X belt runs as on the stock CR-10 (read from the Creality CR-10
   STEP model): the pulley axis lies along Y on the beam centre line, past the left beam end, with the motor behind it.
   One run lies in the channel of the top slot of the beam, the other in the channel of the bottom slot. The X plate
-  clamps the bottom run: at each end of the plate the belt leaves the bottom slot at 45 degrees into a crimp clip pocket
+  clamps the bottom run: at each end of the plate the belt leaves the bottom slot at 45 degrees into a clamp pocket
   under the beam. A toothed 20T idler turns in a two-cheek fork past the right beam end (`x_idler_fork`); an M3 screw
-  from outside the right carriage pulls it outward. The X motor is a 42-34 (213.4 g, measured): it rides on the gantry.
+  from outside the right carriage pulls it outward, on the belt centre line under the idler. The X motor is a 42-34 (213.4 g, measured): it rides on the gantry.
 - **X plate.** The printed X plate (`x_carriage_plate`) replaces the stock Creality plate. It keeps the 3 stock
   V-wheels and the 4 tool head holes. The eccentric is on the top right wheel. The plate prints upright. It has the two
   X belt clamps under the beam, the X endstop trigger lug at the bottom left (it reaches forward to the lever tip of the
@@ -61,14 +67,17 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   back face of the back bar. Each stands on two 4 mm nylon standoffs; a cable tie goes through each board hole and
   standoff, round the extrusion. The big plug points up.
 - **Camera pole foot (optional, `mast_foot`).** It holds a 590 mm camera pole (17.85 mm)
-  behind the centre of the back bar. The foot stands on the table. An M6 screw goes up through its
+  behind the centre of the back bar. The foot hangs on the bar, 3 mm over the table. An M6 screw goes up through its
   floor into the pole end. A split collar with one M3 screw takes up the play. Two M5 screws in
   T-nuts hold it on the back bar.
-- **Belt ends.** Each belt end folds back on itself, and a metal crimp clip closes it (8 clips: 2 on each Y belt, 2 on
-  the X belt, 2 spare). Crimp each belt to its length on the bench, then lay it in. The Y clips drop into the pockets of
-  the clamp blocks of the carriage from the top. The X clips go into the 45 degree pockets of the X plate from the back.
-  The clip is the OpenBuilds style "belt clamp, crimp style" for 6 mm GT2 belt, listed as 18 × 7 × 8 mm. Its exact
-  size is an estimate (`CLIP` in `shape.py`).
+- **Belt ends.** A printed belt jaw (`belt_jaw`, 6: 2 on each Y carriage, 2 on the X plate, 21.2 × 8.2 × 4 mm, flat
+  on the bed) clamps each belt end. In each pocket the belt goes through the slit of the end wall, runs 10 mm along
+  the pocket floor, and folds 180 degrees back over itself. A ledge starts 3 mm past the fold. The jaw lies on the two layers and, past the
+  fold, over the ledge. One M3 × 10 screw goes through the jaw into an M3 heat-set insert in the ledge. The ledge top
+  is 0.3 mm under the jaw: the screw presses the two layers 0.3 mm and stops when the jaw is on the ledge. The Y jaws go
+  into the pockets from the top, the screw from the top. The X jaws slide into the 45 degree pockets from the back,
+  under the two layers. Their screws go in from below through a 7 mm hole under the jaw. Clamp one end, route the belt,
+  pull the other end tight by hand, fold it, cut the tail and clamp it.
 - **Three fit tests** (the dovetail rail, the slider, and the V-wheel holes).
 
 **Design language.** All printed parts of the main build share one finish (`parts.finish`):
@@ -85,12 +94,13 @@ high, centres 31 mm in from each side and 37.5 mm from each end). The fit check 
 full Y travel. No moving part touches a foot. The feet also stay clear of the Y drag chain and the chain
 anchor arm. `MEASURE.md` items 1 to 3 ask for the real sizes.
 
-The main build (stock controller, no fit tests) has 16 printed parts in 15 print jobs: 21 h 45 min with 383 g of PLA ($7.66). Before the simplification of 2026-11-10 it was 27 parts, 30 h 28 min, 544 g ($10.88). The fit tests add 49 min and 14 g.
+The main build (stock controller, no fit tests) has 22 printed parts in 16 print jobs: 23 h 08 min with 406 g of PLA ($8.12). Before the simplification of 2026-11-10 it was 27 parts, 30 h 28 min, 544 g ($10.88). The fit tests add 49 min and 14 g.
 
 ### Notes
 
-Nine heat-set inserts: a long M5 in each Y carriage and in the bottom wheel boss of the X plate, two M3 in each front base
-for the Y endstop boards, and two M3 on the X endstop wall of the left Y carriage. `REVIEW.md` records the review rounds,
+Fifteen heat-set inserts: a long M5 in each Y carriage and in the bottom wheel boss of the X plate, two M3 in each front base
+for the Y endstop boards, two M3 on the X endstop wall of the left Y carriage, and two M3 in the clamp ledges of each Y
+carriage and of the X plate for the belt jaws. `REVIEW.md` records the review rounds,
 the change back from MGN12 rails to the stock V-wheels, the change to vertical Y wheels, the printed X plate with the fixed
 motors, and the simplification of 2026-11-10.
 
@@ -107,7 +117,8 @@ The model has each screw, nut, washer, spacer and T-nut of the main build (`fast
 check moves them with the parts over the whole travel. No fastener touches a printed part, the
 frame, a belt or another fastener, except where it is meant to: a T-nut in a slot, a screw in a
 motor thread. `model.py` also checks each screw length: the thread in the T-nut, the motor or the
-pilot hole, and the end past each nut. The front outer Y wheel axles go into M5 heat-set inserts. The other M2, M3 and M5 screws in
+pilot hole, and the end past each nut. The front outer Y wheel axles and the bottom X wheel axle go into M5 heat-set inserts. The
+endstop screws and the belt jaw screws go into M3 heat-set inserts. The other M2, M3 and M5 screws in
 plastic cut their own thread. The hardware has its real shape: ISO 4762 socket heads and ISO 7380
 button heads with the hex socket, ISO 4032 nuts and ISO 7040 nyloc nuts with their chamfers and the
 nylon ring collar, washers, roll-in T-nuts, spacers, the eccentric spacer with its offset hex, and
@@ -120,35 +131,35 @@ file for each group that moves. `stl/sim2/inserts_gantry.stl` has the brass inse
 | Y front base, left | 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 8 socket head, 2 × M5 drop-in T-nut, 2 × M5 x 12 socket head |
 | Y motor bracket, left | 4 × M3 x 10 socket head, 2 × M5 drop-in T-nut, 2 × M5 x 12 socket head |
 | Y idler fork, left | 1 × M3 nut, 1 × M5 nyloc nut, 2 × M5 washer, 7.5 mm across (small), 1 × M5 x 30 socket head |
-| Y idler bracket, left | 1 × M3 x 12 socket head, 1 × M3 x 20 socket head |
+| Y idler bracket, left | 1 × M3 x 12 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 1 × M5 x 12 countersunk (ISO 10642) |
 | Y front base, right | 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 8 socket head, 2 × M5 drop-in T-nut, 2 × M5 x 12 socket head |
 | Y motor bracket, right | 4 × M3 x 10 socket head, 2 × M5 drop-in T-nut, 2 × M5 x 12 socket head |
 | Y idler fork, right | 1 × M3 nut, 1 × M5 nyloc nut, 2 × M5 washer, 7.5 mm across (small), 1 × M5 x 30 socket head |
-| Y idler bracket, right | 1 × M3 x 12 socket head, 1 × M3 x 20 socket head |
+| Y idler bracket, right | 1 × M3 x 12 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 1 × M5 x 12 countersunk (ISO 10642) |
 | Y chain anchor | 2 × M3 x 10 socket head, 1 × M5 drop-in T-nut, 1 × M5 x 12 socket head |
 | Camera pole foot (optional) | 1 × M3 nut, 1 × M3 x 16 socket head, 2 × M5 drop-in T-nut, 2 × M5 x 12 socket head, 1 × M6 x 16 socket head |
-| Y carriage, left (X motor) | 2 × GT2 6 mm belt crimp clip, 2 × M3 heat-set insert, 5.7 mm, 5 × M3 x 10 socket head, 2 × M3 x 8 socket head, 1 × M5 drop-in T-nut, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 1 × M5 x 30 socket head, 2 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
-| Y carriage, right (X idler) | 2 × GT2 6 mm belt crimp clip, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 1 × M5 x 30 socket head, 2 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
+| Y carriage, left (X motor) | 2 × belt jaw (printed), 4 × M3 heat-set insert, 5.7 mm, 7 × M3 x 10 socket head, 2 × M3 x 8 socket head, 1 × M5 drop-in T-nut, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 1 × M5 x 30 socket head, 2 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
+| Y carriage, right (X idler) | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 1 × M5 x 30 socket head, 2 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
 | X idler fork | 1 × M3 nut, 1 × M5 nyloc nut, 2 × M5 washer, 7.5 mm across (small), 1 × M5 x 30 socket head |
-| X plate | 2 × GT2 6 mm belt crimp clip, 4 × M3 x 12 socket head, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 25 button head (ISO 7380), 1 × M5 x 30 button head (ISO 7380), 1 × M5 x 35 button head (ISO 7380), 1 × eccentric spacer (stock) |
+| X plate | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 4 × M3 x 12 socket head, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 25 button head (ISO 7380), 1 × M5 x 30 button head (ISO 7380), 1 × M5 x 35 button head (ISO 7380), 1 × eccentric spacer (stock) |
 | Pen carriage | 2 × M2 x 8 self-tapping (stock, in the servo bag) |
 | Pen slider | 1 × M3 nut, 1 × M3 x 20 socket head |
 
 Totals in the model (to buy):
 
-- 6 × GT2 6 mm belt crimp clip
-- 6 × M3 heat-set insert, 5.7 mm
+- 12 × M3 heat-set insert, 5.7 mm
 - 5 × M3 nut
-- 15 × M3 × 10 socket head
+- 21 × M3 × 10 socket head
 - 6 × M3 × 12 socket head
 - 1 × M3 × 16 socket head
 - 4 × M3 × 20 socket head
 - 6 × M3 × 8 socket head
-- 13 × M5 drop-in T-nut
+- 15 × M5 drop-in T-nut
 - 3 × M5 heat-set insert, 9.5 mm (long)
 - 9 × M5 nyloc nut
 - 6 × M5 washer, 7.5 mm across (small)
 - 13 × M5 × 12 socket head
+- 2 × M5 × 12 countersunk (ISO 10642)
 - 1 × M5 × 25 button head (ISO 7380)
 - 1 × M5 × 30 button head (ISO 7380)
 - 5 × M5 × 30 socket head
@@ -156,12 +167,12 @@ Totals in the model (to buy):
 - 4 × M5 × 35 socket head
 - 1 × M6 × 16 socket head
 
-Stock parts in the model: 2 × M2 × 8 self-tapping (stock, in the servo bag), 6 × M5 spacer, 6 mm (stock), 8 × M5 × 30 socket head (stock), 3 × eccentric spacer (stock). Buy 2 more T-nuts and 2 more crimp clips as spares.
+Stock parts in the model: 2 × M2 × 8 self-tapping (stock, in the servo bag), 6 × M5 spacer, 6 mm (stock), 8 × M5 × 30 socket head (stock), 3 × eccentric spacer (stock). Buy 2 more T-nuts as spares. Print the 6 belt jaws.
 
 ## Status
 
 The frame sizes and the camera pole are measured. The servo sizes and the wheel sizes are data sheet values or estimates. These
-values are **estimates**: the feet and the height of the cross bars above the table (`FOOT_H`), the belt crimp clips, the slots
+values are **estimates**: the feet and the height of the cross bars above the table (`FOOT_H`), the slots
 and the T-nuts, the bar screw heads (from photos), the two
 breakout boards (size, holes, plugs), the size of the control box, and the thread depth in the pole. Print the fit tests first. `MEASURE.md` lists the
 measurements to take. Measure the feet first: the back feet set the Y travel.

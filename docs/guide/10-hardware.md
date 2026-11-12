@@ -13,11 +13,12 @@ The design files are in `hardware/`. `hardware/make.sh` builds the parts, checks
 - **Frame.** The CR-10 base frame. The front and back cross bars are 2020 and run the full width of the frame. The two long 2040 frame rails lie flat between them. Outside 400 × 520 mm, inside 320 × 480 mm. The frame rail tops are 57 mm over the table.
 - **Feet.** Your own 4 round rubber feet stay under the long rails, 37.5 mm from each end of the frame. The model uses 28 mm across and 37 mm high (ESTIMATE). Nothing of a carriage goes under the rail, so the feet do not limit the travel.
 - **Y carriages.** Each Y carriage is one flat 6 mm printed plate, in the form of the stock CR-10 Z carriage plate. It prints flat. It runs on 3 stock V-wheels on vertical axles in the side slots of the rail. Two wheels run in the outer slot, 44 mm apart. The back outer wheel turns on an eccentric spacer, which sets the preload. The front outer wheel axle goes into a long M5 heat-set insert. One wheel runs in the inner slot, 18 mm behind the beam centre, under a 12 mm boss. The plate also has two clamp blocks for the Y belt and a striker fin for the Y endstop. It carries no motor.
-- **Y drive.** The two Y motors (42-40) are fixed. Each one stands behind the back bar on a printed bracket (`y_motor_mount_*`), about 20 mm outside the frame line, as on the stock CR-10. Two M5 × 12 screws in T-nuts hold each bracket in the back face slot of the bar. A toothed 20T idler turns in a fork (`y_idler_fork`) in front of the front bar. The fork sits in a bracket (`y_idler_bracket_*`) under the two lips of the front base. An M3 tension screw from the front pulls the fork forward.
-- **Y belt.** Each Y belt is a loop round the motor pulley and the idler. It lies flat over the inner top slot of the 2040 rail, 31.5 mm from the outer face of the side. The belt does not go into the slot: the 2020 bars close the slot ends. The carriage clamps the upper run in two clamp blocks, with a crimp clip in each pocket. The Y motor cables do not move.
+- **Y drive.** The two Y motors (42-40) are fixed. Each one stands behind the back bar on a printed bracket (`y_motor_mount_*`), about 20 mm outside the frame line, as on the stock CR-10. Two M5 × 12 screws in T-nuts hold each bracket in the back face slot of the bar. A toothed 20T idler turns in a fork (`y_idler_fork`) in front of the front bar. The fork is in a bracket (`y_idler_bracket_*`) under the two lips of the front base. An M3 × 12 screw goes down through the inner lip into the bracket. An ear beside the inner guide holds an M5 × 12 countersunk screw (ISO 10642) into a T-nut in the front face slot of the front bar. The belt tension pushes the bracket back onto the bar face. An M3 tension screw from the front pulls the fork forward. The screw is on the belt centre line, under the idler, so it pulls in line with the belt and the fork does not turn in its seat.
+- **Y belt.** Each Y belt is a loop round the motor pulley and the idler. It lies flat over the inner top slot of the 2040 rail, 31.5 mm from the outer face of the side. The belt does not go into the slot: the 2020 bars close the slot ends. The carriage clamps the upper run in two clamp blocks, with a printed belt jaw in each pocket. The Y motor cables do not move.
 - **X axis.** The CR-10 2020 X beam lies on a saddle at each Y carriage. One M5 × 12 screw goes through the short back wall of the saddle into a T-nut in the back slot of the beam, 14 mm from the beam end. A stop at the outer end of each saddle holds the beam along X. The inner face of the saddle is the hard stop of the X plate.
-- **X drive.** The X belt follows the stock CR-10 belt path. The pulley axis lies along Y, on the beam centre line, past the left beam end. The X motor (a 42-34) stands behind it, on the motor wall of the left carriage. The belt lies flat: one run in the channel of the top slot, one in the channel of the bottom slot, under the V-wheel tips. A toothed 20T idler turns in a fork (`x_idler_fork`) past the right beam end. An M3 × 20 screw with a nut pulls the fork outward from outside the right carriage. No belt stands in front of the beam.
-- **X carriage.** Two printed parts: the X plate (`x_carriage_plate`) and the pen carriage. Four M3 × 12 screws join them. The X plate replaces the stock Creality plate. It takes the 3 stock V-wheels. The eccentric spacer is on the top right wheel: its hex is reachable from above. The other two wheels use stock 6 mm spacers. The bottom wheel axle goes into a long M5 heat-set insert. At each end of the plate, the bottom belt run leaves the slot at 45 degrees into a crimp clip pocket under the beam. The plate also has the X endstop trigger lug at the bottom left and the tie slot of the servo loom at the top left.
+- **X drive.** The X belt follows the stock CR-10 belt path. The pulley axis lies along Y, on the beam centre line, past the left beam end. The X motor (a 42-34) stands behind it, on the motor wall of the left carriage. The belt lies flat: one run in the channel of the top slot, one in the channel of the bottom slot, under the V-wheel tips. A toothed 20T idler turns in a fork (`x_idler_fork`) past the right beam end. An M3 × 20 screw with a nut pulls the fork outward from outside the right carriage. The screw is on the belt centre line, under the idler. No belt stands in front of the beam.
+- **X carriage.** Two printed parts: the X plate (`x_carriage_plate`) and the pen carriage. Four M3 × 12 screws join them. The X plate replaces the stock Creality plate. It takes the 3 stock V-wheels. The eccentric spacer is on the top right wheel: its hex is reachable from above. The other two wheels use stock 6 mm spacers. The bottom wheel axle goes into a long M5 heat-set insert. At each end of the plate, the bottom belt run leaves the slot at 45 degrees into a clamp pocket under the beam, with a printed belt jaw. The plate also has the X endstop trigger lug at the bottom left and the tie slot of the servo loom at the top left.
+- **Belt ends.** The 6 belt ends (2 on each Y carriage, 2 on the X plate) use a printed belt jaw (`belt_jaw`). In each pocket, the belt goes through the slit of the end wall, runs 10 mm along the pocket floor, and folds 180 degrees back over itself. The ledge starts 3 mm past the fold. The jaw lies on the two layers. Past the fold the jaw lies over the ledge. One M3 × 10 screw goes through the jaw into an M3 heat-set insert in the ledge. The ledge top is 0.3 mm under the jaw. The screw presses the two layers 0.3 mm and stops when the jaw is on the ledge.
 - **Pen carriage.** One part on the front of the X plate, held by the 4 M3 × 12 tool head screws from the back of the plate (T1, T2, H1, H2). A servo lifts the pen slider on a dovetail rail. The slider holds the pen in a V bore with an M3 clamp screw. The weight of the slider and the pen is the pen force.
 - **Moving cables.** One openable drag chain (inner 10 × 20 mm, R28, about 506 mm) lies beside the left rail, outside the frame. It carries only the head harness. A 10 × 15 chain is enough. Its lower run lies on the table. Its fixed end sits in `y_chain_anchor` at the back left corner. Its moving end bolts to a tab of the left carriage plate. The servo lead runs in a 1/2 inch split wire loom, in a free loop behind the beam. A cable tie at each end holds the loom: through the slot at the top left of the X plate, and round the head harness cable above the big plug. The X motor plugs into the head board on the beam, so its cable does not move.
 - **Static wires.** The Y endstop wires run in the bottom outer slots of the rails and in the bottom slot of the back bar, under flexible 6 mm slot cover strips. The Y motor cables run on the table behind the frame to the base board. These wires do not move (`hardware/context_detail_HOOKUP.md`).
@@ -30,7 +31,7 @@ The design files are in `hardware/`. `hardware/make.sh` builds the parts, checks
 | Pen travel | 245.9 × 395.1 mm in the model. The firmware uses 245 × 390 mm. |
 | Travel stops | Y min: the carriage plate at the front base. Y max: the inner Y wheel at the back bar. |
 | Home | The front left corner. Homing squares the gantry on the two Y switches. |
-| Belts | GT2 6 mm. Y: 1135.0 mm between the folds. X: 898.3 mm. |
+| Belts | GT2 6 mm. The build guide PDF has the lengths between the folds. |
 | Pulleys and idlers | GT2 20T pulleys and GT2 20T toothed idlers: 80 steps/mm on X and Y |
 | Motors | X: 42-34 (213.4 g, measured). Y1 and Y2: 42-40 (286.7 g, measured). One 42-40 and one 42-34 stay as spares. |
 | Pen lift | 7.0 mm |
@@ -55,18 +56,19 @@ All parts print in PLA, 0.3 mm layers, on a LulzBot TAZ Workhorse with the SE to
 | `pen_carriage` | 1 | Back face on the bed. The pen lift. It bolts to the front of the X plate. |
 | `pen_slider` | 1 | Upright. Holds the pen in its V bore with an M3 clamp screw. It slides on the dovetail rail of the pen carriage. |
 | `mast_foot` | 1 | Optional. The camera pole foot. Floor on the bed. |
+| `belt_jaw` | 6 | Flat on the bed. One for each belt end. An M3 × 10 screw presses it on the folded belt end. |
 | `fit_rail`, `fit_slider`, `fit_wheel` | 1 each | Print first. The first two test the dovetail fit. `fit_wheel` tests the eccentric hole of an outer Y wheel and the hole of the inner wheel. |
 
-The build prints 16 parts in 15 print jobs: 21 h 45 min, 383 g, $7.66. `05-parts-and-cost` has the values for each part and the fastener list.
+The build prints 22 parts in 16 print jobs: 23 h 08 min, 406 g, $8.12. `05-parts-and-cost` has the values for each part and the fastener list.
 
 ## Heat-set inserts
 
-The build uses 9 heat-set inserts. You need a soldering iron with insert tips (BOM M35).
+The build uses 15 heat-set inserts. You need a soldering iron with insert tips (BOM M35).
 
 | Insert | Count | Where |
 |---|---|---|
 | M5, long (9.5 mm) | 3 | The front outer wheel axle of each Y carriage, and the bottom wheel boss of the X plate |
-| M3 (5.7 mm) | 6 | The two Y endstop boards (two in each front base) and the X endstop board (two on the X endstop wall of the left Y carriage) |
+| M3 (5.7 mm) | 12 | The two Y endstop boards (two in each front base) and the X endstop board (two on the X endstop wall of the left Y carriage): 6. The belt jaws (two in the clamp ledges of each Y carriage, two in the clamp ledges of the X plate): 6. |
 
 ## The review
 
@@ -81,8 +83,8 @@ The design went through many review rounds. `75-review-history` lists them, and 
 
 | | Before | Now |
 |---|---|---|
-| Printed parts (main build, no fit tests) | 27 parts, 30 h 28 min, 544 g | 16 parts, 21 h 45 min, 383 g |
-| Heat-set inserts | 13 | 9 |
+| Printed parts (main build, no fit tests) | 27 parts, 30 h 28 min, 544 g | 22 parts, 23 h 08 min, 406 g |
+| Heat-set inserts | 13 | 15 |
 | Pen travel (model) | 245.9 × 395.1 mm | 245.9 × 395.1 mm |
 | Pen changes | Automatic (6 bins) or by hand | By hand |
 

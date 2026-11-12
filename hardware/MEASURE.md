@@ -40,7 +40,7 @@ Items 7 to 13 were for the Pico W control pod. The pod is gone (2026-11-10): ski
 
 ## Pen lift
 
-14. The servo body: the width, the length, and the depth below the tabs. The pocket uses 12.4 × 22.8 × 16.0 mm.
+14. The servo body: the width and the length. The pocket uses 12.4 × 22.8 mm. The depth below the tabs is measured: 17.92 mm (2026-11-11).
 15. The servo horn: from the shaft to the centre of the round end of the arm. The design uses 14 mm.
 
 ## V-wheels and the X plate

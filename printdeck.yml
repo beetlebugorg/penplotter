@@ -68,9 +68,8 @@ parts:
     description: >-
       A flat 6 mm plate on three stock V-wheels in the side slots of the left rail. It holds the
       left end of the X beam and clamps the left Y belt. It also holds the X motor, the X endstop
-      board and the moving end of the drag chain. Press one long M5 insert into the front outer
-      wheel boss. Press two M3 inserts into the standoffs of the X endstop wall, and one M3
-      insert into the ledge of each belt pocket. Print it flat, the plate on the bed.
+      board and the moving end of the drag chain. Press two M3 inserts into the standoffs of the X
+      endstop wall, and one M3 insert into the ledge of each belt pocket. Print it flat, the plate on the bed.
     files: [hardware/stl/y_carriage_left.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -81,9 +80,8 @@ parts:
     group: The gantry
     description: >-
       A flat 6 mm plate on three stock V-wheels in the side slots of the right rail. It holds the
-      right end of the X beam, clamps the right Y belt, and holds the X idler fork. Press one long
-      M5 insert into the front outer wheel boss, and one M3 insert into the ledge of each belt
-      pocket. Print it flat, the plate on the bed.
+      right end of the X beam, clamps the right Y belt, and holds the X idler fork. Press one M3
+      insert into the ledge of each belt pocket. Print it flat, the plate on the bed.
     files: [hardware/stl/y_carriage_right.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -107,9 +105,8 @@ parts:
     description: >-
       It replaces the stock X carriage plate, and runs on the beam on the three stock V-wheels.
       The eccentric spacer is on the top right wheel. It clamps the X belt under the beam, and has
-      the X endstop trigger lug and the tie slot of the servo loom. Press one long M5 insert into
-      the bottom wheel boss, and one M3 insert into the ledge of each belt pocket. Print it
-      upright.
+      the X endstop trigger lug and the tie slot of the servo loom. Press one M3 insert into the
+      ledge of each belt pocket. Print it upright.
     files: [hardware/stl/x_carriage_plate.stl]
     printer: taz
     profile: taz-workhorse-se/pla-0.30-fast
@@ -281,7 +278,9 @@ assemblies:
       The X plate runs on the beam, with the pen carriage on its front. The servo lifts the pen
       slider.
     items:
-      # The frame, the Y drive and the parts on the table. They do not move.
+      # Each item comes off on its own in the exploded view: no two items next to each other
+      # have the same direction. The belt jaws come off before the belt ends.
+      # The frame, the Y drive and the parts on the table.
       - name: Frame (2020 bars, 2040 rails)
         file: hardware/stl/context/frame.stl
         color: "#1e1f22"
@@ -290,62 +289,83 @@ assemblies:
         color: "#202124"
       - part: Y front base, left
         file: hardware/stl/sim2/y_front_left.stl
+        explode: [-0.2, 0, 1]
       - part: Y front base, right
         file: hardware/stl/sim2/y_front_right.stl
+        explode: [0.2, 0, 1]
       - part: Y idler fork
         name: Y idler fork (left)
         file: hardware/stl/sim2/y_idler_fork_left.stl
+        explode: [0, -0.3, 1]
       - part: Y idler fork
         name: Y idler fork (right)
         file: hardware/stl/sim2/y_idler_fork_right.stl
+        explode: [0.01, -0.3, 1]
       - part: Y idler bracket, left
         file: hardware/stl/sim2/y_idler_bracket_left.stl
+        explode: [-0.1, -1, 0]
       - part: Y idler bracket, right
         file: hardware/stl/sim2/y_idler_bracket_right.stl
+        explode: [0.1, -1, 0]
       - part: Y motor bracket, left
         file: hardware/stl/sim2/y_motor_mount_left.stl
+        explode: [-0.1, 1, 0.2]
       - part: Y motor bracket, right
         file: hardware/stl/sim2/y_motor_mount_right.stl
+        explode: [0.1, 1, 0.2]
       - name: Y motor (left)
         file: hardware/stl/sim2/y_stepper_left.stl
         color: "#202020"
+        explode: [-1, 0, 0]
       - name: Y motor (right)
         file: hardware/stl/sim2/y_stepper_right.stl
         color: "#202020"
+        explode: [1, 0, 0]
       - name: Y pulley and idler (left)
         file: hardware/stl/sim2/y_pulleys_left.stl
         color: "#9a9a9a"
+        explode: [0, 0, 1]
       - name: Y pulley and idler (right)
         file: hardware/stl/sim2/y_pulleys_right.stl
         color: "#9a9a9a"
+        explode: [0.01, 0, 1]
       - name: Y belts
         file: hardware/stl/context/y_belts.stl
         color: "#2b2b2b"
+        explode: [0, 0.01, 1]
       - name: Y endstops
         file: hardware/stl/sim2/y_endstops.stl
         color: "#202020"
+        explode: [0, -0.01, 1]
       - part: Y chain anchor
         file: hardware/stl/sim2/y_chain_anchor.stl
+        explode: [-1, 0, 0]
       - name: Drag chain (lower run)
         file: hardware/stl/context/drag_chain_fixed.stl
         color: "#1b1b1e"
+        explode: [0, 0, 1]
       - part: Camera pole foot
         file: hardware/stl/sim2/mast_foot.stl
+        explode: [0, 1, 0]
       - name: Camera pole
         file: hardware/stl/context/camera_pole.stl
         color: "#a8acb2"
+        explode: [0, 0, 1]
       - name: Webcam
         file: hardware/stl/context/webcam.stl
         color: "#202020"
+        explode: [0, 0.01, 1]
       - name: Base breakout board
         file: hardware/stl/sim2/base_board.stl
         color: "#2e7d32"
+        explode: [0.01, 1, 0]
       - name: Screws and T-nuts (frame)
         file: hardware/stl/sim2/fasteners_static.stl
         color: "#b8bcc2"
       - name: Heat-set inserts (front bases)
         file: hardware/stl/sim2/inserts_static.stl
         color: "#c9a23f"
+        explode: [0, 0, 1]
       - name: Control box
         file: hardware/stl/context/control_box.stl
         color: "#2b2d31"
@@ -353,13 +373,12 @@ assemblies:
       - name: V-wheels (Y carriages)
         file: hardware/stl/context/y_wheels.stl
         color: "#1f1f22"
-        explode: [0, 0, 1]
       - part: Y carriage, left
         file: hardware/stl/sim2/y_carriage_left.stl
-        explode: [0, 0, 1]
+        explode: [-0.3, 0, 1]
       - part: Y carriage, right
         file: hardware/stl/sim2/y_carriage_right.stl
-        explode: [0, 0, 1]
+        explode: [0.3, 0, 1]
       - name: Heat-set inserts (gantry)
         file: hardware/stl/sim2/inserts_gantry.stl
         color: "#c9a23f"
@@ -367,22 +386,22 @@ assemblies:
       - name: X beam
         file: hardware/stl/context/x_beam.stl
         color: "#1e1f22"
-        explode: [0, 0, 1]
+        explode: [0, -0.01, 1]
       - name: X motor (42-34)
         file: hardware/stl/sim2/x_motor.stl
         color: "#202020"
-        explode: [0, 0, 1]
+        explode: [0, 1, 0]
       - name: X pulley
         file: hardware/stl/sim2/x_pulley.stl
         color: "#9a9a9a"
-        explode: [0, 0, 1]
+        explode: [0, -1, 0]
       - part: X idler fork
         file: hardware/stl/sim2/x_idler_fork.stl
-        explode: [0, 0, 1]
+        explode: [1, 0, 0.5]
       - name: X idler
         file: hardware/stl/sim2/x_idler.stl
         color: "#9a9a9a"
-        explode: [0, 0, 1]
+        explode: [1, 0, 1]
       - name: X belt
         file: hardware/stl/context/x_belt.stl
         color: "#2b2b2b"
@@ -390,23 +409,23 @@ assemblies:
       - name: Head breakout board
         file: hardware/stl/sim2/head_board.stl
         color: "#2e7d32"
-        explode: [0, 0, 1]
+        explode: [0.01, 1, 0]
       - name: X endstop
         file: hardware/stl/context/x_endstop.stl
         color: "#16181b"
-        explode: [0, 0, 1]
+        explode: [0, -1, 0.01]
+      - name: Belt ends (Y belts)
+        file: hardware/stl/sim2/belt_ends_gantry.stl
+        color: "#2b2b2b"
+        explode: [0, 0.01, 1]
       - part: Belt jaw
         name: Belt jaws (Y belts)
         file: hardware/stl/sim2/belt_clips_gantry.stl
         explode: [0, 0, 1]
-      - name: Belt ends (Y belts)
-        file: hardware/stl/sim2/belt_ends_gantry.stl
-        color: "#2b2b2b"
-        explode: [0, 0, 1]
       - name: Drag chain (bend and upper run)
         file: hardware/stl/context/drag_chain_moving.stl
         color: "#1b1b1e"
-        explode: [0, 0, 1]
+        explode: [0.01, 0, 1]
       - name: Servo loom
         file: hardware/stl/context/servo_loom.stl
         color: "#111113"
@@ -415,33 +434,32 @@ assemblies:
       - name: V-wheels (X plate)
         file: hardware/stl/context/x_wheels.stl
         color: "#1f1f22"
-        explode: [0, -1, 0]
       - part: X plate
         file: hardware/stl/sim2/x_carriage_plate.stl
         explode: [0, -1, 0]
       - part: Pen carriage
         file: hardware/stl/sim2/pen_carriage.stl
-        explode: [0, -1, 0]
+        explode: [0, -1, 0.3]
       - name: Servo
         file: hardware/stl/sim2/servo.stl
         color: "#2f5da8"
-        explode: [0, -1, 0]
+        explode: [0.3, -1, 0]
       - name: Servo horn
         file: hardware/stl/sim2/horn.stl
         color: "#f2f2f2"
-        explode: [0, -1, 0]
+        explode: [0.3, -1, 0.3]
       - name: Heat-set inserts (X plate)
         file: hardware/stl/sim2/inserts_carriage.stl
         color: "#c9a23f"
-        explode: [0, -1, 0]
-      - part: Belt jaw
-        name: Belt jaws (X belt)
-        file: hardware/stl/sim2/belt_clips_carriage.stl
-        explode: [0, -1, 0]
+        explode: [0, -1, -0.3]
       - name: Belt ends (X belt)
         file: hardware/stl/sim2/belt_ends_carriage.stl
         color: "#2b2b2b"
-        explode: [0, -1, 0]
+        explode: [0, 0, -1]
+      - part: Belt jaw
+        name: Belt jaws (X belt)
+        file: hardware/stl/sim2/belt_clips_carriage.stl
+        explode: [0, 1, 0]
       # The pen slider with the pen.
       - part: Pen slider
         file: hardware/stl/sim2/pen_slider.stl
@@ -449,18 +467,17 @@ assemblies:
       - name: Pen
         file: hardware/stl/sim2/pen.stl
         color: "#202020"
-        explode: [0, 0, 1]
+        explode: [0, 0, -1]
       - name: Screw and nut (pen slider)
         file: hardware/stl/sim2/fasteners_pen.stl
         color: "#b8bcc2"
-        explode: [0, 0, 1]
+        explode: [-1, 0, 0]
   # BEGIN hardware views
   - name: "Y carriage, left: inserts and screws"
     description: >-
-      The left Y carriage with its hardware. Brass: the long M5 insert in the front outer wheel
-      boss (press it in from the top), the two M3 inserts of the X endstop board, and one M3 insert
-      in the ledge of each belt pocket. Move the explode slider to see each screw come out of its
-      hole.
+      The left Y carriage with its hardware. Brass: the two M3 inserts of the X endstop board, and
+      one M3 insert in the ledge of each belt pocket. Move the explode slider to see each screw
+      come out of its hole.
     items:
       - part: Y carriage, left
         file: hardware/stl/sim2/y_carriage_left.stl
@@ -472,10 +489,6 @@ assemblies:
         file: hardware/stl/hardware/left/insert_m3_heat_set_insert_5_7_mm-zp.stl
         color: "#c9a23f"
         explode: [0, 0, 1]
-      - name: "M5 heat-set insert, 9.5 mm (long)"
-        file: hardware/stl/hardware/left/insert_m5_heat_set_insert_9_5_mm_long-zp.stl
-        color: "#c9a23f"
-        explode: [0, 0, 0.999]
       - name: "2 x M5 spacer, 6 mm (stock)"
         file: hardware/stl/hardware/left/spacer_m5_spacer_6_mm_stock-zn.stl
         color: "#b8bcc2"
@@ -492,7 +505,7 @@ assemblies:
         file: hardware/stl/hardware/left/nyloc_m5_nyloc_nut-zn.stl
         color: "#b8bcc2"
         explode: [0, 0, -0.999]
-      - name: "M5 nyloc nut"
+      - name: "2 x M5 nyloc nut"
         file: hardware/stl/hardware/left/nyloc_m5_nyloc_nut-zp.stl
         color: "#b8bcc2"
         explode: [0, 0, 1]
@@ -524,11 +537,7 @@ assemblies:
         file: hardware/stl/hardware/left/screw_m5_x_12_socket_head-yp.stl
         color: "#b8bcc2"
         explode: [0, 1, 0]
-      - name: "M5 x 30 socket head"
-        file: hardware/stl/hardware/left/screw_m5_x_30_socket_head-zn.stl
-        color: "#b8bcc2"
-        explode: [0, 0, -1]
-      - name: "M5 x 35 socket head"
+      - name: "2 x M5 x 35 socket head"
         file: hardware/stl/hardware/left/screw_m5_x_35_socket_head-zn.stl
         color: "#b8bcc2"
         explode: [0, 0, -1]
@@ -538,9 +547,8 @@ assemblies:
         explode: [0, 0, 1]
   - name: "Y carriage, right: inserts and screws"
     description: >-
-      The right Y carriage and the X idler fork with their hardware. Brass: the long M5 insert in
-      the front outer wheel boss (press it in from the top), and one M3 insert in the ledge of each
-      belt pocket.
+      The right Y carriage and the X idler fork with their hardware. Brass: one M3 insert in the
+      ledge of each belt pocket.
     items:
       - part: Y carriage, right
         file: hardware/stl/sim2/y_carriage_right.stl
@@ -550,10 +558,6 @@ assemblies:
         file: hardware/stl/hardware/right/insert_m3_heat_set_insert_5_7_mm-zp.stl
         color: "#c9a23f"
         explode: [0, 0, 1]
-      - name: "M5 heat-set insert, 9.5 mm (long)"
-        file: hardware/stl/hardware/right/insert_m5_heat_set_insert_9_5_mm_long-zp.stl
-        color: "#c9a23f"
-        explode: [0, 0, 0.999]
       - name: "2 x M5 spacer, 6 mm (stock)"
         file: hardware/stl/hardware/right/spacer_m5_spacer_6_mm_stock-zn.stl
         color: "#b8bcc2"
@@ -578,7 +582,7 @@ assemblies:
         file: hardware/stl/hardware/right/nyloc_m5_nyloc_nut-zn.stl
         color: "#b8bcc2"
         explode: [0, 0, -1]
-      - name: "M5 nyloc nut"
+      - name: "2 x M5 nyloc nut"
         file: hardware/stl/hardware/right/nyloc_m5_nyloc_nut-zp.stl
         color: "#b8bcc2"
         explode: [0, 0, 1]
@@ -610,11 +614,7 @@ assemblies:
         file: hardware/stl/hardware/right/screw_m5_x_30_socket_head-yn.stl
         color: "#b8bcc2"
         explode: [0, -1, 0]
-      - name: "M5 x 30 socket head"
-        file: hardware/stl/hardware/right/screw_m5_x_30_socket_head-zn.stl
-        color: "#b8bcc2"
-        explode: [0, 0, -1]
-      - name: "M5 x 35 socket head"
+      - name: "2 x M5 x 35 socket head"
         file: hardware/stl/hardware/right/screw_m5_x_35_socket_head-zn.stl
         color: "#b8bcc2"
         explode: [0, 0, -1]
@@ -624,9 +624,9 @@ assemblies:
         explode: [0, 0, 1]
   - name: "X plate and pen carriage: inserts and screws"
     description: >-
-      The X plate, the pen carriage and the pen slider with their hardware. Brass: the long M5
-      insert in the bottom wheel boss of the X plate, and one M3 insert in the ledge of each belt
-      pocket. The four M3 x 12 screws go from the back of the X plate into the pen carriage.
+      The X plate, the pen carriage and the pen slider with their hardware. Brass: one M3 insert in
+      the ledge of each belt pocket of the X plate. The four M3 x 12 screws go from the back of the
+      X plate into the pen carriage.
     items:
       - part: X plate
         file: hardware/stl/sim2/x_carriage_plate.stl
@@ -645,10 +645,6 @@ assemblies:
         file: hardware/stl/hardware/carriage/insert_m3_heat_set_insert_5_7_mm-p0707_p0000_n0707.stl
         color: "#c9a23f"
         explode: [0.707, 0, -0.707]
-      - name: "M5 heat-set insert, 9.5 mm (long)"
-        file: hardware/stl/hardware/carriage/insert_m5_heat_set_insert_9_5_mm_long-yn.stl
-        color: "#c9a23f"
-        explode: [0, -1, 0]
       - name: "2 x M5 spacer, 6 mm (stock)"
         file: hardware/stl/hardware/carriage/spacer_m5_spacer_6_mm_stock-yp.stl
         color: "#b8bcc2"
@@ -665,7 +661,7 @@ assemblies:
         file: hardware/stl/hardware/carriage/nut_m3_nut-zp.stl
         color: "#b8bcc2"
         explode: [0, 0, 1]
-      - name: "2 x M5 nyloc nut"
+      - name: "3 x M5 nyloc nut"
         file: hardware/stl/hardware/carriage/nyloc_m5_nyloc_nut-yn.stl
         color: "#b8bcc2"
         explode: [0, -1, 0]
@@ -693,15 +689,11 @@ assemblies:
         file: hardware/stl/hardware/carriage/screw_m3_x_20_socket_head-xp.stl
         color: "#b8bcc2"
         explode: [1, 0, 0]
-      - name: "M5 x 25 button head (ISO 7380)"
-        file: hardware/stl/hardware/carriage/screw_m5_x_25_button_head_iso_7380-yp.stl
-        color: "#b8bcc2"
-        explode: [0, 1, 0]
       - name: "M5 x 30 button head (ISO 7380)"
         file: hardware/stl/hardware/carriage/screw_m5_x_30_button_head_iso_7380-yp.stl
         color: "#b8bcc2"
         explode: [0, 1, 0]
-      - name: "M5 x 35 button head (ISO 7380)"
+      - name: "2 x M5 x 35 button head (ISO 7380)"
         file: hardware/stl/hardware/carriage/screw_m5_x_35_button_head_iso_7380-yp.stl
         color: "#b8bcc2"
         explode: [0, 1, 0]

@@ -58,12 +58,12 @@ insert cut their own thread. The list below is the model total. `docs/bom.md` ha
 | M5 drop-in T-nut | 15 (buy 17) | Front bases 4, Y motor brackets 4, Y idler brackets 2, beam 2, Y chain anchor 1, pole foot 2 | M22 |
 | M5 × 12 socket head | 13 | Front bases 4, Y motor brackets 4, beam 2, Y chain anchor 1, pole foot 2 | M24 |
 | M5 × 12 countersunk (ISO 10642) | 2 | Y idler brackets, through the ear into the front bar | M39 |
-| M5 × 30 socket head | 5 | Front outer Y wheels 2 (into the inserts), idler fork axles 3 | M24 |
-| M5 × 35 socket head | 4 | Back outer Y wheels on the eccentric spacers 2, inner Y wheels 2 | M24 |
-| M5 × 25, M5 × 30, M5 × 35 button head (ISO 7380) | 1 each | X wheels: bottom (into the insert), top left, top right (eccentric) | M24 |
-| M5 nyloc nut | 9 | Y wheels 4, top X wheels 2, idler forks 3 | M27 |
+| M5 × 30 socket head | 3 | Idler fork axles 3 | M24 |
+| M5 × 35 socket head | 6 | Outer Y wheels 4 (front 2, back on the eccentric spacers 2), inner Y wheels 2 | M24 |
+| M5 × 30 button head (ISO 7380) | 1 | X wheel, top left | M24 |
+| M5 × 35 button head (ISO 7380) | 2 | X wheels: top right (eccentric) 1, bottom 1 | M24 |
+| M5 nyloc nut | 12 | Y wheels 6, X wheels 3, idler forks 3 | M27 |
 | M5 washer, small (7.5 mm across) | 6 | Idler forks, one each side of each idler | M27 |
-| M5 heat-set insert, long (9.5 mm) | 3 | Front outer Y wheel axles 2, bottom X wheel axle 1 | M34 |
 | M3 heat-set insert (5.7 mm) | 12 | Y endstop boards 4 (front bases), X endstop board 2 (left Y carriage), belt jaws 6 (Y carriages 4, X plate 2) | M28 |
 | M3 × 8 socket head | 6 | The three endstop boards (all into inserts) | M23 |
 | M3 × 10 socket head | 21 | X motor 3, Y motors 8, Y chain end links 4, belt jaws 6 (into inserts) | M23 |
@@ -92,12 +92,12 @@ Notes on the screws:
 
 | Item | Value |
 |---|---|
-| Purchased parts | about $190 |
+| Purchased parts | about $181 |
 | Printed parts | $8.12 (22 parts) |
-| Total before tax | about $198 |
+| Total before tax | about $189 |
 
 The purchases are the servo about $7, the electronics about $46 and the mechanics about
-$137. The pens, the tie mounts (M37), the standoffs (M38), the countersunk screws (M39) and the
+$128. The pens, the tie mounts (M37), the standoffs (M38), the countersunk screws (M39) and the
 camera are not in these totals. The servo loom (M33) is on hand.
 
 ## Bill of materials

@@ -44,22 +44,19 @@ VIEWS = [
     ("left", "Y carriage, left: inserts and screws",
      [("Y carriage, left", "y_carriage_left", "y_carriage_left")],
      [], "y_left",
-     "The left Y carriage with its hardware. Brass: the long M5 insert in the front outer wheel boss "
-     "(press it in from the top), the two M3 inserts of the X endstop board, and one M3 insert in the "
-     "ledge of each belt pocket. Move the explode slider to see each screw come out of its hole."),
+     "The left Y carriage with its hardware. Brass: the two M3 inserts of the X endstop board, and one "
+     "M3 insert in the ledge of each belt pocket. Move the explode slider to see each screw come out of its hole."),
     ("right", "Y carriage, right: inserts and screws",
      [("Y carriage, right", "y_carriage_right", "y_carriage_right"), ("X idler fork", "x_idler_fork", "x_idler_fork")],
      [], "y_right",
-     "The right Y carriage and the X idler fork with their hardware. Brass: the long M5 insert in the "
-     "front outer wheel boss (press it in from the top), and one M3 insert in the ledge of each belt "
-     "pocket."),
+     "The right Y carriage and the X idler fork with their hardware. Brass: one M3 insert in the ledge "
+     "of each belt pocket."),
     ("carriage", "X plate and pen carriage: inserts and screws",
      [("X plate", "x_carriage_plate", "x_carriage_plate"), ("Pen carriage", "pen_carriage", "pen_carriage"),
       ("Pen slider", "pen_slider", "pen_slider")],
      [("Servo", "servo", "#2f5da8")], "x",
-     "The X plate, the pen carriage and the pen slider with their hardware. Brass: the long M5 insert "
-     "in the bottom wheel boss of the X plate, and one M3 insert in the ledge of each belt pocket. The "
-     "four M3 x 12 screws go from the back of the X plate into the pen carriage."),
+     "The X plate, the pen carriage and the pen slider with their hardware. Brass: one M3 insert in the ledge "
+     "of each belt pocket of the X plate. The four M3 x 12 screws go from the back of the X plate into the pen carriage."),
     ("yfront", "Y front base, left: inserts and screws",
      [("Y front base, left", "y_front_left", "y_front_left"), ("Y idler bracket, left", "y_idler_bracket_left", "y_idler_bracket_left"),
       ("Y idler fork", "y_idler_fork_left", "y_idler_fork_left")],

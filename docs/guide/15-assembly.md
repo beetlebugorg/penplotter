@@ -12,8 +12,8 @@ Before you start:
 - Keep the control box off until the wiring checks (`20-electronics-and-wiring`).
 
 You need hex keys (2.5, 3, 4 and 5 mm), the 8 mm wrench for the eccentric spacers, scissors for
-the belts, calipers, a tape measure, a meter, and a soldering iron with M5 and M3 heat-set insert
-tips. `05-parts-and-cost` lists the fasteners.
+the belts, calipers, a tape measure, a meter, and a soldering iron with an M3 heat-set insert
+tip. `05-parts-and-cost` lists the fasteners.
 
 No step cuts or drills the metal of the frame.
 
@@ -46,27 +46,7 @@ its hole, change `ECC_HOLE`. Run `hardware/make.sh` and print the fit tests agai
 
 ## 2. Heat-set inserts
 
-Put all the inserts in first, before the assembly starts. Do the M5 inserts first, then change
-the tip and do the M3 inserts. The pictures show each insert above its hole.
-
-### M5 inserts
-
-![The M5 insert in the left Y carriage](../../hardware/build/img/ins_m5_ycar-light.png)
-
-![The M5 insert in the X plate](../../hardware/build/img/ins_m5_xplate-light.png)
-
-You need the 2 Y carriages, the X plate and 3 long M5 inserts.
-
-1. Set the iron to 220 °C. Let the tip get hot.
-2. Y carriages: lay each carriage on its plate. Find the round boss on the plate top, at the front outer wheel (first picture).
-3. Put an insert on the hole, the small end down. Push it straight down with the tip, with light force, until its top is flush with the boss.
-4. Take the tip out straight up. Let the part cool for one minute.
-5. X plate: lay the plate on its back, the wheel bosses up. Press an insert into the face of the bottom wheel boss (second picture).
-6. Turn a screw in and out once to check each thread: M5 × 30 from below in the carriages, M5 × 25 in the X plate.
-
-The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle.
-
-### M3 inserts
+Put all the inserts in first, before the assembly starts. The pictures show each insert above its hole.
 
 ![The M3 inserts in the left Y carriage](../../hardware/build/img/ins_m3_ycar-light.png)
 
@@ -76,7 +56,7 @@ The M5 inserts hold the front outer Y wheel axles and the bottom X wheel axle.
 
 You need the 2 Y carriages, the X plate, the 2 front bases and 12 M3 inserts.
 
-1. Change to the M3 tip. Let it get hot.
+1. Set the iron to 220 °C with the M3 tip. Let the tip get hot.
 2. Left Y carriage: find the two standoffs on the front face of the X endstop wall (first picture). Press an insert into each, from the front.
 3. Y carriages: find the ledge in each of the two clamp pockets. Press an insert into each ledge, from the top.
 4. X plate: turn the plate until the hole under one clamp points straight up. Press an insert down through that hole into the ledge (second picture). Do the same at the other clamp.
@@ -86,16 +66,19 @@ You need the 2 Y carriages, the X plate, the 2 front bases and 12 M3 inserts.
 
 The M3 inserts hold the three endstop boards and the six belt jaws. The left Y carriage has 4 M3
 inserts, the right Y carriage 2, the X plate 2 and each front base 2. The right front base is the
-mirror image of the left base.
+mirror image of the left base. No wheel axle goes into an insert.
 
 ## 3. Wheels on the Y carriages
 
 ![The wheels on the Y carriages](../../hardware/build/img/ywheel-light.png)
 
-1. Front outer wheel: put an M5 × 30 screw up through a wheel and a 6 mm spacer, into the insert in the front boss. There is no nut.
+You need the 2 Y carriages, 6 V-wheels, 4 stock 6 mm spacers, 2 eccentric spacers, 6 × M5 × 35
+socket head screws and 6 nyloc nuts.
+
+1. Front outer wheel: put an M5 × 35 screw up through a wheel, a 6 mm spacer and the front boss. Put a nyloc nut on top of the boss.
 2. Back outer wheel: put an M5 × 35 screw up through a wheel and an eccentric spacer into the back hole. The hex is between the wheel and the plate. Put a nyloc nut on top.
 3. Inner wheel: put an M5 × 35 screw down through the 12 mm boss behind the beam. Do not put the spacer, the wheel and the nut on yet.
-4. Tighten the front screw and the back nut until the wheels turn freely with no wobble.
+4. Tighten the front nut and the back nut until the wheels turn freely with no wobble.
 
 Each carriage is a flat plate, in the form of the stock CR-10 Z carriage plate. The left carriage
 has the X motor wall behind the beam end. The right carriage has the seat of the X idler fork.
@@ -172,13 +155,13 @@ sizes are estimates. Measure the board first (`hardware/MEASURE.md`, items 30 to
 ![The pen carriage on the printed X plate](../../hardware/build/img/mount-light.png)
 
 You need the X plate, the pen carriage, the 3 V-wheels, 1 eccentric spacer, 2 stock 6 mm spacers,
-M5 × 30, M5 × 35 and M5 × 25 button head screws, 2 nyloc nuts and 4 M3 × 12 screws.
+1 M5 × 30 and 2 M5 × 35 button head screws, 3 nyloc nuts and 4 M3 × 12 screws.
 
 1. Hold the pen carriage on the front face of the X plate. The three wheel bosses come through the round holes of the pen carriage.
 2. Put four M3 × 12 screws from the back through the plate into the pen carriage (T1, T2, H1, H2). They cut their own thread. Do not overtighten them.
 3. Top left wheel: from the back, an M5 × 30 screw through the wheel and a 6 mm spacer into the boss. Put a nyloc nut on the front.
 4. Top right wheel: from the back, an M5 × 35 screw through the wheel and the eccentric spacer (the hex toward the plate) into the boss. Put a nyloc nut on the front. Leave it loose.
-5. Bottom wheel: from the back, an M5 × 25 screw through the wheel and a 6 mm spacer into the insert in the bottom boss.
+5. Bottom wheel: from the back, an M5 × 35 screw through the wheel, a 6 mm spacer and the bottom boss. Put a nyloc nut on the front.
 
 The eccentric is on the top right wheel. You turn its hex from above.
 

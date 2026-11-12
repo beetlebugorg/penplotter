@@ -905,3 +905,10 @@ POLE_Z0 = MFOOT_FLOOR
 POLE_TOP = POLE_Z0 + POLE_L
 CAM_Z = POLE_TOP + CAM_ABOVE
 YC_HOME = 74.88                  # the gantry y at the front stop (fit check, 2026-11-11): the deeper servo moves the slider 1.92 mm forward
+# No wheel axle goes into an insert: each axle has a nyloc nut (a screw in an insert can back out as
+# the wheel turns). The bottom X wheel: an M5 x 35 from the back, the nyloc nut in front of its boss.
+XW_AXLE_L = {0: 30.0, 1: 35.0, 2: 35.0}
+# The axle bosses with a nut: 5 mm of material round the M5 clearance hole (the joint audit).
+INSERT_BOSS = (15.6, 6.0)        # the front outer Y wheel boss: diameter, height above the plate
+XW_BOSS_RS = {0: 9.0, 1: 10.5, 2: 8.9}   # the X wheel bosses: 5 mm over the teardrop point of the bottom axle hole
+WHEEL_BOLTS = [(n, x, z, XW_BOSS_RS[i]) for i, (n, x, z) in enumerate(X_WHEELS)]   # pen carriage keep-outs

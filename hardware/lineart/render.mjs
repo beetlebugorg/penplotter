@@ -129,10 +129,6 @@ function shotParts(spec) {
 // along the axis they go in on. The meshes come from hardware_views.py.
 const LIFT = 22;
 const INSERTS = {
-  ins_m5_ycar: { part: "y_carriage_left", view: "left", camera: [0.6, -1.2, 1.2],
-    inserts: [["insert_m5_heat_set_insert_9_5_mm_long-zp", [0, 0, 1], "M5 insert (long)"]] },
-  ins_m5_xplate: { part: "x_carriage_plate", view: "carriage", camera: [1.3, -0.9, 0.45],
-    inserts: [["insert_m5_heat_set_insert_9_5_mm_long-yn", [0, -1, 0], "M5 insert (long)"]] },
   ins_m3_ycar: { part: "y_carriage_left", view: "left", camera: [0.45, -1.3, 1.0],
     inserts: [["insert_m3_heat_set_insert_5_7_mm-yn", [0, -1, 0], "M3 insert"],
               ["insert_m3_heat_set_insert_5_7_mm-zp", [0, 0, 1], "M3 insert"]] },

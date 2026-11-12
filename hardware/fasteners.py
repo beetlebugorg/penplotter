@@ -290,16 +290,14 @@ def gantry_items(b, c):
             w = i // 4
             if w >= 2:
                 item = name_of("socket", "M5", S.IN_AXLE_L)
-            elif w == S.YW_ECC:
-                item = name_of("socket", "M5", S.OUT_AXLE_L)
             else:
-                item = name_of("socket", "M5", S.FRONT_AXLE_L)
+                item = name_of("socket", "M5", S.OUT_AXLE_L)
             b.add(f"Y wheel bolt {i}", item, "M5", "screw", "gantry", "y_carriage_left", sh + head, ("Y wheel",))
             x_, y_, _ = P.y_wheel_pos(c)[w]
             if w >= 2:
                 b.items[-1].meta = {"length": S.IN_AXLE_L, "head": "socket", "p": (x_, y_, S.YP_Z0 + S.IN_BOSS), "d": (0, 0, -1)}
             else:
-                ln = S.OUT_AXLE_L if w == S.YW_ECC else S.FRONT_AXLE_L
+                ln = S.OUT_AXLE_L
                 b.items[-1].meta = {"length": ln, "head": "socket", "p": (x_, y_, S.YW_Z - S.WHEEL_T / 2), "d": (0, 0, 1)}
         else:
             it, kd, st = kinds[n]
@@ -310,12 +308,8 @@ def gantry_items(b, c):
                 x_, y_, _ = P.y_wheel_pos(c)[i // 4]
                 b.items[-1].meta = {"size": "M5", "len": ins["len"], "od": ins["od"], "hole": ins["hole"], "depth": ins["depth"],
                                     "p": (x_, y_, S.YP_Z1 + S.INSERT_BOSS[1]), "d": (0, 0, -1)}
-    b.joint("y_carriage: M5 eccentric wheel axle (head under the wheel), nyloc nut on the 6 mm boss", name_of("socket", "M5", S.OUT_AXLE_L),
-            "nut", S.OUT_AXLE_L, S.WHEEL_T + S.SPACER_H + S.YP_T + S.INSERT_BOSS[1], S.NYLOC[1])
-    ins = S.INSERT_M5
-    b.joint("y_carriage: M5 front wheel axle (head under the wheel) into a heat-set insert in the plate",
-            name_of("socket", "M5", S.FRONT_AXLE_L), "insert", S.FRONT_AXLE_L,
-            S.WHEEL_T + S.SPACER_H + S.YP_T + S.INSERT_BOSS[1] - ins["len"], ins["len"])
+    b.joint("y_carriage: M5 outer wheel axle (head under the wheel), nyloc nut on the 6 mm boss", name_of("socket", "M5", S.OUT_AXLE_L),
+            "nut", S.OUT_AXLE_L, S.WHEEL_T + S.SPACER_H + S.YP_T + S.INSERT_BOSS[1], S.NYLOC[1], count=2)
     b.joint("y_carriage: M5 inner wheel axle (head on the 12 mm boss), nyloc nut under the wheel",
             name_of("socket", "M5", S.IN_AXLE_L), "nut", S.IN_AXLE_L, S.IN_BOSS + S.SPACER_H + S.WHEEL_T, S.NYLOC[1])
     bc = S.BZ
@@ -460,20 +454,10 @@ def carriage_items(b, t):
             b.add(f"X wheel spacer {n}", "M5 spacer, 6 mm (stock)", "M5", "spacer", "carriage", "x_carriage_plate",
                   t * _along(P.spacer_real(S.WASHER[0], S.SPACER_H - 0.1, 2.6), (x, y1 + 0.05, z), (0, 1, 0)), ("X wheel",),
                   stock=True)
-        if i == 2:
-            ins = S.INSERT_M5
-            b.add(f"X wheel insert {n}", INSERT_ITEM, "M5", "insert", "carriage", "x_carriage_plate",
-                  t * _along(P.insert_real(ins["od"], ins["len"] - 0.05, S.SHANK["M5"] / 2 + 0.05), (x, y0 + 0.05, z), (0, 1, 0)),
-                  ("X plate",))
-            b.items[-1].meta = {"size": "M5", "len": ins["len"], "od": ins["od"], "hole": ins["hole"], "depth": ins["depth"]}
-            b.items[-1].meta.update(_tf_axis(t, (x, y0, z), (0, 1, 0)))
-            b.joint("x_carriage_plate: M5 bottom wheel axle (head behind the wheel) into a heat-set insert in the boss",
-                    item, "insert", ln, (yw - y0) - ins["len"], ins["len"])
-        else:
-            b.add(f"X wheel nut {n}", "M5 nyloc nut", "M5", "nyloc", "carriage", "x_carriage_plate",
-                  t * _along(nut_solid("M5", True), (x, y0 - 0.05, z), (0, -1, 0)))
-            b.joint(f"x_carriage_plate: M5 {'eccentric ' if i == S.X_ECC else ''}top wheel axle (head behind the wheel), "
-                    "nyloc nut in front", item, "nut", ln, yw - y0, S.NYLOC[1])
+        b.add(f"X wheel nut {n}", "M5 nyloc nut", "M5", "nyloc", "carriage", "x_carriage_plate",
+              t * _along(nut_solid("M5", True), (x, y0 - 0.05, z), (0, -1, 0)))
+        b.joint(f"x_carriage_plate: M5 {'eccentric top' if i == S.X_ECC else n} wheel axle (head behind the wheel), "
+                "nyloc nut in front", item, "nut", ln, yw - y0, S.NYLOC[1])
 
 
 def x_belt_items(b, t):

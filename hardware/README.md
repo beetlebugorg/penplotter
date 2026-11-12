@@ -19,7 +19,7 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   R3 corners and three wheel holes in a triangle). It prints flat, the plate on the bed. It has only these features:
   - Three stock V-wheels on vertical axles in the side slots of the rail (2040, laid flat): 2 outside the rail, 44 mm
     apart (the back one on the eccentric spacer, in an 18 mm boss), 1 inside, 18 mm behind the beam centre, under a 12 mm
-    boss on a tongue. The front outer axle goes into an M5 heat-set insert in a 14 mm boss. No part of the carriage goes under the rail.
+    boss on a tongue. The front outer axle goes up through the plate and a 6 mm boss, with an M5 nyloc nut on top. No part of the carriage goes under the rail.
   - Two clamp blocks for the upper run of the Y belt, with pockets open to the top. A printed belt jaw and an M3 screw
     into a heat-set insert in the ledge of each pocket clamp the belt end.
   - A saddle under the beam end. The beam lies on it. One M5 × 12 goes through a short back wall into a T-nut in the
@@ -98,8 +98,8 @@ The main build (stock controller, no fit tests) has 22 printed parts in 16 print
 
 ### Notes
 
-Fifteen heat-set inserts: a long M5 in each Y carriage and in the bottom wheel boss of the X plate, two M3 in each front base
-for the Y endstop boards, two M3 on the X endstop wall of the left Y carriage, and two M3 in the clamp ledges of each Y
+Twelve heat-set inserts, all M3: two in each front base
+for the Y endstop boards, two on the X endstop wall of the left Y carriage, and two in the clamp ledges of each Y
 carriage and of the X plate for the belt jaws. `REVIEW.md` records the review rounds,
 the change back from MGN12 rails to the stock V-wheels, the change to vertical Y wheels, the printed X plate with the fixed
 motors, and the simplification of 2026-11-10.
@@ -117,7 +117,7 @@ The model has each screw, nut, washer, spacer and T-nut of the main build (`fast
 check moves them with the parts over the whole travel. No fastener touches a printed part, the
 frame, a belt or another fastener, except where it is meant to: a T-nut in a slot, a screw in a
 motor thread. `model.py` also checks each screw length: the thread in the T-nut, the motor or the
-pilot hole, and the end past each nut. The front outer Y wheel axles and the bottom X wheel axle go into M5 heat-set inserts. The
+pilot hole, and the end past each nut. Each wheel axle has an M5 nyloc nut. No wheel axle goes into an insert. The
 endstop screws and the belt jaw screws go into M3 heat-set inserts. The other M2, M3 and M5 screws in
 plastic cut their own thread. The hardware has its real shape: ISO 4762 socket heads and ISO 7380
 button heads with the hex socket, ISO 4032 nuts and ISO 7040 nyloc nuts with their chamfers and the
@@ -138,10 +138,10 @@ file for each group that moves. `stl/sim2/inserts_gantry.stl` has the brass inse
 | Y idler bracket, right | 1 × M3 x 12 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 1 × M5 x 12 countersunk (ISO 10642) |
 | Y chain anchor | 2 × M3 x 10 socket head, 1 × M5 drop-in T-nut, 1 × M5 x 12 socket head |
 | Camera pole foot (optional) | 1 × M3 nut, 1 × M3 x 16 socket head, 2 × M5 drop-in T-nut, 2 × M5 x 12 socket head, 1 × M6 x 16 socket head |
-| Y carriage, left (X motor) | 2 × belt jaw (printed), 4 × M3 heat-set insert, 5.7 mm, 7 × M3 x 10 socket head, 2 × M3 x 8 socket head, 1 × M5 drop-in T-nut, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 1 × M5 x 30 socket head, 2 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
-| Y carriage, right (X idler) | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 1 × M5 x 30 socket head, 2 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
+| Y carriage, left (X motor) | 2 × belt jaw (printed), 4 × M3 heat-set insert, 5.7 mm, 7 × M3 x 10 socket head, 2 × M3 x 8 socket head, 1 × M5 drop-in T-nut, 3 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 3 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
+| Y carriage, right (X idler) | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 3 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 3 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
 | X idler fork | 1 × M3 nut, 1 × M5 nyloc nut, 2 × M5 washer, 7.5 mm across (small), 1 × M5 x 30 socket head |
-| X plate | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 4 × M3 x 12 socket head, 1 × M5 heat-set insert, 9.5 mm (long), 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 25 button head (ISO 7380), 1 × M5 x 30 button head (ISO 7380), 1 × M5 x 35 button head (ISO 7380), 1 × eccentric spacer (stock) |
+| X plate | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 4 × M3 x 12 socket head, 3 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 30 button head (ISO 7380), 2 × M5 x 35 button head (ISO 7380), 1 × eccentric spacer (stock) |
 | Pen carriage | 2 × M2 x 8 self-tapping (stock, in the servo bag) |
 | Pen slider | 1 × M3 nut, 1 × M3 x 20 socket head |
 
@@ -155,16 +155,14 @@ Totals in the model (to buy):
 - 4 × M3 × 20 socket head
 - 6 × M3 × 8 socket head
 - 15 × M5 drop-in T-nut
-- 3 × M5 heat-set insert, 9.5 mm (long)
-- 9 × M5 nyloc nut
+- 12 × M5 nyloc nut
 - 6 × M5 washer, 7.5 mm across (small)
 - 13 × M5 × 12 socket head
 - 2 × M5 × 12 countersunk (ISO 10642)
-- 1 × M5 × 25 button head (ISO 7380)
 - 1 × M5 × 30 button head (ISO 7380)
-- 5 × M5 × 30 socket head
-- 1 × M5 × 35 button head (ISO 7380)
-- 4 × M5 × 35 socket head
+- 3 × M5 × 30 socket head
+- 2 × M5 × 35 button head (ISO 7380)
+- 6 × M5 × 35 socket head
 - 1 × M6 × 16 socket head
 
 Stock parts in the model: 2 × M2 × 8 self-tapping (stock, in the servo bag), 6 × M5 spacer, 6 mm (stock), 8 × M5 × 30 socket head (stock), 3 × eccentric spacer (stock). Buy 2 more T-nuts as spares. Print the 6 belt jaws.

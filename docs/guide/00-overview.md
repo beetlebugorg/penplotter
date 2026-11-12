@@ -43,11 +43,11 @@ the paper, and plots them in up to 16 pen colours over USB. You change the pens 
 
 | Item | Value |
 |---|---|
-| Purchased parts | about $190 before tax |
+| Purchased parts | about $181 before tax |
 | Printed parts | 22 parts (16 print jobs) in 23 h 08 min, 406 g of PLA, $8.12. This includes the camera pole foot. |
-| Total cost | about $198 before tax |
+| Total cost | about $189 before tax |
 | Fit tests | 3 parts, 49 min, 14 g |
-| Heat-set inserts | 15: 3 M5 (long) and 12 M3 |
+| Heat-set inserts | 12, all M3 |
 
 The print values come from CuraEngine slices: PLA, 0.3 mm layers, a LulzBot TAZ Workhorse with the
 0.5 mm SE tool head, and PLA at $19.99/kg (`hardware/stats.py`). `05-parts-and-cost` has the details.

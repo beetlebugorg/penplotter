@@ -114,6 +114,13 @@ def base():
     tower = box(S.TOWER_X[0], S.TOWER_X[1], -S.BASE_T + 0.5, S.SERVO_FACE, S.TOWER_Z[0], S.TOWER_Z[1])
     part = back + rail() + shelf + tower
     part -= servo_pocket()
+    # The wheel boss keep-outs go through the whole part: no front feature hangs over a keep-out of the
+    # back layer.
+    for _, x, z, rad in S.WHEEL_BOLTS:
+        r = rad + S.KEEP_CLR
+        k = r / math.sqrt(2)
+        sk = Pos(x, z) * (Circle(r) + poly((-k, -k), (0, -r * math.sqrt(2)), (k, -k), (0, 0)))
+        part -= Pos(0, 1, 0) * extrude(xz_face(sk), 80.0, dir=MY)
     return part
 
 
@@ -1101,11 +1108,7 @@ def x_carriage_plate():
         else:
             # The stock 6 mm spacer stands in the back of the plate (a pointed top: no flat ceiling).
             part -= teardrop_y(S.WASHER[0] + 1.0, x, z, y1, S.XP_THICK + 1)
-        if i == 2:
-            ins = S.INSERT_M5
-            part -= teardrop_y(S.M5_CLEAR, x, z, y0 - 1, y1 + 1)
-            part -= teardrop_y(ins["hole"], x, z, y0 - 1, y0 + ins["depth"])
-        elif i != S.X_ECC:
+        if i != S.X_ECC:
             part -= teardrop_y(S.M5_CLEAR, x, z, y0 - 1, y1 + 1)
     # The four tool head holes: M3 clearance, the heads on the back face.
     for name, x, z in S.HEAD_HOLES:
@@ -1215,15 +1218,11 @@ def y_wheel_stack(c=0.0):
             sp = eccentric_real(h, 2.6) if ecc else spacer_real(S.WASHER[0], h, 2.6)
             out.append(("eccentric spacer" if ecc else "spacer", Pos(x, y, zw1 + e) * sp))
             out.append(("bolt head", Pos(x, y, zw0 - e) * socket_head("M5")))
-            if ecc:
-                steel, nylon = nyloc_real(S.NYLOC[0], nt, r + 0.1)
-                out.append(("nut", Pos(x, y, S.YP_Z1 + S.INSERT_BOSS[1] + e) * (steel + nylon)))
-                out.append(("bolt", Pos(x, y, zw0 - e) * shank("M5", S.OUT_AXLE_L)))
-            else:
-                ins = S.INSERT_M5
-                zi1 = S.YP_Z1 + S.INSERT_BOSS[1]
-                out.append(("insert", Pos(x, y, zi1 - ins["len"]) * insert_real(ins["od"], ins["len"] - e, r + 0.05)))
-                out.append(("bolt", Pos(x, y, zw0 - e) * shank("M5", S.FRONT_AXLE_L)))
+            # Both outer wheels: an M5 x 35 up through the wheel, the spacer and the 6 mm boss, and a nyloc
+            # nut on the boss. A nut cannot back out the way a screw in an insert can.
+            steel, nylon = nyloc_real(S.NYLOC[0], nt, r + 0.1)
+            out.append(("nut", Pos(x, y, S.YP_Z1 + S.INSERT_BOSS[1] + e) * (steel + nylon)))
+            out.append(("bolt", Pos(x, y, zw0 - e) * shank("M5", S.OUT_AXLE_L)))
         else:
             zh = S.YP_Z0 + S.IN_BOSS
             sp = spacer_real(S.WASHER[0], S.YP_Z0 - zw1 - 2 * e, 2.6)
@@ -1395,11 +1394,10 @@ def y_carriage(c=0.0, end="motor"):
             part += Pos(x, y, z1 - 0.5) * Cylinder(S.ECC_BOSS_D / 2, S.INSERT_BOSS[1] + 0.5, align=MINZ)
             part -= _zcyl(S.ECC_HOLE / 2, z0 - 1, z1 + S.INSERT_BOSS[1] + 1, x, y)
         elif i < 2:
+            # The front outer wheel: a 6 mm boss for the nyloc nut, an M5 clearance hole.
             bd, bh = S.INSERT_BOSS
-            ins = S.INSERT_M5
             part += Pos(x, y, z1 - 0.5) * Cylinder(bd / 2, bh + 0.5, align=MINZ)
             part -= _zcyl(S.M5_CLEAR / 2, z0 - 1, z1 + bh + 1, x, y)
-            part -= _zcyl(ins["hole"] / 2, z1 + bh - ins["depth"], z1 + bh + 1, x, y)
         else:
             part -= _zcyl(S.M5_CLEAR / 2, z0 - 1, z0 + S.IN_BOSS + 1, x, y)
     # The beam pocket, the hollow under the beam (a tunnel with a 45 degree roof), the beam screw.

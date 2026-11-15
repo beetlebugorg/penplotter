@@ -13,21 +13,28 @@ with an ATmega2560, the LCD and the knob, the 350 W supply) stands on the table,
 The stock harness stays. Its two breakout boards stand bare on two 4 mm nylon standoffs each, held by
 cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
 
-- **Y carriages (flat plates).** The build uses no stock plates. The printed plates keep the stock layouts, without the
-  extra mounting points of the stock plates. Each Y carriage is a flat 6 mm printed plate,
-  as the stock CR-10 Z carriage plate (in the Creality CR-10 STEP model it is an aluminium plate of 60 × 58.5 × 5.1 mm with
-  R3 corners and three wheel holes in a triangle). It prints flat, the plate on the bed. It has only these features:
-  - Three stock V-wheels on vertical axles in the side slots of the rail (2040, laid flat): 2 outside the rail, 44 mm
-    apart (the back one on the eccentric spacer, in an 18 mm boss), 1 inside, 18 mm behind the beam centre, under a 12 mm
-    boss on a tongue. The front outer axle goes up through the plate and a 6 mm boss, with an M5 nyloc nut on top. No part of the carriage goes under the rail.
+- **Y carriages (flat decks).** The build uses no stock plates. The printed parts keep the stock layouts, without the
+  extra mounting points of the stock plates. Each Y carriage is a flat 6 mm printed deck over the rail. Its wheels
+  have the layout of the stock X carriage. It prints flat, the deck on the bed. It has only these features:
+  - Three stock V-wheels on horizontal axles (along x) on the rail (2040, laid flat): 2 in the outer top slot, 22 mm in
+    front of and behind the beam centre, and 1 in the outer bottom slot, under the rail, at the beam centre, on the
+    eccentric spacer. The beam load is about 11 mm inside the wheel triangle (2 mm with the old side wheels). The top
+    wheels stand on one 6 mm wall of the carriage, outside the rail, and run in wells through the deck. The wells have
+    pointed roofs and need no supports. Each axle is an M5 × 30 socket head: the head outside the wall or the arm, then
+    a 6 mm spacer or the eccentric, the wheel and an M5 nyloc nut.
+  - The wheel arm (`y_wheel_arm`, a separate part, the same part left and right). The L-shaped arm hangs under the outer
+    edge of the deck. Two M3 × 12 screws go up through its foot into M3 heat-set inserts in the underside of the deck.
+    Its leg holds the bottom wheel on the eccentric spacer. Turn the eccentric hex with the 8 mm eccentric wrench (as on the CR-10) from the
+    front, under the rail. The bottom wheel runs 0.5 mm clear of the back rubber feet. No other part of the carriage
+    goes under the rail.
   - Two clamp blocks for the upper run of the Y belt, with pockets open to the top. A printed belt jaw and an M3 screw
     into a heat-set insert in the ledge of each pocket clamp the belt end.
   - A saddle under the beam end. The beam lies on it. One M5 × 12 goes through a short back wall into a T-nut in the
     back slot of the beam. A stop at the outer end holds the beam along X. The inner face of the saddle is the hard stop
     of the X plate. A tunnel with a 45 degree roof hollows the saddle.
-  - The Y endstop striker: a fin on the front edge of the plate.
+  - The Y endstop striker: a wide fin on the front edge of the deck.
   - Left only: the tab for the moving end of the drag chain; the X motor wall behind the beam end (the 42-34 motor face
-    on its back, three M3 screws, a 45 degree underside past the plate edge); the X endstop wall in front of the beam end
+    on its back, three M3 screws, a 45 degree underside past the deck edge); the X endstop wall in front of the beam end
     (the board faces the front on two standoffs with M3 heat-set inserts).
   - Right only: the seat and the end wall of the X idler fork past the beam end.
 - **Y drive (fixed motors).** The Y motors are fixed. This keeps the X axis light. Each Y belt is a loop
@@ -45,7 +52,7 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   each carriage pushes its lever. Homing squares the gantry.
 - **Moving cables.** One openable drag chain (inner 10 × 20 mm, R28) lies beside the left rail, outside the frame. It
   holds only the head harness. Its lower run lies on the table, its fixed end sits in an anchor at the back left
-  corner (`y_chain_anchor`), and its moving end bolts to the tab of the left carriage plate. The servo lead runs in a
+  corner (`y_chain_anchor`), and its moving end bolts to the tab of the left carriage. The servo lead runs in a
   1/2 inch split wire loom: from the head board it hangs in a free slack loop behind the beam, goes over the beam and
   the X plate top, and goes down the front of the X plate to the servo. One cable tie at each end holds it: round the
   head harness cable over the head board, and through a slot at the top left of the X plate. The X motor plugs into
@@ -58,8 +65,9 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   under the beam. A toothed 20T idler turns in a two-cheek fork past the right beam end (`x_idler_fork`); an M3 screw
   from outside the right carriage pulls it outward, on the belt centre line under the idler. The X motor is a 42-34 (213.4 g, measured): it rides on the gantry.
 - **X plate.** The printed X plate (`x_carriage_plate`) replaces the stock Creality plate. It keeps the 3 stock
-  V-wheels and the 4 tool head holes. The eccentric is on the top right wheel. The plate prints upright. It has the two
-  X belt clamps under the beam, the X endstop trigger lug at the bottom left (it reaches forward to the lever tip of the
+  V-wheels and the 4 tool head holes. The eccentric is on the top right wheel. Each wheel axle is an M5 × 30 button head
+  (ISO 7380) with an M5 nyloc nut. The plate prints upright. It has the two
+  X belt clamps under the beam, the X endstop trigger lug at the bottom left (12 mm wide; it reaches forward to the lever tip of the
   board on the X endstop wall), and the tie slot of the servo loom at the top left.
 - **Pen carriage.** One part on the front of the X plate, held by the 4 M3 × 12 tool head screws from the back of the
   plate. A servo lifts the pen slider on a dovetail rail. The weight of the slider and the pen is the pen force.
@@ -78,7 +86,8 @@ cable ties. The firmware (`firmware/cmd/mega`) runs on the ATmega2560.
   into the pockets from the top, the screw from the top. The X jaws slide into the 45 degree pockets from the back,
   under the two layers. Their screws go in from below through a 7 mm hole under the jaw. Clamp one end, route the belt,
   pull the other end tight by hand, fold it, cut the tail and clamp it.
-- **Three fit tests** (the dovetail rail, the slider, and the V-wheel holes).
+- **Three fit tests** (the dovetail rail, the slider, and the V-wheel holes). The wheel fit test (`fit_wheel`) is a strip
+  of the Y wheel wall with the top wheel hole and the bottom wheel eccentric hole at their real distance.
 
 **Design language.** All printed parts of the main build share one finish (`parts.finish`):
 
@@ -94,22 +103,21 @@ high, centres 31 mm in from each side and 37.5 mm from each end). The fit check 
 full Y travel. No moving part touches a foot. The feet also stay clear of the Y drag chain and the chain
 anchor arm. `MEASURE.md` items 1 to 3 ask for the real sizes.
 
-The main build (stock controller, no fit tests) has 22 printed parts in 16 print jobs: 23 h 08 min with 406 g of PLA ($8.12). Before the simplification of 2026-11-10 it was 27 parts, 30 h 28 min, 544 g ($10.88). The fit tests add 49 min and 14 g.
+The main build (stock controller, no fit tests) has 24 printed parts in 17 print jobs: 23 h 34 min with 413 g of PLA ($8.26). Before the simplification of 2026-11-10 it was 27 parts, 30 h 28 min, 544 g ($10.88). The fit tests add 45 min and 12 g.
 
 ### Notes
 
-Twelve heat-set inserts, all M3: two in each front base
-for the Y endstop boards, two on the X endstop wall of the left Y carriage, and two in the clamp ledges of each Y
-carriage and of the X plate for the belt jaws. `REVIEW.md` records the review rounds,
+Sixteen heat-set inserts, all M3: two in each front base
+for the Y endstop boards, two on the X endstop wall of the left Y carriage, two in the clamp ledges of each Y
+carriage and of the X plate for the belt jaws, and two in the underside of each Y carriage deck for the wheel arm. `REVIEW.md` records the review rounds,
 the change back from MGN12 rails to the stock V-wheels, the change to vertical Y wheels, the printed X plate with the fixed
-motors, and the simplification of 2026-11-10.
+motors, the simplification of 2026-11-10, and the top and bottom Y wheels of 2026-11-15.
 
 No part needs supports. PLA on a LulzBot TAZ Workhorse (0.5 mm nozzle, 2.85 mm filament, 0.3 mm
 layers). `penplotter-build-guide.pdf` has the parts list, the print times, the print settings, and
 the steps.
 
-The pen travel is 245.9 × 395.1 mm in the model. At the front the carriage plate stops at the front base; at the back
-the inner Y wheel stops at the back bar. Set the firmware to 245 × 390 mm (home is unchanged).
+The pen travel is 245.9 × 395.1 mm in the model. At the front the carriage deck stops at the front base. Set the firmware to 245 × 390 mm (home is unchanged).
 
 ### Fasteners
 
@@ -117,8 +125,8 @@ The model has each screw, nut, washer, spacer and T-nut of the main build (`fast
 check moves them with the parts over the whole travel. No fastener touches a printed part, the
 frame, a belt or another fastener, except where it is meant to: a T-nut in a slot, a screw in a
 motor thread. `model.py` also checks each screw length: the thread in the T-nut, the motor or the
-pilot hole, and the end past each nut. Each wheel axle has an M5 nyloc nut. No wheel axle goes into an insert. The
-endstop screws and the belt jaw screws go into M3 heat-set inserts. The other M2, M3 and M5 screws in
+pilot hole, and the end past each nut. Each wheel axle is an M5 × 30 with an M5 nyloc nut. No wheel axle goes into an insert. The
+endstop screws, the belt jaw screws and the wheel arm screws go into M3 heat-set inserts. The other M2, M3 and M5 screws in
 plastic cut their own thread. The hardware has its real shape: ISO 4762 socket heads and ISO 7380
 button heads with the hex socket, ISO 4032 nuts and ISO 7040 nyloc nuts with their chamfers and the
 nylon ring collar, washers, roll-in T-nuts, spacers, the eccentric spacer with its offset hex, and
@@ -138,19 +146,21 @@ file for each group that moves. `stl/sim2/inserts_gantry.stl` has the brass inse
 | Y idler bracket, right | 1 × M3 x 12 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 1 × M5 x 12 countersunk (ISO 10642) |
 | Y chain anchor | 2 × M3 x 10 socket head, 1 × M5 drop-in T-nut, 1 × M5 x 12 socket head |
 | Camera pole foot (optional) | 1 × M3 nut, 1 × M3 x 16 socket head, 2 × M5 drop-in T-nut, 2 × M5 x 12 socket head, 1 × M6 x 16 socket head |
-| Y carriage, left (X motor) | 2 × belt jaw (printed), 4 × M3 heat-set insert, 5.7 mm, 7 × M3 x 10 socket head, 2 × M3 x 8 socket head, 1 × M5 drop-in T-nut, 3 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 3 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
-| Y carriage, right (X idler) | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 3 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 3 × M5 x 35 socket head, 1 × eccentric spacer (stock) |
+| Y carriage, left (X motor) | 2 × belt jaw (printed), 6 × M3 heat-set insert, 5.7 mm, 7 × M3 x 10 socket head, 2 × M3 x 8 socket head, 1 × M5 drop-in T-nut, 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 2 × M5 x 30 socket head |
+| Y wheel arm, left | 2 × M3 x 12 socket head, 1 × M5 nyloc nut, 1 × M5 x 30 socket head, 1 × eccentric spacer (stock) |
+| Y carriage, right (X idler) | 2 × belt jaw (printed), 4 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 1 × M3 x 20 socket head, 1 × M5 drop-in T-nut, 2 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 12 socket head, 2 × M5 x 30 socket head |
+| Y wheel arm, right | 2 × M3 x 12 socket head, 1 × M5 nyloc nut, 1 × M5 x 30 socket head, 1 × eccentric spacer (stock) |
 | X idler fork | 1 × M3 nut, 1 × M5 nyloc nut, 2 × M5 washer, 7.5 mm across (small), 1 × M5 x 30 socket head |
-| X plate | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 4 × M3 x 12 socket head, 3 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 1 × M5 x 30 button head (ISO 7380), 2 × M5 x 35 button head (ISO 7380), 1 × eccentric spacer (stock) |
+| X plate | 2 × belt jaw (printed), 2 × M3 heat-set insert, 5.7 mm, 2 × M3 x 10 socket head, 4 × M3 x 12 socket head, 3 × M5 nyloc nut, 2 × M5 spacer, 6 mm (stock), 3 × M5 x 30 button head (ISO 7380), 1 × eccentric spacer (stock) |
 | Pen carriage | 2 × M2 x 8 self-tapping (stock, in the servo bag) |
 | Pen slider | 1 × M3 nut, 1 × M3 x 20 socket head |
 
 Totals in the model (to buy):
 
-- 12 × M3 heat-set insert, 5.7 mm
+- 16 × M3 heat-set insert, 5.7 mm
 - 5 × M3 nut
 - 21 × M3 × 10 socket head
-- 6 × M3 × 12 socket head
+- 10 × M3 × 12 socket head
 - 1 × M3 × 16 socket head
 - 4 × M3 × 20 socket head
 - 6 × M3 × 8 socket head
@@ -159,10 +169,8 @@ Totals in the model (to buy):
 - 6 × M5 washer, 7.5 mm across (small)
 - 13 × M5 × 12 socket head
 - 2 × M5 × 12 countersunk (ISO 10642)
-- 1 × M5 × 30 button head (ISO 7380)
-- 3 × M5 × 30 socket head
-- 2 × M5 × 35 button head (ISO 7380)
-- 6 × M5 × 35 socket head
+- 3 × M5 × 30 button head (ISO 7380)
+- 9 × M5 × 30 socket head
 - 1 × M6 × 16 socket head
 
 Stock parts in the model: 2 × M2 × 8 self-tapping (stock, in the servo bag), 6 × M5 spacer, 6 mm (stock), 8 × M5 × 30 socket head (stock), 3 × eccentric spacer (stock). Buy 2 more T-nuts as spares. Print the 6 belt jaws.
@@ -219,7 +227,7 @@ switch with a long lever, an XH plug that enters along the board). Each board st
 standoffs: the pins under the board need the room.
 
 - Y1 and Y2: flat on the front bases, the plug to the front. Two M3 × 8 screws go into M3 heat-set
-  inserts. A striker fin on the front edge of each carriage plate meets the lever tip past the
+  inserts. A striker fin on the front edge of each carriage deck meets the lever tip past the
   corner of the board, so the board is never in its path.
 - X: on the front of the X endstop wall of the left Y carriage (in front of the beam end), the parts to the front. Two
   M3 × 8 screws go into M3 heat-set inserts in the two standoffs. The trigger lug at the bottom left of the X plate reaches

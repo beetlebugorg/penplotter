@@ -6,7 +6,7 @@
 </picture>
 
 A table pen plotter from a dismantled Creality CR-10 V3. The CR-10 base frame stands on the table,
-and the table is the bed. Stock V-wheels carry both axes, two Y motors square the gantry, and a
+and the table is the bed. Both axes run on stock V-wheels, two Y motors square the gantry, and a
 servo lifts the pen. The stock CR-10 V3 control box drives the plotter. Its ATmega2560 runs the
 firmware, which is written in Go and built with TinyGo. Plotstudio scans the bed with a camera,
 places SVG drawings and signatures on the paper, and plots them in up to 16 pen colours over USB.
@@ -14,7 +14,7 @@ places SVG drawings and signatures on the paper, and plots them in up to 16 pen 
 - Travel 245 × 390 mm. A4 and Letter fit.
 - The stock control box, its drivers, its LCD with the knob, and its harness stay. The two
   Creality breakout boards stand bare on nylon standoffs, held by cable ties.
-- 22 printed parts in PLA (16 print jobs): 23 h 08 min, 406 g, $8.12. No supports. This includes
+- 24 printed parts in PLA (17 print jobs): 23 h 34 min, 413 g, $8.26. No supports. This includes
   the optional camera pole foot. The camera is a USB webcam on your own 590 mm pole.
 - Purchased parts: about $181 (belts, toothed idlers, screws, T-nuts, heat-set inserts, a drag
   chain, a servo and a few cables). The belt jaws are printed. The total with the printed parts is

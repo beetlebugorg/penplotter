@@ -11,7 +11,7 @@ Before you start:
 - Measure the head harness and the drag chain before you print the chain anchor (`hardware/MEASURE.md`, items 46 and 47).
 - Keep the control box off until the wiring checks (`20-electronics-and-wiring`).
 
-You need hex keys (2.5, 3, 4 and 5 mm), the 8 mm wrench for the eccentric spacers, scissors for
+You need hex keys (2.5, 3, 4 and 5 mm), the 8 mm eccentric wrench (as on the CR-10) for the eccentric spacers, scissors for
 the belts, calipers, a tape measure, a meter, and a soldering iron with an M3 heat-set insert
 tip. `05-parts-and-cost` lists the fasteners.
 
@@ -20,7 +20,7 @@ No step cuts or drills the metal of the frame.
 ## The wheel adjustment
 
 The Y carriages and the X plate run on stock V-wheels. One wheel of each carriage turns on an
-eccentric spacer. Turn the eccentric with the 8 mm wrench to set the preload:
+eccentric spacer. Turn the eccentric with the 8 mm eccentric wrench (as on the CR-10) to set the preload:
 
 1. Turn the eccentric until the wheels touch both flanks of their slots.
 2. Rock the carriage by hand. Turn the eccentric a little more until the play is gone.
@@ -35,10 +35,12 @@ Stop when the play is gone. Too much preload makes flat spots on the wheels.
 
 1. Slide the fit slider onto the fit rail. It must slide by its weight, with no side play.
 2. Push an M3 nut into the slot in the top of the fit slider. Put a pen in the bore. Turn an M3 × 20 screw in until it holds the pen.
-3. Put a wheel under the eccentric hole of the fit wheel strip: an M5 × 30 screw from below, the wheel, an eccentric spacer, the strip, a nyloc nut.
-4. Put a wheel under the counterbored hole: an M5 × 30 button head screw from the top, the strip, a 6 mm spacer, the wheel, a nyloc nut.
-5. Lay the strip across the end of a frame rail, the wheels in the two side slots.
-6. Turn the eccentric spacer. Both wheels must grip the slots before the eccentric reaches its end.
+3. Top hole of the fit wheel strip: put an M5 × 30 screw through the strip, then a 6 mm spacer, a wheel and a nyloc nut.
+4. Bottom hole: put an M5 × 30 screw through the strip, then an eccentric spacer (the hex toward the wheel), a wheel and a nyloc nut.
+5. Hold the strip against the outer side of a 2040 rail end: the top wheel in the outer top slot, the bottom wheel in the outer bottom slot.
+6. Turn the eccentric spacer. Both wheels must grip their slots before the eccentric reaches its end.
+
+The strip is a part of the Y wheel wall. It has the top wheel hole and the bottom wheel eccentric hole at their real distance.
 
 If the slider is tight or loose, change `DT_CLR` in `hardware/shape.py` by 0.05 mm. If the
 eccentric cannot reach, change `WHEEL_OFF` by 0.2 mm. If the eccentric spacer is loose or tight in
@@ -54,45 +56,49 @@ Put all the inserts in first, before the assembly starts. The pictures show each
 
 ![The M3 inserts in the left front base](../../hardware/build/img/ins_m3_yfront-light.png)
 
-You need the 2 Y carriages, the X plate, the 2 front bases and 12 M3 inserts.
+You need the 2 Y carriages, the X plate, the 2 front bases and 16 M3 inserts.
 
 1. Set the iron to 220 °C with the M3 tip. Let the tip get hot.
 2. Left Y carriage: find the two standoffs on the front face of the X endstop wall (first picture). Press an insert into each, from the front.
 3. Y carriages: find the ledge in each of the two clamp pockets. Press an insert into each ledge, from the top.
-4. X plate: turn the plate until the hole under one clamp points straight up. Press an insert down through that hole into the ledge (second picture). Do the same at the other clamp.
-5. Front bases: press an insert into each of the two standoffs on the top of each base, from the top (third picture).
-6. Push each insert until its top is flush with the standoff or the ledge. Let the parts cool.
-7. Turn an M3 × 8 screw in and out once to check each endstop insert. Turn an M3 × 10 screw in and out once to check each jaw insert.
+4. Y carriages: turn each carriage over. Press an insert into each of the two holes in the underside of the deck, outside the rail line. These inserts hold the wheel arm.
+5. X plate: turn the plate until the hole under one clamp points straight up. Press an insert down through that hole into the ledge (second picture). Do the same at the other clamp.
+6. Front bases: press an insert into each of the two standoffs on the top of each base, from the top (third picture).
+7. Push each insert until its top is flush with the standoff or the ledge. Let the parts cool.
+8. Turn an M3 × 8 screw in and out once to check each endstop insert. Turn an M3 × 10 screw in and out once to check each jaw insert. Turn an M3 × 12 screw in and out once to check each arm insert.
 
-The M3 inserts hold the three endstop boards and the six belt jaws. The left Y carriage has 4 M3
-inserts, the right Y carriage 2, the X plate 2 and each front base 2. The right front base is the
+The M3 inserts hold the three endstop boards, the six belt jaws and the two wheel arms. The left Y
+carriage has 6 M3 inserts, the right Y carriage 4, the X plate 2 and each front base 2. The right front base is the
 mirror image of the left base. No wheel axle goes into an insert.
 
 ## 3. Wheels on the Y carriages
 
 ![The wheels on the Y carriages](../../hardware/build/img/ywheel-light.png)
 
-You need the 2 Y carriages, 6 V-wheels, 4 stock 6 mm spacers, 2 eccentric spacers, 6 × M5 × 35
-socket head screws and 6 nyloc nuts.
+You need the 2 Y carriages, the 2 Y wheel arms, 6 V-wheels, 4 stock 6 mm spacers, 2 eccentric
+spacers, 6 × M5 × 30 socket head screws, 6 nyloc nuts and 4 M3 × 12 screws.
 
-1. Front outer wheel: put an M5 × 35 screw up through a wheel, a 6 mm spacer and the front boss. Put a nyloc nut on top of the boss.
-2. Back outer wheel: put an M5 × 35 screw up through a wheel and an eccentric spacer into the back hole. The hex is between the wheel and the plate. Put a nyloc nut on top.
-3. Inner wheel: put an M5 × 35 screw down through the 12 mm boss behind the beam. Do not put the spacer, the wheel and the nut on yet.
-4. Tighten the front nut and the back nut until the wheels turn freely with no wobble.
+1. Top wheels: put an M5 × 30 screw from outside through each wall of the carriage, then a 6 mm spacer, a wheel and a nyloc nut. The wheels stand in the wells of the deck.
+2. Tighten each nut until the wheel turns freely with no wobble.
+3. Bottom wheel: put an M5 × 30 screw from outside through the leg of the arm, then an eccentric spacer (the hex toward the wheel), a wheel and a nyloc nut. Leave the nut loose.
+4. Do not put the arm on the carriage yet.
 
-Each carriage is a flat plate, in the form of the stock CR-10 Z carriage plate. The left carriage
-has the X motor wall behind the beam end. The right carriage has the seat of the X idler fork.
-The inner wheel goes on when the carriage is on the rail.
+Each carriage is a flat deck over the rail. The two top wheels run in the outer top slot of the
+2040 rail. The bottom wheel runs in the outer bottom slot, under the rail. The belt stays on the
+inner top slot. The left carriage has the X motor wall behind the beam end. The right carriage
+has the seat of the X idler fork. The two wheel arms are the same part.
 
 ## 4. Y carriages on the frame rails
 
 ![The Y carriages on the frame rails](../../hardware/build/img/ywheel_on-light.png)
 
 1. Stand the frame on the table, feet down.
-2. Set each carriage on its rail from above: the plate on the rail top, the two outer wheels in the outer side slot.
-3. Under the inner boss, put a 6 mm spacer, the inner wheel and a nyloc nut on the inner screw. The wheel runs in the inner side slot.
-4. Do the wheel adjustment on each carriage. Turn the eccentric hex from outside the frame.
+2. Set each carriage on its rail from above: the two top wheels in the outer top slot.
+3. Hold the arm under the outer edge of the deck, the bottom wheel in the outer bottom slot. Put two M3 × 12 screws up through the foot of the arm into the inserts. Tighten them.
+4. Do the wheel adjustment on each carriage. Turn the eccentric hex with the 8 mm eccentric wrench (as on the CR-10) from the front, under the rail.
 5. Measure the two diagonals of the frame. Make them equal, then tighten the bar screws.
+
+The bottom wheel runs 0.5 mm clear of the back rubber feet.
 
 ## 5. Y motors behind the back bar
 
@@ -132,7 +138,7 @@ The ear has a hole from its front face for the screw head and the hex key. The b
 pushes the bracket back onto the bar face. The tension screw is on the belt centre line, under the
 idler. It pulls in line with the belt, so the fork does not turn in its seat.
 
-Home is the front left corner. A striker fin on the front edge of each carriage plate meets the
+Home is the front left corner. A striker fin on the front edge of each carriage deck meets the
 lever tip. At the front stop it is 1.5 mm past the click.
 
 ## 7. Base board
@@ -155,13 +161,13 @@ sizes are estimates. Measure the board first (`hardware/MEASURE.md`, items 30 to
 ![The pen carriage on the printed X plate](../../hardware/build/img/mount-light.png)
 
 You need the X plate, the pen carriage, the 3 V-wheels, 1 eccentric spacer, 2 stock 6 mm spacers,
-1 M5 × 30 and 2 M5 × 35 button head screws, 3 nyloc nuts and 4 M3 × 12 screws.
+3 M5 × 30 button head screws (ISO 7380), 3 nyloc nuts and 4 M3 × 12 screws.
 
 1. Hold the pen carriage on the front face of the X plate. The three wheel bosses come through the round holes of the pen carriage.
 2. Put four M3 × 12 screws from the back through the plate into the pen carriage (T1, T2, H1, H2). They cut their own thread. Do not overtighten them.
 3. Top left wheel: from the back, an M5 × 30 screw through the wheel and a 6 mm spacer into the boss. Put a nyloc nut on the front.
-4. Top right wheel: from the back, an M5 × 35 screw through the wheel and the eccentric spacer (the hex toward the plate) into the boss. Put a nyloc nut on the front. Leave it loose.
-5. Bottom wheel: from the back, an M5 × 35 screw through the wheel, a 6 mm spacer and the bottom boss. Put a nyloc nut on the front.
+4. Top right wheel: from the back, an M5 × 30 screw through the wheel and the eccentric spacer (the hex toward the plate) into the boss. Put a nyloc nut on the front. Leave it loose.
+5. Bottom wheel: from the back, an M5 × 30 screw through the wheel, a 6 mm spacer and the bottom boss. Put a nyloc nut on the front.
 
 The eccentric is on the top right wheel. You turn its hex from above.
 

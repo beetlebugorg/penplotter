@@ -18,9 +18,10 @@ profiles in `hardware/cura/` (PLA at $19.99/kg). `hardware/stats.py` prints them
 
 | Part | Count | Print time | Filament | Cost |
 |---|---|---|---|---|
-| `y_carriage_left` | 1 | 3 h 52 min | 67 g | $1.34 |
-| `y_carriage_right` | 1 | 3 h 38 min | 65 g | $1.30 |
-| `x_carriage_plate` | 1 | 2 h 45 min | 50 g | $1.00 |
+| `y_carriage_left` | 1 | 3 h 41 min | 63 g | $1.26 |
+| `y_carriage_right` | 1 | 3 h 33 min | 63 g | $1.26 |
+| `y_wheel_arm` | 2 | 47 min | 14 g | $0.28 |
+| `x_carriage_plate` | 1 | 2 h 41 min | 49 g | $0.98 |
 | `pen_carriage` | 1 | 2 h 10 min | 38 g | $0.76 |
 | `pen_slider` | 1 | 54 min | 16 g | $0.32 |
 | `y_motor_mount_left` | 1 | 1 h 08 min | 19 g | $0.38 |
@@ -34,13 +35,13 @@ profiles in `hardware/cura/` (PLA at $19.99/kg). `hardware/stats.py` prints them
 | `belt_jaw` | 6 | 18 min | 6 g | $0.12 |
 | `y_chain_anchor` | 1 | 40 min | 12 g | $0.24 |
 | `mast_foot` (optional, the camera pole foot) | 1 | 1 h 23 min | 23 g | $0.46 |
-| **Total, 22 parts in 16 print jobs** | | **23 h 08 min** | **406 g** | **$8.12** |
+| **Total, 24 parts in 17 print jobs** | | **23 h 34 min** | **413 g** | **$8.26** |
 | `fit_rail` | 1 | 10 min | 3 g | $0.06 |
 | `fit_slider` | 1 | 22 min | 6 g | $0.12 |
-| `fit_wheel` | 1 | 17 min | 5 g | $0.10 |
-| **Fit tests, 3 parts (print first)** | | **49 min** | **14 g** | **$0.28** |
+| `fit_wheel` | 1 | 13 min | 3 g | $0.06 |
+| **Fit tests, 3 parts (print first)** | | **45 min** | **12 g** | **$0.24** |
 
-The values for `y_idler_fork` are for both copies, and the values for `belt_jaw` are for all 6. The camera is a USB webcam on your own 590 mm
+The values for `y_idler_fork` and `y_wheel_arm` are for both copies, and the values for `belt_jaw` are for all 6. The two wheel arms are the same part. Each arm prints on the inner face of its leg. The camera is a USB webcam on your own 590 mm
 pole. The printed `mast_foot` holds the pole behind the back bar.
 
 Before the simplification of 2026-11-10, the main build printed 27 parts in 30 h 28 min with
@@ -58,16 +59,14 @@ insert cut their own thread. The list below is the model total. `docs/bom.md` ha
 | M5 drop-in T-nut | 15 (buy 17) | Front bases 4, Y motor brackets 4, Y idler brackets 2, beam 2, Y chain anchor 1, pole foot 2 | M22 |
 | M5 × 12 socket head | 13 | Front bases 4, Y motor brackets 4, beam 2, Y chain anchor 1, pole foot 2 | M24 |
 | M5 × 12 countersunk (ISO 10642) | 2 | Y idler brackets, through the ear into the front bar | M39 |
-| M5 × 30 socket head | 3 | Idler fork axles 3 | M24 |
-| M5 × 35 socket head | 6 | Outer Y wheels 4 (front 2, back on the eccentric spacers 2), inner Y wheels 2 | M24 |
-| M5 × 30 button head (ISO 7380) | 1 | X wheel, top left | M24 |
-| M5 × 35 button head (ISO 7380) | 2 | X wheels: top right (eccentric) 1, bottom 1 | M24 |
+| M5 × 30 socket head | 9 | Idler fork axles 3, Y wheel axles 6 (top wheels 4 through the carriage walls, bottom wheels 2 through the wheel arms on the eccentric spacers) | M24 |
+| M5 × 30 button head (ISO 7380) | 3 | X wheels: top left 1, top right (eccentric) 1, bottom 1 | M24 |
 | M5 nyloc nut | 12 | Y wheels 6, X wheels 3, idler forks 3 | M27 |
 | M5 washer, small (7.5 mm across) | 6 | Idler forks, one each side of each idler | M27 |
-| M3 heat-set insert (5.7 mm) | 12 | Y endstop boards 4 (front bases), X endstop board 2 (left Y carriage), belt jaws 6 (Y carriages 4, X plate 2) | M28 |
+| M3 heat-set insert (5.7 mm) | 16 | Y endstop boards 4 (front bases), X endstop board 2 (left Y carriage), belt jaws 6 (Y carriages 4, X plate 2), wheel arms 4 (2 in the underside of each Y carriage deck) | M28 |
 | M3 × 8 socket head | 6 | The three endstop boards (all into inserts) | M23 |
 | M3 × 10 socket head | 21 | X motor 3, Y motors 8, Y chain end links 4, belt jaws 6 (into inserts) | M23 |
-| M3 × 12 socket head | 6 | Pen carriage 4 (T1, T2, H1, H2), front base lip into each Y idler bracket 2 | M23 |
+| M3 × 12 socket head | 10 | Pen carriage 4 (T1, T2, H1, H2), front base lip into each Y idler bracket 2, wheel arms 4 (into inserts) | M23 |
 | M3 × 16 socket head | 1 | Pole foot collar | M23 |
 | M3 × 20 socket head | 4 | Tension screws 3 (X fork 1, Y forks 2), pen slider clamp 1 | M23 |
 | M3 nut | 5 | Idler forks 3, pole foot collar 1, pen slider 1 | M23 |
@@ -76,7 +75,9 @@ insert cut their own thread. The list below is the model total. `docs/bom.md` ha
 
 The model also uses these stock parts: 8 M5 × 30 frame screws, 6 plain 6 mm wheel spacers, 3
 eccentric spacers, and the 2 M2 × 8 servo screws from the servo bag. Count your plain spacers
-first (`hardware/MEASURE.md`, item 62). The build needs 6: 4 on the Y carriages and 2 on the X plate.
+first (`hardware/MEASURE.md`, item 62). The build needs 6: 4 on the Y carriages and 2 on the X plate. The build needs all 3 eccentric spacers: 2 on the Y carriages and 1 on the X plate.
+
+Each wheel axle is an M5 × 30 with an M5 nyloc nut. A Y axle goes through a 6 mm wall or arm, a 6 mm spacer or the eccentric, and the 10.2 mm wheel. Its end is 2.8 mm past the nut.
 
 The idlers are 3 toothed GT2 20T idlers with a 5 mm bore (M20): one in each Y fork and one in the X
 fork. The moving cables need the openable drag chain (M32) and the 1/2 inch split wire loom (M33).
@@ -93,7 +94,7 @@ Notes on the screws:
 | Item | Value |
 |---|---|
 | Purchased parts | about $181 |
-| Printed parts | $8.12 (22 parts) |
+| Printed parts | $8.26 (24 parts) |
 | Total before tax | about $189 |
 
 The purchases are the servo about $7, the electronics about $46 and the mechanics about

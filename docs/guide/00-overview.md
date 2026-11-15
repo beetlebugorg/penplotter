@@ -4,7 +4,7 @@
 
 The pen plotter is the base frame of a dismantled Creality CR-10 V3 on a table. The table is the
 bed: the paper lies on the table, and the gantry moves over it.
-Stock V-wheels carry both axes: three on each printed Y carriage, and three on the printed X plate.
+Both axes run on stock V-wheels: three on each printed Y carriage, and three on the printed X plate.
 The motors do not move. Two Y motors stand behind the back bar, and the X motor stands at the left
 end of the beam. The X belt runs in the slots of the beam, as on the stock CR-10.
 A servo lifts the pen. The stock CR-10 V3 control box stands beside the frame and drives
@@ -12,7 +12,8 @@ the plotter. The stock harness stays. The two small Creality boards of the harne
 on nylon standoffs, held by cable ties.
 
 The printed parts copy the stock CR-10 layouts. They keep only the features that the plotter
-uses. Each Y carriage is a flat 6 mm plate, in the form of the stock Z carriage plate.
+uses. Each Y carriage is a flat deck over its rail. Its three wheels have the layout of the stock X
+carriage: two wheels in the outer top slot of the rail, one wheel in the outer bottom slot.
 
 The firmware is written in Go and built with TinyGo. It runs on the ATmega2560 of the stock
 mainboard. A simulator runs the same firmware code on a computer. Plotstudio is the computer
@@ -44,10 +45,10 @@ the paper, and plots them in up to 16 pen colours over USB. You change the pens 
 | Item | Value |
 |---|---|
 | Purchased parts | about $181 before tax |
-| Printed parts | 22 parts (16 print jobs) in 23 h 08 min, 406 g of PLA, $8.12. This includes the camera pole foot. |
+| Printed parts | 24 parts (17 print jobs) in 23 h 34 min, 413 g of PLA, $8.26. This includes the camera pole foot. |
 | Total cost | about $189 before tax |
-| Fit tests | 3 parts, 49 min, 14 g |
-| Heat-set inserts | 12, all M3 |
+| Fit tests | 3 parts, 45 min, 12 g |
+| Heat-set inserts | 16, all M3 |
 
 The print values come from CuraEngine slices: PLA, 0.3 mm layers, a LulzBot TAZ Workhorse with the
 0.5 mm SE tool head, and PLA at $19.99/kg (`hardware/stats.py`). `05-parts-and-cost` has the details.

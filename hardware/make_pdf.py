@@ -56,7 +56,7 @@ CAB = SUMMARY.get("cables", {})
 PRINTS = [
     ("fit_rail", "Light blue", 1, "Back face on the bed. Tests the dovetail rail."),
     ("fit_slider", "Light blue", 1, "Upright. The slot, the pen bore, the clamp screw, and the nut."),
-    ("fit_wheel", "Light blue", 1, "Flat. A strip of the Y carriage plate across the rail: the eccentric hole of an outer wheel and the hole of the inner wheel."),
+    ("fit_wheel", "Light blue", 1, "Flat. A strip of the Y wheel wall: the hole of a top wheel and the eccentric hole of the bottom wheel, at their real distance."),
     ("y_carriage_left", "Light blue", 1, "Flat, the plate on the bed. A 6 mm plate on 3 side wheels with the Y belt clamps, the beam saddle, the Y endstop striker, the chain tab, the X motor wall, and the X endstop wall."),
     ("y_carriage_right", "Light blue", 1, "Flat, the plate on the bed. A 6 mm plate on 3 side wheels with the Y belt clamps, the beam saddle, the Y endstop striker, and the seat of the X idler fork."),
     ("x_carriage_plate", "Light blue", 1, "Upright, the bottom edge on the bed. The printed X plate: 3 wheel bosses, the 2 X belt clamps under the beam, the X endstop trigger lug, the tie slot of the servo loom. The pen carriage bolts to its front."),
@@ -145,13 +145,13 @@ STEPS = [
         "Do not put the arm on the carriage yet.",
     ], "Each carriage is a flat deck over the rail. The two top wheels run on the outer top slot of the 2040 rail, the bottom wheel under it. "
        "The belt stays on the inner top slot."),
-    ("ywheel_on", "Y carriages on the rails", ["frame", "2 Y carriages with wheels", "2 arms with the bottom wheel", "4 × M3 × 12", "2.5 mm hex key", "11 mm wrench"], [
+    ("ywheel_on", "Y carriages on the rails", ["frame", "2 Y carriages with wheels", "2 arms with the bottom wheel", "4 × M3 × 12", "2.5 mm hex key", "8 mm eccentric wrench"], [
         "Stand the frame on the table, feet down.",
         "Set each carriage on its rail from above: the two top wheels in the outer top slot.",
         "Hold the arm under the outer edge of the deck, the bottom wheel in the outer bottom slot. Put two M3 × 12 screws up through the foot into the inserts. Tighten them.",
-        "Turn the eccentric hex with the wrench from the front, under the rail, until the carriage has no play. It must still roll freely. Tighten the nyloc nut.",
+        "Turn the eccentric hex with the 8 mm wrench from the front, under the rail, until the carriage has no play. It must still roll freely. Tighten the nyloc nut.",
         "Measure the two diagonals of the frame. Make them equal, then tighten the bar screws.",
-    ], "Too much preload makes flat spots on the wheels. Stop when the play is gone. The bottom wheel runs 2 mm clear of the rubber feet."),
+    ], "Too much preload makes flat spots on the wheels. Stop when the play is gone. The bottom wheel runs 0.5 mm clear of the rubber feet. At the back end of the travel its nyloc nut stops at the back foot."),
     ("ydrive", "Y motors behind the back bar", ["2 Y motor brackets", "2 Y motors (42-40)", "2 GT2 pulleys", "8 × M3 × 10", "4 × M5 × 12 + T-nuts"], [
         "Hold a 42-40 motor on the outer face of each bracket plate, the shaft through the plate to the inside, the socket up. Put four M3 × 10 screws from the inside into the motor.",
         "Put a GT2 pulley on each shaft, the hub to the inside. Line up its teeth with the inner top slot of the rail (31.5 mm from the outer face of the side). Tighten the set screws on the flat of the shaft.",
@@ -446,6 +446,7 @@ PART_NAMES = {"frame (stock)": "Frame (stock screws)",
               "y_motor_mount_left": "Y motor bracket, left", "y_motor_mount_right": "Y motor bracket, right",
               "y_idler_bracket_left": "Y idler bracket, left", "y_idler_bracket_right": "Y idler bracket, right",
               "y_chain_anchor": "Y chain anchor",
+              "y_wheel_arm_left": "Y wheel arm, left", "y_wheel_arm_right": "Y wheel arm, right",
               "y_carriage_left": "Y carriage, left (X motor)",
               "y_carriage_right": "Y carriage, right (X idler)", "x_idler_fork": "X idler fork", "pen_carriage": "Pen carriage", "pen_slider": "Pen slider",
               "x_carriage_plate": "X plate", "mast_foot": "Camera pole foot (optional)"}

@@ -174,6 +174,7 @@ PROFILES = [
     profile("FitSlider", "Fit test slider", "fit_slider.stl", SLIDER),
     profile("FitWheel", "Fit test wheel", "fit_wheel.stl", BASE),
     profile("BeltJaw", "Belt jaw (print 6)", "belt_jaw.stl", STRONG),
+    profile("YWheelArm", "Y wheel arm (print 2)", "y_wheel_arm.stl", STRONG),
 ]
 
 SUPPORT_CHECK = {"support_enable": True, "support_angle": 60, "support_type": "everywhere",

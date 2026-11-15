@@ -227,6 +227,7 @@ def y_wheel_items(c, side="left"):
     items = [(f"{side} Y wheel {i}", w) for i, w in enumerate(P.y_wheels(c))]
     # The heat-set insert is in the wall of its hole by design: it is not a clash item.
     items += [(f"{side} Y wheel {n} {i}", s) for i, (n, s) in enumerate(P.y_wheel_stack(c)) if n != "insert"]
+    items += [(f"{side} Y wheel arm", P.y_wheel_arm(c))]
     if side == "right":
         items = [(n, P.mirror_x(s)) for n, s in items]
     return items
@@ -333,13 +334,13 @@ def check_frame(problems):
     car_low = car.bounding_box().min.Z
     if car_low < S.RAIL_TOP_Z:
         problems.append(f"the Y carriage reaches down to z {car_low:.1f}, under the rail top")
-    # Tool access. The 8 mm wrench on the hex of the eccentric spacer (the back outer wheel), between
-    # the wheel and the plate, from outside the frame. The hex keys reach the outer bolt heads from below.
-    x, y, _ = P.y_wheel_pos(c_mid)[S.YW_ECC]
-    zh0, zh1 = S.YW_Z + S.WHEEL_T / 2 + 1.0, S.YP_Z0 - 1.0
-    wrench = P.box(-80.0, x + 4.0, y - 6.0, y + 6.0, zh0, zh1)
+    # Tool access. The open wrench on the hex of the eccentric spacer (the bottom wheel, between the arm
+    # and the wheel), along y from the front, under the rail.
+    x, y, z = P.y_wheel_pos(c_mid)[S.YW_ECC]
+    xh0, xh1 = S.YS_X1 + 0.3, S.YW_X - S.WHEEL_T / 2 - 0.3
+    wrench = P.box(xh0, xh1, y - 80.0, y - S.ECC["af"] / 2 - 0.5, z - 5.0, z + 5.0)
     for name, sh in [("Y carriage", car), ("left rail", bars["left rail"])] + \
-            [(n, w) for n, w in y_wheel_items(c_mid) if n.split()[-1].isdigit() and len(n.split()) == 4]:
+            [(n, w) for n, w in y_wheel_items(c_mid) if (n.split()[-1].isdigit() and len(n.split()) == 4) or n.endswith("arm")]:
         if overlap(wrench, sh) > 0.01:
             problems.append(f"the eccentric wrench touches the {name}")
     contact, ecc_x = check_wheels(problems)
@@ -868,12 +869,13 @@ SIM_HOST = {"y_carriage_left": "y_carriage_left", "y_carriage_right": "y_carriag
             "x_carriage_plate": "x_carriage_plate", "frame (stock)": "frame",
             "y_motor_mount_left": "y_motor_mount_left", "y_motor_mount_right": "y_motor_mount_right",
             "y_idler_fork_left": "y_idler_fork_left", "y_idler_fork_right": "y_idler_fork_right",
-            "y_idler_bracket_left": "y_idler_bracket_left", "y_idler_bracket_right": "y_idler_bracket_right"}
+            "y_idler_bracket_left": "y_idler_bracket_left", "y_idler_bracket_right": "y_idler_bracket_right",
+            "y_wheel_arm_left": "y_wheel_arm_left", "y_wheel_arm_right": "y_wheel_arm_right"}
 # The printed parts of the main build that have a place on the machine (not the fit tests).
 PLACED = ("y_carriage_left", "y_carriage_right", "y_front_left", "y_front_right",
           "y_motor_mount_left", "y_motor_mount_right", "y_idler_fork_left", "y_idler_fork_right", "y_idler_bracket_left",
           "y_idler_bracket_right", "mast_foot", "x_carriage_plate",
-          "y_chain_anchor", "x_idler_fork", "pen_carriage", "pen_slider")
+          "y_chain_anchor", "x_idler_fork", "pen_carriage", "pen_slider", "y_wheel_arm_left", "y_wheel_arm_right")
 
 
 def _into_insert(f, fitems):
@@ -1118,8 +1120,8 @@ def frame_json(lim, sim_files, fcounts=None):
                        "note": "the printed X plate; the pen carriage bolts to its front face"},
         "y_wheels": [[[round(x, 2), round(y, 2), round(z, 2)] for x, y, z in P.y_wheel_pos(c0)],
                      [[round(xr - x, 2), round(y, 2), round(z, 2)] for x, y, z in P.y_wheel_pos(c0)]],
-        "y_wheel_axis": "z",
-        "y_wheel_slots": "side slots of the rails: two wheels outside each rail, one inside (the back outer wheel on the eccentric)",
+        "y_wheel_axis": "x",
+        "y_wheel_slots": "outer top and outer bottom slots of the rails: two wheels on the top, one under the rail (on the eccentric)",
         "x_wheels": [[round(xp0 + x, 2), round(c0, 2), round(S.PLATE_DZ + (S.PLATE_BEAM_Z + (1 if z > S.PLATE_BEAM_Z else -1) * (S.BEAM / 2 + S.WHEEL_OFF)), 2)]
                      for _, x, z in S.X_WHEELS],
         "x_wheel_ecc": S.X_ECC,
@@ -1278,7 +1280,8 @@ def main():
         "x_idler_fork": (P.x_idler_fork_print(), None),
         "fit_rail": (P.fit_rail(), back_down),
         "fit_slider": (P.fit_slider(), None),
-        "fit_wheel": (P.fit_wheel(), None),
+        "fit_wheel": (P.fit_wheel(), lambda sh: Rot(0, 90, 0) * sh),
+        "y_wheel_arm": (P.y_wheel_arm(0.0), lambda sh: Rot(0, 90, 0) * sh),
         "belt_jaw": (P.belt_jaw(), None),
     }
     for name, (shape, pose_fn) in printed.items():
@@ -1342,6 +1345,8 @@ def main():
     items = [
         ("y_carriage_left", P.y_carriage(c0, "motor"), S.ACCENT, "gantry"),
         ("y_carriage_right", P.mirror_x(P.y_carriage(c0, "idler")), S.ACCENT, "gantry"),
+        ("y_wheel_arm_left", P.y_wheel_arm(c0), S.ACCENT, "gantry"),
+        ("y_wheel_arm_right", P.mirror_x(P.y_wheel_arm(c0)), S.ACCENT, "gantry"),
         ("beam", P.beam(c0), "#1E1F22", "gantry"),
         ("x_motor", P.x_motor_parts(c0)[0], "#202020", "gantry"),
         ("x_pulley", P.x_motor_parts(c0)[1], "#9A9A9A", "gantry"),
@@ -1493,6 +1498,7 @@ def main():
     cv = S.FRAME_Y / 2
     mesh("yl_rail", P.rail_slotted() & P.box(-1, S.RAIL_W + 1, cv - 60, cv + 60, 0, 100), "plate", "yl_rail", 0.02)
     mesh("yl_car", P.y_carriage(cv, "motor"), "petg", "yl_car", 0.02)
+    mesh("yl_arm", P.y_wheel_arm(cv), "petg", "yl_car", 0.02)
     for i, w in enumerate(P.y_wheels(cv)):
         mesh(f"yl_wheel_{i}", w, "plate", "yl_wtop" if i < 2 else "yl_wbot", 0.02)
     for i, (n, sh) in enumerate(P.y_wheel_stack(cv)):

@@ -114,13 +114,11 @@ def base():
     tower = box(S.TOWER_X[0], S.TOWER_X[1], -S.BASE_T + 0.5, S.SERVO_FACE, S.TOWER_Z[0], S.TOWER_Z[1])
     part = back + rail() + shelf + tower
     part -= servo_pocket()
-    # The wheel boss keep-outs go through the whole part: no front feature hangs over a keep-out of the
-    # back layer.
-    for _, x, z, rad in S.WHEEL_BOLTS:
-        r = rad + S.KEEP_CLR
-        k = r / math.sqrt(2)
-        sk = Pos(x, z) * (Circle(r) + poly((-k, -k), (0, -r * math.sqrt(2)), (k, -k), (0, 0)))
-        part -= Pos(0, 1, 0) * extrude(xz_face(sk), 80.0, dir=MY)
+    # Room for the nyloc nut and the axle tip in front of each wheel boss (the bosses end 5.2 mm in front
+    # of the plate, in the back layer).
+    for i, (_, x, z, _r) in enumerate(S.WHEEL_BOLTS):
+        y0 = S.XW_BOSS_Y[i][0]
+        part -= _ycyl(S.XW_NUT_CLEAR, y0 - S.NYLOC[1] - 3.0, y0 + 0.01, x, z)
     return part
 
 
@@ -420,10 +418,12 @@ def y_striker(c, end):
     45 degrees to the plate (no support). Left: the board of y_left; right (built at the left position,
     then mirrored): the board of y_right."""
     v0, v1 = S.YSTRIKER
+    # The striker is wider to the off-board side of the lever (v < 0): a stiffer fin.
     if end == "motor":
-        x0, x1 = S.ES_Y_ORIGIN[0] - v1, S.ES_Y_ORIGIN[0] - v0
+        x0, x1 = S.ES_Y_ORIGIN[0] - v1, S.ES_Y_ORIGIN[0] - v0 + S.YSTRIKER_X_EXTRA
     else:
-        x0, x1 = S.FRAME_X - (S.ES_Y_RIGHT_ORIGIN - v0), S.FRAME_X - (S.ES_Y_RIGHT_ORIGIN - v1)
+        x0 = S.FRAME_X - (S.ES_Y_RIGHT_ORIGIN - v0) - S.YSTRIKER_X_EXTRA
+        x1 = S.FRAME_X - (S.ES_Y_RIGHT_ORIGIN - v1)
     zp = S.YF_TOP + S.ES_STANDOFF + S.ES["pcb"][2]       # the board top
     zc = zp - S.ES["pcb"][2] + S.ES["click"][2]
     ot = sum(S.ES_OVERTRAVEL) / 2
@@ -434,7 +434,10 @@ def y_striker(c, end):
     z1 = S.YP_Z1 - 0.5
     yb = yf + max(S.YSTRIKER_D, zb - z1 + 1.0)
     prof = poly((yf, zb), (yf, ztop), (yb, ztop), (yb, z1), (yf + (zb - z1), z1))
-    return extrude(Plane.YZ.offset(x0) * prof, x1 - x0, dir=PX)
+    fin = extrude(Plane.YZ.offset(x0) * prof, x1 - x0, dir=PX)
+    # The fin stays clear of the front top wheel and its well (the right fin is over the outer top slot).
+    _, yw, zw = y_wheel_pos(c)[0]
+    return fin - teardrop_x(2 * S.YW_WELL_R, S.YW_X - S.WHEEL_T / 2 - 0.5, S.YW_X + S.WHEEL_T / 2 + 0.5, yw, zw)
 
 
 # ---------------------------------------------------------------- belt ends: crimp clips in pockets
@@ -659,14 +662,14 @@ def x_loom_lowest(c, xp):
 
 
 def fit_wheel():
-    """A 12 mm strip of the carriage plate across the rail: the eccentric hole of an outer wheel and
-    the counterbored hole of the inner wheel. Put an outer wheel and the inner wheel on it: they
-    must grip the side slots before the eccentric reaches its end. It prints flat."""
+    """A 12 mm wide strip of the wheel wall: the hole of a top wheel and the eccentric hole of the bottom
+    wheel, at their real distance. Put a top wheel and the bottom wheel on it: they must grip the top
+    and the bottom slot of the rail before the eccentric reaches its end. It prints flat (the hole axes
+    up), in frame position here."""
     h = 6.0
-    part = box(S.YW_OUT_X - 8.0, S.YW_IN_X + 8.0, -h, h, S.YP_Z0, S.YP_Z1)
-    part -= _zcyl(S.ECC_HOLE / 2, S.YP_Z0 - 1, S.YP_Z1 + 1, S.YW_OUT_X, 0.0)
-    part -= _zcyl(S.M5_CLEAR / 2, S.YP_Z0 - 1, S.YP_Z1 + 1, S.YW_IN_X, 0.0)
-    part -= _zcyl(S.INNER_CB[0] / 2, S.YP_Z1 - S.INNER_CB[1], S.YP_Z1 + 1, S.YW_IN_X, 0.0)
+    part = box(S.YS_X0, S.YS_X1, -h, h, S.YA_Z0, S.YW_TOP_Z + S.YW_BOSS_R)
+    part -= _xcyl(S.M5_CLEAR / 2, S.YS_X0 - 1, S.YS_X1 + 1, 0.0, S.YW_TOP_Z)
+    part -= _xcyl(S.ECC_HOLE / 2, S.YS_X0 - 1, S.YS_X1 + 1, 0.0, S.YW_BOT_Z)
     return part
 
 
@@ -1198,44 +1201,65 @@ def x_idler_fork_print():
 # ---------------------------------------------------------------- the Y wheels (the inner wheel behind the beam)
 
 def y_wheel_pos(c=0.0, preload=0.0):
+    """The three Y wheel centres of the left carriage: the front and the back top wheel (in the outer
+    top slot), the bottom wheel (in the outer bottom slot, on the eccentric). preload moves each wheel
+    that far into its slot."""
     p = preload
-    return [(S.YW_OUT_X + p, c - S.WHEEL_PITCH, S.YW_Z), (S.YW_OUT_X + p, c + S.WHEEL_PITCH, S.YW_Z),
-            (S.YW_IN_X - p, c + S.YW_IN_DY, S.YW_Z)]
+    return [(S.YW_X, c - S.WHEEL_PITCH, S.YW_TOP_Z - p), (S.YW_X, c + S.WHEEL_PITCH, S.YW_TOP_Z - p),
+            (S.YW_X, c, S.YW_BOT_Z + p)]
 
 
 def y_wheel_stack(c=0.0):
     """The spacers, the bolts and the nuts of the three wheels of the left carriage (context), four
-    items for each wheel: spacer, bolt head, nut, bolt. Outer wheels as before. Inner wheel: a socket
-    head on the 12 mm boss, a spacer, the wheel, a nyloc nut under it."""
+    items for each wheel: spacer, bolt head, nut, bolt. Each axle is an M5 x 30 along x: the head on the
+    outer face of the wall (or of the arm), the 6 mm spacer (the eccentric on the bottom wheel), the
+    wheel, and a nyloc nut on the inner face of the wheel."""
     out = []
     nt, e = S.NYLOC[1], 0.05
     r = S.SHANK["M5"] / 2
-    zw0, zw1 = S.YW_Z - S.WHEEL_T / 2, S.YW_Z + S.WHEEL_T / 2
+    ax = Rot(0, 90, 0)                       # +Z to +X
+    xw0 = S.YW_X - S.WHEEL_T / 2
     for i, (x, y, z) in enumerate(y_wheel_pos(c)):
-        if i < 2:
-            ecc = i == S.YW_ECC
-            h = S.YP_Z0 - zw1 - 2 * e
-            sp = eccentric_real(h, 2.6) if ecc else spacer_real(S.WASHER[0], h, 2.6)
-            out.append(("eccentric spacer" if ecc else "spacer", Pos(x, y, zw1 + e) * sp))
-            out.append(("bolt head", Pos(x, y, zw0 - e) * socket_head("M5")))
-            # Both outer wheels: an M5 x 35 up through the wheel, the spacer and the 6 mm boss, and a nyloc
-            # nut on the boss. A nut cannot back out the way a screw in an insert can.
-            steel, nylon = nyloc_real(S.NYLOC[0], nt, r + 0.1)
-            out.append(("nut", Pos(x, y, S.YP_Z1 + S.INSERT_BOSS[1] + e) * (steel + nylon)))
-            out.append(("bolt", Pos(x, y, zw0 - e) * shank("M5", S.OUT_AXLE_L)))
-        else:
-            zh = S.YP_Z0 + S.IN_BOSS
-            sp = spacer_real(S.WASHER[0], S.YP_Z0 - zw1 - 2 * e, 2.6)
-            out.append(("spacer", Pos(x, y, zw1 + e) * sp))
-            out.append(("bolt head", Pos(x, y, zh + e) * Rot(180, 0, 0) * socket_head("M5")))
-            steel, nylon = nyloc_real(S.NYLOC[0], nt, r + 0.1)
-            out.append(("nut", Pos(x, y, zw0 - e) * Rot(180, 0, 0) * (steel + nylon)))
-            out.append(("bolt", Pos(x, y, zh + e) * Rot(180, 0, 0) * shank("M5", S.IN_AXLE_L)))
+        ecc = i == S.YW_ECC
+        h = xw0 - S.YS_X1 - 2 * e
+        sp = eccentric_real(h, 2.6) if ecc else spacer_real(S.WASHER[0], h, 2.6)
+        out.append(("eccentric spacer" if ecc else "spacer", Pos(S.YS_X1 + e, y, z) * ax * sp))
+        out.append(("bolt head", Pos(S.YS_X0 - e, y, z) * ax * socket_head("M5")))
+        steel, nylon = nyloc_real(S.NYLOC[0], nt, r + 0.1)
+        out.append(("nut", Pos(S.YW_X + S.WHEEL_T / 2 + e, y, z) * ax * (steel + nylon)))
+        out.append(("bolt", Pos(S.YS_X0 - e, y, z) * ax * shank("M5", S.YW_AXLE_L)))
     return out
 
 
+def y_wheel_arm(c=0.0):
+    """The arm of the bottom Y wheel (left carriage, frame position): a 6 mm leg outside the rail from
+    the bottom wheel up to the deck, and a foot under the outer edge of the deck. Two M3 x 12 screws go
+    up through the foot into M3 inserts in the deck. The eccentric spacer of the bottom wheel is in
+    the leg. It prints on the inner face of the leg (the foot stands up from the bed)."""
+    z0 = S.YP_Z0
+    leg = box(S.YS_X0, S.YS_X1, c + S.YA_Y[0], c + S.YA_Y[1], S.YA_Z0, z0)
+    foot = box(S.YA_FL_X0, S.YS_X1, c + S.YA_FL_Y[0], c + S.YA_FL_Y[1], z0 - S.YA_FL_T, z0)
+    part = leg + foot
+    x, y, z = y_wheel_pos(c)[S.YW_ECC]
+    part -= _xcyl(S.ECC_HOLE / 2, S.YS_X0 - 1, S.YS_X1 + 1, y, z)
+    # The screw holes lie on their side in the print (the leg on the bed): a pointed top to -x.
+    r = S.M3_CLEAR / 2
+    k = r / math.sqrt(2)
+    for sx, sy in S.YA_SCREWS:
+        tear = poly((sx - r * math.sqrt(2), c + sy), (sx - k, c + sy + k), (sx, c + sy), (sx - k, c + sy - k))
+        part -= _zcyl(r, z0 - S.YA_FL_T - 1, z0 + 1, sx, c + sy)
+        part -= extrude(Plane.XY.offset(z0 - S.YA_FL_T - 1) * tear, S.YA_FL_T + 2, dir=PZ)
+    return part
+
+
+def y_wheel_arm_print():
+    """The arm in its print pose: the inner face of the leg on the bed."""
+    return Rot(0, 90, 0) * y_wheel_arm(0.0)
+
+
 def y_wheels(c=0.0, preload=0.0):
-    return [Pos(x, y, z) * wheel() for x, y, z in y_wheel_pos(c, preload)]
+    """The three Y wheels of the left carriage, on axles along x."""
+    return [Pos(x, y, z) * Rot(0, 90, 0) * wheel() for x, y, z in y_wheel_pos(c, preload)]
 
 
 # ---------------------------------------------------------------- the Y carriage (wheels and belt clamps only)
@@ -1316,11 +1340,14 @@ def y_carriage(c=0.0, end="motor"):
     hy = S.YC_SADDLE_HALF_Y
     clr = S.CRADLE_CLR
     part = box(x0, S.YP_X1, c + S.YP_Y[0], c + S.YP_Y[1], z0, z1)
-    # The clamp blocks over the belt, and the tongue to the inner wheel boss behind the beam.
+    # The clamp blocks over the belt.
     part += y_clamp_block(c, True) + y_clamp_block(c, False)
-    yi = c + S.YW_IN_DY
-    part += box(S.YCL_X[1] - 0.5, S.YW_IN_X, yi - S.YT_BOSS_R, yi + S.YT_BOSS_R, z0, z1)
-    part += Pos(S.YW_IN_X, yi, z0) * Cylinder(S.YT_BOSS_R, S.IN_BOSS, align=MINZ)
+    # The wall of the top wheels, outside the rail: one wall from the front wheel to the back wheel. It
+    # joins the saddle, so the gantry load goes into the wall along its length.
+    _, yf, zw = y_wheel_pos(c)[0]
+    _, yb2, _ = y_wheel_pos(c)[1]
+    # It reaches 2 mm past the round of each axle: the rounded corners keep 5 mm of material round the hole.
+    part += box(S.YS_X0, S.YS_X1, yf - S.YW_BOSS_R - 2.0, yb2 + S.YW_BOSS_R + 2.0, z0, zw + S.YW_WALL_UP)
     # The saddle under the beam, from the stop lip at the beam end to the inner face (the X hard stop).
     part += box(S.YC_STOP_X0, t1, c - hy, c + hy, z1 - 0.5, S.BEAM_Z0 - clr)
     part += box(S.YC_STOP_X0, S.BEAM_X0 - clr, c - hy, c + hy, z1 - 0.5, S.YC_STOP_TOP)
@@ -1379,8 +1406,6 @@ def y_carriage(c=0.0, end="motor"):
         # The block reaches in to the saddle: the end wall load goes into the plate and the saddle. Over the
         # eccentric boss it leaves room for the nut and the wrench.
         part += box(x0, S.YC_STOP_X0 + 0.5, ya, yb_, z1 - 0.5, ztop)
-        ex, ey, _ = y_wheel_pos(c)[S.YW_ECC]
-        part -= _zcyl(S.YC_ECC_CLEAR / 2, z1 + S.INSERT_BOSS[1], 300, ex, ey)
         # The stop at the back half of the beam end, beside the belt.
         part += box(S.YC_STOP_X0, S.BEAM_X0 - clr, c + S.XB_Y + S.BELT_W / 2 + 1.0, c + S.XTOWER_HALF_Y, z1 - 0.5, S.YC_BACK_WALL_TOP)
         part += box(S.YC_STOP_X0, wx0 + 0.5, c + hy - 0.5, c + S.XTOWER_HALF_Y, z1 - 0.5, S.YC_BACK_WALL_TOP)
@@ -1388,23 +1413,29 @@ def y_carriage(c=0.0, end="motor"):
     for front in (True, False):
         part -= y_clamp_cuts(c, front)
     part -= y_lower_channel(c + S.YP_Y[0] - 10, c + S.YP_Y[1] + 10)
-    # The axle holes: the outer wheels (the back one eccentric), the inner wheel through its boss.
-    for i, (x, y, _) in enumerate(y_wheel_pos(c)):
-        if i < 2 and i == S.YW_ECC:
-            part += Pos(x, y, z1 - 0.5) * Cylinder(S.ECC_BOSS_D / 2, S.INSERT_BOSS[1] + 0.5, align=MINZ)
-            part -= _zcyl(S.ECC_HOLE / 2, z0 - 1, z1 + S.INSERT_BOSS[1] + 1, x, y)
-        elif i < 2:
-            # The front outer wheel: a 6 mm boss for the nyloc nut, an M5 clearance hole.
-            bd, bh = S.INSERT_BOSS
-            part += Pos(x, y, z1 - 0.5) * Cylinder(bd / 2, bh + 0.5, align=MINZ)
-            part -= _zcyl(S.M5_CLEAR / 2, z0 - 1, z1 + bh + 1, x, y)
-        else:
-            part -= _zcyl(S.M5_CLEAR / 2, z0 - 1, z0 + S.IN_BOSS + 1, x, y)
+    # The top wheels: a well through the deck round each wheel, its spacer and its nut, with a pointed
+    # roof (no flat ceiling in the print). The axle hole through the wall, and a notch in the deck for the
+    # bolt head outside the wall.
+    for i in (0, 1):
+        _, yw, zw = y_wheel_pos(c)[i]
+        xw0, xw1 = S.YW_X - S.WHEEL_T / 2, S.YW_X + S.WHEEL_T / 2
+        part -= teardrop_x(S.WASHER[0] + 1.2, S.YS_X1, xw0 + 0.3, yw, zw)           # the spacer
+        part -= teardrop_x(2 * S.YW_WELL_R, xw0 - 0.5, xw1 + 0.5, yw, zw)            # the wheel
+        part -= teardrop_x(2 * 5.5, xw1, S.YW_WELL_X1, yw, zw)                       # the nyloc nut
+        part -= teardrop_x(S.M5_CLEAR, S.YS_X0 - 1, S.YS_X1 + 1, yw, zw)
+        hr = S.M5_HEAD[0] / 2 + 0.7
+        part -= box(S.YS_X0 - S.M5_HEAD[1] - 1.0, S.YS_X0 + 0.01, yw - hr, yw + hr, zw - hr, 300)
+    # The two M3 inserts of the arm, from the underside of the deck.
+    ins = S.INSERT_M3
+    for sx, sy in S.YA_SCREWS:
+        # A 45 degree cone on top of the hole: no flat ceiling under the parts on the deck.
+        part -= _zcyl(ins["hole"] / 2, z0 - 1, z0 + S.YA_INSERT_DEPTH, sx, c + sy)
+        part -= Pos(sx, c + sy, z0 + S.YA_INSERT_DEPTH - 0.01) * Cone(ins["hole"] / 2, 0.2, ins["hole"] / 2 - 0.2, align=MINZ)
     # The beam pocket, the hollow under the beam (a tunnel with a 45 degree roof), the beam screw.
     part -= box(S.BEAM_X0 - clr, t1 + 1, c - S.BEAM / 2 - clr, c + S.BEAM / 2 + clr, S.BEAM_Z0 - clr, 300)
     hv = S.YC_HOLLOW_HALF_Y
     zr = S.BEAM_Z0 - clr - S.YC_HOLLOW_ROOF
-    part -= gable_slot_x(S.YC_HOLLOW_X0, t1 + 1, c, hv, z1, zr - hv)
+    part -= gable_slot_x(max(S.YC_HOLLOW_X0, S.YW_WELL_X1 + 1.0), t1 + 1, c, hv, z1, zr - hv)
     part -= teardrop_y(S.M5_CLEAR, S.BEAM_TNUT_X, S.BZ, c + S.BEAM / 2 - 1, c + S.XTOWER_HALF_Y + 1)
     # The X belt between the beam end and the pulley or the idler: a channel through the stop.
     yb = c + S.XB_Y

@@ -159,41 +159,41 @@
  "y_wheels": [
   [
    [
-    -10.1,
+    10.0,
     52.41,
-    47.0
+    67.1
    ],
    [
-    -10.1,
+    10.0,
     96.41,
-    47.0
+    67.1
    ],
    [
-    50.1,
-    92.41,
-    47.0
+    10.0,
+    74.41,
+    26.9
    ]
   ],
   [
    [
-    410.1,
+    390.0,
     52.41,
-    47.0
+    67.1
    ],
    [
-    410.1,
+    390.0,
     96.41,
-    47.0
+    67.1
    ],
    [
-    349.9,
-    92.41,
-    47.0
+    390.0,
+    74.41,
+    26.9
    ]
   ]
  ],
- "y_wheel_axis": "z",
- "y_wheel_slots": "side slots of the rails: two wheels outside each rail, one inside (the back outer wheel on the eccentric)",
+ "y_wheel_axis": "x",
+ "y_wheel_slots": "outer top and outer bottom slots of the rails: two wheels on the top, one under the rail (on the eccentric)",
  "x_wheels": [
   [
    51.92,
@@ -615,6 +615,16 @@
    "moves": "gantry"
   },
   {
+   "file": "sim2/y_wheel_arm_left.stl",
+   "color": "#7FB6E0",
+   "moves": "gantry"
+  },
+  {
+   "file": "sim2/y_wheel_arm_right.stl",
+   "color": "#7FB6E0",
+   "moves": "gantry"
+  },
+  {
    "file": "sim2/beam.stl",
    "color": "#1E1F22",
    "moves": "gantry"
@@ -814,10 +824,10 @@
   "note": "context geometry of the main build, one STL for each group that moves (sim2/fasteners_*.stl); no heat-set inserts",
   "counts": {
    "M2 x 8 self-tapping (stock, in the servo bag)": 2,
-   "M3 heat-set insert, 5.7 mm": 12,
+   "M3 heat-set insert, 5.7 mm": 16,
    "M3 nut": 5,
    "M3 x 10 socket head": 21,
-   "M3 x 12 socket head": 6,
+   "M3 x 12 socket head": 10,
    "M3 x 16 socket head": 1,
    "M3 x 20 socket head": 4,
    "M3 x 8 socket head": 6,
@@ -827,11 +837,9 @@
    "M5 washer, 7.5 mm across (small)": 6,
    "M5 x 12 countersunk (ISO 10642)": 2,
    "M5 x 12 socket head": 13,
-   "M5 x 30 button head (ISO 7380)": 1,
-   "M5 x 30 socket head": 3,
+   "M5 x 30 button head (ISO 7380)": 3,
+   "M5 x 30 socket head": 9,
    "M5 x 30 socket head (stock)": 8,
-   "M5 x 35 button head (ISO 7380)": 2,
-   "M5 x 35 socket head": 6,
    "M6 x 16 socket head": 1,
    "belt jaw (printed)": 6,
    "eccentric spacer (stock)": 3

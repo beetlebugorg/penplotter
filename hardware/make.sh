@@ -17,7 +17,7 @@ uv run --no-project --with build123d python hardware_views.py
 uv run --no-project --with numpy --with scipy --with trimesh --with networkx python - <<'PY'
 import sys, math, trimesh
 bad = False
-for n in ("pen_carriage", "pen_slider", "mast_foot", "y_carriage_left", "y_carriage_right", "y_front_left", "y_front_right", "x_carriage_plate", "y_motor_mount_left", "y_motor_mount_right", "y_idler_fork", "y_idler_bracket_left", "y_idler_bracket_right", "y_chain_anchor", "x_idler_fork", "fit_rail", "fit_slider", "fit_wheel", "belt_jaw"):
+for n in ("pen_carriage", "pen_slider", "mast_foot", "y_carriage_left", "y_carriage_right", "y_front_left", "y_front_right", "x_carriage_plate", "y_motor_mount_left", "y_motor_mount_right", "y_idler_fork", "y_idler_bracket_left", "y_idler_bracket_right", "y_chain_anchor", "x_idler_fork", "fit_rail", "fit_slider", "fit_wheel", "belt_jaw", "y_wheel_arm"):
     m = trimesh.load(f"stl/{n}.stl")
     ok = m.is_watertight and m.is_winding_consistent and m.body_count == 1
     nz, zc, area = m.face_normals[:, 2], m.triangles_center[:, 2], m.area_faces
@@ -45,7 +45,7 @@ LIMIT = {"x_carriage_plate": 0.25}
 bad = {k: v for k, v in s.items() if v > LIMIT.get(k, 0.1)}
 print("  support check:", "0 g for all parts" if not bad else f"SUPPORT NEEDED {bad}",
       "(X plate: insert hole rims, allowed)" if not bad else "")
-sys.exit(1 if bad or len(s) != 19 else 0)
+sys.exit(1 if bad or len(s) != 20 else 0)
 PY
 # Line-art images in three.js (headless Chromium), in the style of the beetlebug.org viewer.
 [ -d lineart/node_modules ] || (cd lineart && npm ci --no-fund --no-audit)

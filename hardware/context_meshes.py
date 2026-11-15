@@ -294,15 +294,15 @@ WHEEL = [(2.5, -5.1), (3.6, -5.1), (3.6, -4.85), (7.2, -4.85), (7.2, -5.1), (9.6
 
 
 def y_wheels(J):
-    """Three wheels on vertical axles in the side slots of each rail, and the spacer from the
-    wheel to the bottom of the Y carriage plate (the rail top + 1 mm)."""
-    pz0 = max(r["box"][5] for r in J["rails"]) + 1
+    """Three wheels on horizontal axles (along x) on each rail: two in the outer top slot, one in the
+    outer bottom slot. The 6 mm spacer from each wheel to its wall or arm (outside the rail)."""
     tris = []
     for side in J["y_wheels"]:
+        sx = -1.0 if side[0][0] < max(r["box"][3] for r in J["rails"]) / 2 else 1.0
         for x, y, z in side:
-            tris += lathe(WHEEL, (x, y, z), J["wheel"]["axis_y"], 32)
-            z0 = z + 5.5
-            tris += cyl(3.5, pz0 - z0, (x, y, (z0 + pz0) / 2), "z", 16)
+            tris += lathe(WHEEL, (x, y, z), "x", 32)
+            x0 = x - sx * 5.5
+            tris += cyl(3.5, 6.0, (x0 - sx * 3.0, y, z), "x", 16)
     return tris
 
 

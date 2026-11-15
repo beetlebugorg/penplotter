@@ -72,6 +72,7 @@ PRINTS = [
     ("pen_carriage", "Light blue", 1, "Back face on the bed. The pen lift. It bolts to the front of the printed X plate with 4 M3 screws."),
     ("pen_slider", "Light blue", 1, "Upright. Holds the pen in its V bore with an M3 clamp screw. It slides on the dovetail rail of the pen carriage."),
     ("mast_foot", "Light blue", 1, "Floor on the bed. Holds the camera pole behind the back bar."),
+    ("y_wheel_arm", "Light blue", 2, "On the inner face of the leg. Print 2: one for each Y carriage. It holds the bottom Y wheel under the rail, on the eccentric spacer."),
     ("belt_jaw", "Light blue", 6, "Flat on the bed. Print 6: one for each belt end (2 on each Y carriage, 2 on the X plate). An M3 screw presses it on the folded belt end."),
 ]
 
@@ -88,8 +89,9 @@ TOOLS = [
     (1, "The stock CR-10 V3 control box (v2.5.2 board, 350 W supply, LCD, knob) and its harness, with the two breakout boards"),
     (3, "NEMA 17 steppers from the CR-10 (on hand): one 42-34 for X (it rides on the gantry: shorter and lighter), two 42-40 for Y1 and Y2"),
     (9, "Stock V-wheels (625 bearings): 3 for the X plate and 6 for the Y carriages, with 6 × 6 mm spacers and 3 eccentric spacers (from the stock X plate, the Z carriages and the bed carriage)"),
-    (6, "M5 × 35 socket head screws and M5 nyloc nuts: the outer Y wheel axles, front and back (4, the head under the wheel, the nut on the 6 mm boss), and the inner Y wheel axles, the head on the 12 mm boss (2)"),
-    (3, "X wheel axles: M5 × 30 (top left), M5 × 35 (top right, eccentric) and M5 × 35 (bottom), each with an M5 nyloc nut in front; 2 stock 6 mm spacers"),
+    (6, "Y wheel axles: M5 × 30 socket head screws and M5 nyloc nuts, 3 on each carriage (2 top wheels through the walls, 1 bottom wheel through the arm); 4 stock 6 mm spacers and 2 eccentric spacers"),
+    (2, "Y wheel arms (printed), each held by 2 M3 × 12 screws into M3 heat-set inserts in the carriage deck"),
+    (3, "X wheel axles: 3 × M5 × 30 button head (ISO 7380), each with an M5 nyloc nut in front; 2 stock 6 mm spacers and 1 eccentric spacer"),
     (17, "M5 drop-in T-nuts for 2020 slots: 4 for the Y front bases, 2 for the ears of the Y idler brackets, 4 for the Y motor brackets, 2 for the beam, 1 for the Y chain anchor, 2 for the camera pole foot, and 2 spare"),
     (2, "M5 × 12 countersunk screws (ISO 10642): the ears of the Y idler brackets, into T-nuts in the front face slot of the front bar"),
     (13, "M5 × 12 screws: the front bases (4), the Y motor brackets (4), the beam (2, through the back wall of each saddle into the back slot), the Y chain anchor (1), the camera pole foot (2) (T-nuts above)"),
@@ -118,37 +120,38 @@ STEPS = [
     ("part_fit_rail", "Fit tests", ["fit rail", "fit slider", "fit wheel", "M3 × 20", "M3 nut", "a pen", "2 V-wheels"], [
         "Slide the fit slider onto the fit rail. It must slide by its weight, with no side play.",
         "Push the nut into the slot in the top of the fit slider. Put a pen in the bore. Turn the screw until it holds the pen.",
-        "Put a wheel under the eccentric hole of the fit wheel strip: an M5 × 30 screw from below, the wheel, an eccentric spacer, the strip, a nyloc nut.",
-        "Put a wheel under the counterbored hole: an M5 × 30 button head screw from the top, the strip, a 6 mm spacer, the wheel, a nyloc nut.",
-        "Lay the strip across the end of a frame rail, the wheels in the two side slots. Turn the eccentric spacer. Both wheels must grip the slots before the eccentric reaches its end.",
+        "Fit wheel strip, top hole: an M5 × 30 screw through the strip, a 6 mm spacer, a wheel, a nyloc nut.",
+        "Bottom hole: an M5 × 30 screw through the strip, an eccentric spacer (the hex toward the wheel), a wheel, a nyloc nut.",
+        "Hold the strip against the outer side of a 2040 rail end: the top wheel in the outer top slot, the bottom wheel in the outer bottom slot. Turn the eccentric. Both wheels must grip their slots before the eccentric reaches its end.",
     ], "If the slider is tight or loose, change <code>DT_CLR</code>. If the eccentric cannot reach, change <code>WHEEL_OFF</code>. "
        "See the last page. Then run <code>make.sh</code> and print the fit tests again."),
     # The heat-set inserts go in first, before the assembly starts.
-    ([("ins_m3_ycar", "Y carriages: 4 in the left, 2 in the right"), ("ins_m3_xplate", "X plate: 2, from below"),
+    ([("ins_m3_ycar", "Y carriages: 6 in the left, 4 in the right"), ("ins_m3_xplate", "X plate: 2, from below"),
       ("ins_m3_yfront", "Front bases: 2 each")],
-     "Heat-set inserts (all parts)", ["2 Y carriages", "X plate", "2 front bases", "12 M3 heat-set inserts", "soldering iron, M3 insert tip", "M3 × 8 and M3 × 10 screws"], [
+     "Heat-set inserts (all parts)", ["2 Y carriages", "X plate", "2 front bases", "16 M3 heat-set inserts", "soldering iron, M3 insert tip", "M3 × 8 and M3 × 10 screws"], [
         "Set the iron to 220 °C with the M3 tip. Let it get hot.",
         "Y carriages: press an insert into the ledge of each belt pocket, from the top. The ledge is the raised floor at the inner end of the pocket.",
+        "Y carriages: turn each carriage over. Press an insert into each of the two holes in the underside of the deck, outside the rail line, for the wheel arm.",
         "Left Y carriage: press an insert into each of the two standoffs on the front face of the X endstop wall, from the front.",
         "X plate: turn the plate so that the hole under a belt pocket points straight up. Press the insert down through this hole into the ledge. Do the other pocket the same way.",
         "Front bases: press an insert into each of the two standoffs on the top of each base, from the top.",
         "Put the insert on the hole, the small end down, and the tip in the insert. Push it straight in with light force until its top is flush. Take the tip out straight. Let the parts cool. Turn a screw in and out once to check each thread: M3 × 10 in the ledges, M3 × 8 in the standoffs.",
-    ], "The 6 inserts in the ledges hold the belt jaws. The 6 inserts in the standoffs hold the three endstop boards. "
+    ], "The 6 inserts in the ledges hold the belt jaws. The 4 inserts under the decks hold the wheel arms. The 6 inserts in the standoffs hold the three endstop boards. "
        "The right front base is the mirror image of the left base.", 62),
-    ("ywheel", "Wheels on the Y carriages", ["2 Y carriages", "6 V-wheels", "4 spacers", "2 eccentric spacers", "6 × M5 × 35", "6 nyloc nuts"], [
-        "Front outer wheel: put an M5 × 35 screw up through a wheel and a 6 mm spacer, into the front boss of the plate, outside the rail. Put a nyloc nut on top.",
-        "Back outer wheel: put an M5 × 35 screw up through a wheel and an eccentric spacer, into the back hole. The hex is between the wheel and the plate. Put a nyloc nut on top.",
-        "Inner wheel: put an M5 × 35 screw down through the 12 mm boss behind the beam. Do not put the spacer, the wheel and the nut on yet.",
-        "Tighten the front screw and the back nut until the wheels turn freely with no wobble.",
-    ], "Each carriage is a flat plate, as the stock CR-10 Z carriage plate. The left carriage has the X motor wall behind the beam end. "
-       "The right carriage has the seat of the X idler fork. The inner wheel goes on when the carriage is on the rail."),
-    ("ywheel_on", "Y carriages on the rails", ["frame", "2 Y carriages with wheels", "4 mm hex key", "8 mm wrench"], [
+    ("ywheel", "Wheels on the Y carriages", ["2 Y carriages", "2 Y wheel arms", "6 V-wheels", "4 spacers", "2 eccentric spacers", "6 × M5 × 30", "6 nyloc nuts", "4 × M3 × 12"], [
+        "Top wheels: put an M5 × 30 screw from outside through each wall of the carriage, then a 6 mm spacer, a wheel and a nyloc nut. The wheels stand in the wells of the deck.",
+        "Tighten each nut until the wheel turns freely with no wobble.",
+        "Bottom wheel: put an M5 × 30 screw from outside through the leg of the arm, then an eccentric spacer (the hex toward the wheel), a wheel and a nyloc nut. Leave the nut loose.",
+        "Do not put the arm on the carriage yet.",
+    ], "Each carriage is a flat deck over the rail. The two top wheels run on the outer top slot of the 2040 rail, the bottom wheel under it. "
+       "The belt stays on the inner top slot."),
+    ("ywheel_on", "Y carriages on the rails", ["frame", "2 Y carriages with wheels", "2 arms with the bottom wheel", "4 × M3 × 12", "2.5 mm hex key", "11 mm wrench"], [
         "Stand the frame on the table, feet down.",
-        "Set each carriage on its rail from above: the plate on the rail top, the two outer wheels in the outer side slot.",
-        "Under the inner boss, put a 6 mm spacer, the inner wheel and a nyloc nut on the inner screw. The wheel runs in the inner side slot.",
-        "Turn the eccentric hex with the 8 mm wrench from outside the frame, until the carriage has no play. It must still roll freely. Tighten its nut.",
+        "Set each carriage on its rail from above: the two top wheels in the outer top slot.",
+        "Hold the arm under the outer edge of the deck, the bottom wheel in the outer bottom slot. Put two M3 × 12 screws up through the foot into the inserts. Tighten them.",
+        "Turn the eccentric hex with the wrench from the front, under the rail, until the carriage has no play. It must still roll freely. Tighten the nyloc nut.",
         "Measure the two diagonals of the frame. Make them equal, then tighten the bar screws.",
-    ], "Too much preload makes flat spots on the wheels. Stop when the play is gone. Nothing of the carriage goes under the rail, so the feet stay where they are."),
+    ], "Too much preload makes flat spots on the wheels. Stop when the play is gone. The bottom wheel runs 2 mm clear of the rubber feet."),
     ("ydrive", "Y motors behind the back bar", ["2 Y motor brackets", "2 Y motors (42-40)", "2 GT2 pulleys", "8 × M3 × 10", "4 × M5 × 12 + T-nuts"], [
         "Hold a 42-40 motor on the outer face of each bracket plate, the shaft through the plate to the inside, the socket up. Put four M3 × 10 screws from the inside into the motor.",
         "Put a GT2 pulley on each shaft, the hub to the inside. Line up its teeth with the inner top slot of the rail (31.5 mm from the outer face of the side). Tighten the set screws on the flat of the shaft.",
@@ -174,12 +177,12 @@ STEPS = [
         f"Head board: hold it on the back face of the X beam, {S.HB_X0:.0f} mm from the left side of the frame, the big header up, on two standoffs. Tie it to the beam in the same way.",
         "Plug in X (X motor), X- (X endstop) and the servo pigtail on BL_T. Push the big 2 × 15 plug into the header from the top. Keep the cable straight for 35 mm, then bend it back toward the control box.",
     ], "The firmware maps Z1 to the Y2 motor and Z- to the Y2 endstop. The board sizes are estimates: measure the boards first (MEASURE.md).", 100),
-    ("mount", "X plate and pen carriage", ["X plate", "pen carriage", "3 V-wheels", "1 eccentric spacer", "M5 × 30, 2 × M5 × 35", "3 nyloc nuts", "2 stock 6 mm spacers", "4 × M3 × 12"], [
+    ("mount", "X plate and pen carriage", ["X plate", "pen carriage", "3 V-wheels", "1 eccentric spacer", "3 × M5 × 30 button head", "3 nyloc nuts", "2 stock 6 mm spacers", "4 × M3 × 12"], [
         "Hold the pen carriage on the front face of the X plate. The three wheel bosses come through the round holes of the pen carriage.",
         "Put four M3 × 12 screws from the back through the plate into the pen carriage (T1, T2, H1, H2). They cut their own thread. Do not overtighten them.",
         "Top left wheel: from the back, an M5 × 30 screw through the wheel and a 6 mm spacer, into the boss (the spacer in the recess). Put a nyloc nut on the front.",
-        "Top right wheel: from the back, an M5 × 35 screw through the wheel and the eccentric spacer (the hex toward the plate), into the boss. Put a nyloc nut on the front. Leave it loose.",
-        "Bottom wheel: from the back, an M5 × 35 screw through the wheel and a 6 mm spacer, through the bottom boss (the spacer in the recess). Put a nyloc nut on the front.",
+        "Top right wheel: from the back, an M5 × 30 screw through the wheel and the eccentric spacer (the hex toward the plate), into the boss. Put a nyloc nut on the front. Leave it loose.",
+        "Bottom wheel: from the back, an M5 × 30 screw through the wheel and a 6 mm spacer, through the bottom boss (the spacer in the recess). Put a nyloc nut on the front.",
     ], "The eccentric is on the top right wheel. Turn its hex from above with the wrench.", 95),
     ("t_beam", "Beam and X plate", ["2020 beam", "X plate with the pen carriage", "2 × M5 × 12 + T-nuts", "X switch", "2 × M3 × 8"], [
         "Slide the X plate onto the beam from one end. The top wheels go in the top slot, the bottom wheel in the bottom slot.",
@@ -468,7 +471,7 @@ def fastener_page(n):
   <p style="font-size:9.5pt">The model has each screw, nut, washer, spacer and T-nut of the main build. The fit check moves
   them with the parts over the whole travel. No fastener touches a printed part, the frame, a belt or another fastener.
   The exceptions are the intended contacts: a T-nut in a slot, a screw in a motor thread or in a heat-set insert. The
-  build uses 12 M3 heat-set inserts: 6 for the endstop boards and 6 for the belt jaws. Each wheel axle has a nyloc nut.
+  build uses 16 M3 heat-set inserts: 6 for the endstop boards, 6 for the belt jaws and 4 for the wheel arms. Each wheel axle is an M5 × 30 with a nyloc nut.
   The other M2 and M3 screws in plastic cut their own thread.</p>
   <table class="tight" style="font-size:7.8pt"><tr><th>Part</th><th class="n">Items</th><th>Fasteners</th></tr>{''.join(rows)}</table>
   <p style="font-size:8.2pt;margin-top:2mm"><b>To buy (in the model):</b> {tot}. Buy 2 more T-nuts as spares.

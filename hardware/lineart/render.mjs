@@ -30,7 +30,7 @@ const YL = ["yl_rail", "yl_car", "yl_wtop", "yl_wbot"];
 
 const PRINTED = ["pen_carriage", "pen_slider", "mast_foot",
   "y_carriage_left", "y_carriage_right", "y_front_left", "y_front_right", "x_carriage_plate",
-  "y_motor_mount_left", "y_motor_mount_right", "y_idler_fork", "y_idler_bracket_left", "y_idler_bracket_right", "y_chain_anchor", "x_idler_fork", "fit_rail", "fit_slider", "fit_wheel", "belt_jaw"];
+  "y_motor_mount_left", "y_motor_mount_right", "y_idler_fork", "y_idler_bracket_left", "y_idler_bracket_right", "y_chain_anchor", "x_idler_fork", "fit_rail", "fit_slider", "fit_wheel", "belt_jaw", "y_wheel_arm"];
 const FRONT = [0.7, -1.6, 0.55];      // from the front right, a little above
 const FRONT_FLAT = [0.12, -1, 0.08];  // nearly straight from the front
 const REAR = [0.9, 1.5, 0.6];         // from the rear right

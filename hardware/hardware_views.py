@@ -42,12 +42,12 @@ BRASS, STEEL, WHEEL, ACCENT = "#c9a23f", "#b8bcc2", "#1f1f22", "#7fb6e0"
 # the bought parts to show, the wheels, and the description.
 VIEWS = [
     ("left", "Y carriage, left: inserts and screws",
-     [("Y carriage, left", "y_carriage_left", "y_carriage_left")],
+     [("Y carriage, left", "y_carriage_left", "y_carriage_left"), ("Y wheel arm", "y_wheel_arm_left", "y_wheel_arm_left")],
      [], "y_left",
      "The left Y carriage with its hardware. Brass: the two M3 inserts of the X endstop board, and one "
      "M3 insert in the ledge of each belt pocket. Move the explode slider to see each screw come out of its hole."),
     ("right", "Y carriage, right: inserts and screws",
-     [("Y carriage, right", "y_carriage_right", "y_carriage_right"), ("X idler fork", "x_idler_fork", "x_idler_fork")],
+     [("Y carriage, right", "y_carriage_right", "y_carriage_right"), ("Y wheel arm", "y_wheel_arm_right", "y_wheel_arm_right"), ("X idler fork", "x_idler_fork", "x_idler_fork")],
      [], "y_right",
      "The right Y carriage and the X idler fork with their hardware. Brass: one M3 insert in the ledge "
      "of each belt pocket."),

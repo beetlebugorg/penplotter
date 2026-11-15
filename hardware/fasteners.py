@@ -284,34 +284,33 @@ def gantry_items(b, c):
              "insert": (INSERT_ITEM, "insert", False)}
     head = None
     for i, (n, sh) in enumerate(P.y_wheel_stack(c)):
+        w = i // 4
+        x_, y_, z_ = P.y_wheel_pos(c)[w]
         if n == "bolt head":
             head = sh
         elif n == "bolt":
-            w = i // 4
-            if w >= 2:
-                item = name_of("socket", "M5", S.IN_AXLE_L)
-            else:
-                item = name_of("socket", "M5", S.OUT_AXLE_L)
-            b.add(f"Y wheel bolt {i}", item, "M5", "screw", "gantry", "y_carriage_left", sh + head, ("Y wheel",))
-            x_, y_, _ = P.y_wheel_pos(c)[w]
-            if w >= 2:
-                b.items[-1].meta = {"length": S.IN_AXLE_L, "head": "socket", "p": (x_, y_, S.YP_Z0 + S.IN_BOSS), "d": (0, 0, -1)}
-            else:
-                ln = S.OUT_AXLE_L
-                b.items[-1].meta = {"length": ln, "head": "socket", "p": (x_, y_, S.YW_Z - S.WHEEL_T / 2), "d": (0, 0, 1)}
+            item = name_of("socket", "M5", S.YW_AXLE_L)
+            part = "y_wheel_arm_left" if w == S.YW_ECC else "y_carriage_left"
+            b.add(f"Y wheel bolt {i}", item, "M5", "screw", "gantry", part, sh + head, ("Y wheel",))
+            b.items[-1].meta = {"length": S.YW_AXLE_L, "head": "socket", "p": (S.YS_X0, y_, z_), "d": (1, 0, 0)}
         else:
             it, kd, st = kinds[n]
-            allow = ("Y wheel", "Y carriage") if n == "insert" else ("Y wheel",)
-            b.add(f"Y wheel {n} {i}", it, "M5", kd, "gantry", "y_carriage_left", sh, allow, st)
-            if n == "insert":
-                ins = S.INSERT_M5
-                x_, y_, _ = P.y_wheel_pos(c)[i // 4]
-                b.items[-1].meta = {"size": "M5", "len": ins["len"], "od": ins["od"], "hole": ins["hole"], "depth": ins["depth"],
-                                    "p": (x_, y_, S.YP_Z1 + S.INSERT_BOSS[1]), "d": (0, 0, -1)}
-    b.joint("y_carriage: M5 outer wheel axle (head under the wheel), nyloc nut on the 6 mm boss", name_of("socket", "M5", S.OUT_AXLE_L),
-            "nut", S.OUT_AXLE_L, S.WHEEL_T + S.SPACER_H + S.YP_T + S.INSERT_BOSS[1], S.NYLOC[1], count=2)
-    b.joint("y_carriage: M5 inner wheel axle (head on the 12 mm boss), nyloc nut under the wheel",
-            name_of("socket", "M5", S.IN_AXLE_L), "nut", S.IN_AXLE_L, S.IN_BOSS + S.SPACER_H + S.WHEEL_T, S.NYLOC[1])
+            part = "y_wheel_arm_left" if w == S.YW_ECC else "y_carriage_left"
+            b.add(f"Y wheel {n} {i}", it, "M5", kd, "gantry", part, sh, ("Y wheel",), st)
+    b.joint("y_carriage: M5 Y wheel axle (head outside the wall or the arm), spacer or eccentric, wheel, nyloc nut",
+            name_of("socket", "M5", S.YW_AXLE_L), "nut", S.YW_AXLE_L, S.YS_T + S.SPACER_H + S.WHEEL_T, S.NYLOC[1], count=3)
+    # The arm of the bottom wheel: two M3 x 12 up through its foot into M3 inserts in the deck.
+    ins = S.INSERT_M3
+    for k, (sx, sy) in enumerate(S.YA_SCREWS):
+        zb = S.YP_Z0 - S.YA_FL_T
+        it = b.screw(f"Y arm screw {k}", "M3", S.YA_SCREW_L, "socket", (sx, c + sy, zb), (0, 0, 1), "gantry", "y_wheel_arm_left",
+                     ("Y carriage",))
+        b.add(f"Y arm insert {k}", INSERT_M3_ITEM, "M3", "insert", "gantry", "y_carriage_left",
+              Pos(sx, c + sy, S.YP_Z0) * P.insert_real(ins["od"], ins["len"] - 0.05, S.SHANK["M3"] / 2 + 0.05), ("Y carriage",))
+        b.items[-1].meta = {"size": "M3", "len": ins["len"], "od": ins["od"], "hole": ins["hole"],
+                            "depth": S.YA_INSERT_DEPTH, "p": (sx, c + sy, S.YP_Z0), "d": (0, 0, 1)}
+    b.joint("y_wheel_arm: M3 through the foot into a heat-set insert in the deck", name_of("socket", "M3", S.YA_SCREW_L), "insert",
+            S.YA_SCREW_L, S.YA_FL_T, ins["len"], "M3", count=2)
     bc = S.BZ
     # The upper run of the Y belt: its two folded ends and their printed jaws in the clamp blocks. An M3
     # x 10 through each jaw into an M3 insert in the ledge of the pocket.

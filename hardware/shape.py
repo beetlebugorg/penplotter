@@ -912,3 +912,46 @@ XW_AXLE_L = {0: 30.0, 1: 35.0, 2: 35.0}
 INSERT_BOSS = (15.6, 6.0)        # the front outer Y wheel boss: diameter, height above the plate
 XW_BOSS_RS = {0: 9.0, 1: 10.5, 2: 8.9}   # the X wheel bosses: 5 mm over the teardrop point of the bottom axle hole
 WHEEL_BOLTS = [(n, x, z, XW_BOSS_RS[i]) for i, (n, x, z) in enumerate(X_WHEELS)]   # pen carriage keep-outs
+
+# ================================================================ Y carriage on top and bottom wheels (2026-11-15)
+# As on the stock X carriage: two V-wheels on the top of each 2040 rail, in the outer top slot, 22 mm in
+# front of and behind the beam centre, and one wheel under the rail, in the outer bottom slot, at the
+# beam centre, on the eccentric spacer. The axles are horizontal (along x). The two top wheels stand on
+# short walls of the carriage, outside the rail. The bottom wheel is on a separate printed arm (the
+# carriage prints flat and cannot reach under the rail). The arm hangs under the outer edge of the deck
+# on two M3 screws into M3 inserts. Each axle is an M5 x 30 (the screws on hand): a 6 mm wall or arm, a
+# 6 mm stock spacer (the eccentric on the bottom wheel), the 10.2 mm wheel and a nyloc nut. The belt and
+# its clamp blocks do not move (the inner top slot).
+YW_X = SLOT_OUT_X                # the mid plane of the wheels (x): over and under the outer slots
+YS_X1 = YW_X - WHEEL_T / 2 - SPACER_H   # the inner face of the wheel walls and of the arm (x): -1.1
+YS_T = 6.0                       # the wheel walls and the arm leg (x)
+YS_X0 = YS_X1 - YS_T             # their outer face (x): -7.1
+YW_ECC = 2                       # the bottom wheel is on the eccentric spacer
+YW_AXLE_L = 30.0                 # M5 x 30: 6 + 6 + 10.2 under the head, 7.8 for the nyloc nut
+YW_BOSS_R = 7.8                  # the wall round each top axle: 5 mm of material round the M5 hole
+YW_WELL_R = WHEEL_D / 2 + 1.0    # the well in the deck round each top wheel
+YW_WELL_X1 = YW_X + WHEEL_T / 2 + NYLOC[1] + 1.0   # the well reaches past the nyloc nut (x)
+YA_Y = (-10.0, 10.0)             # the arm leg round the bottom wheel (y from the beam centre)
+YA_Z0 = YW_BOT_Z - 9.0           # the bottom of the arm
+YA_FL_X0 = -21.0                 # the arm foot under the deck: from here (x) to the leg
+YA_FL_T = 6.0                    # the arm foot thickness (z), under the deck
+YA_FL_Y = (-12.0, 12.0)          # the arm foot (y from the beam centre)
+YA_SCREWS = [(-15.0, -7.0), (-15.0, 7.0)]   # the two M3 screws up through the foot into the deck inserts (x, y from c)
+YA_SCREW_L = 12.0                # M3 x 12: 6 mm of foot, 5.7 mm in the insert
+YA_INSERT_DEPTH = 6.0            # the insert hole from the deck underside (the deck is 6 mm)
+YSTRIKER_X_EXTRA = 4.0           # the Y endstop striker is this much wider (x) to the inside of the board edge
+YC_BACK_WALL_TOP = BZ + M5_CLEAR / 2 + 5.0 + 0.3   # 5 mm of material over the beam screw hole
+# The X wheel axles are M5 x 30 too (the screws on hand): each boss front is 5.2 mm in front of the plate,
+# so the nyloc nut has 1 mm of thread past it. The bottom boss is as large as the dovetail rail of the
+# pen carriage allows (its keep-out stays clear of the rail base): 4.5 mm of material round the M5 hole.
+XW_BOSS_Y = {0: (-5.2, 2.5), 1: (-5.2, PLATE_FRONT - WHEEL_T / 2 - ECC["h"]), 2: (-5.2, 2.5)}
+XW_AXLE_L = {0: 30.0, 1: 30.0, 2: 30.0}
+XW_BOSS_RS = {0: 9.0, 1: 10.5, 2: 7.2}
+WHEEL_BOLTS = [(n, x, z, XW_BOSS_RS[i]) for i, (n, x, z) in enumerate(X_WHEELS)]
+XW_NUT_CLEAR = 5.3               # the pen carriage: room for each nyloc nut and the axle tip in front of a boss
+# The X endstop trigger lug: taller (z 15 to 21), a stiffer lug.
+X_TRIGGER = (-40.0, -33.0, 15.0, 21.0, 12.4)
+YW_WELL_X1 = YW_X + WHEEL_T / 2 + NYLOC[1] + 3.5   # the nut well reaches past the axle tip (x)
+X_TRIGGER = (-40.0, -33.0, 18.0, 24.0, 12.4)       # the trigger lug: 6 mm tall (z 18 to 24), up from the old 3 mm
+X_TRIGGER = (-40.0, -28.0, 18.0, 21.0, 12.4)       # the trigger lug: 12 mm wide (x), up from 7 mm; the height stays (the X board is over it)
+YW_WALL_UP = 9.0                 # the wheel wall reaches this far over the top axles: 5 mm over the teardrop point of the hole
